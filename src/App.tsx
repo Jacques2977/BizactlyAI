@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthModal } from './components/AuthModal';
 import { sendMessageToAI, type ChatMessage } from './api/chat';
 import { 
   Brain, 
@@ -22,7 +24,8 @@ import {
   Bot,
   Play,
   FileText,
-  Zap
+  Zap,
+  LogOut
 } from 'lucide-react';
 
 type View = 'landing' | 'dashboard' | 'chat' | 'analytics' | 'resources';
@@ -31,14 +34,30 @@ interface ChatMessageState extends ChatMessage {
   isLoading?: boolean;
 }
 
-function App() {
+function AppContent() {
   const [currentView, setCurrentView] = useState<View>('landing');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login');
   const [chatMessages, setChatMessages] = useState<ChatMessageState[]>([
     { id: 1, type: 'ai', content: "Hello! I'm your AI startup coach. I'm here to help you validate your idea, plan your MVP, and launch with confidence. What's your startup idea?" },
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const openAuthModal = (mode: 'login' | 'signup') => {
+    setAuthModalMode(mode);
+    setIsAuthModalOpen(true);
+  };
+
+  const handleTryFree = () => {
+    if (isAuthenticated) {
+      setCurrentView('dashboard');
+    } else {
+      openAuthModal('signup');
+    }
+  };
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
@@ -91,13 +110,38 @@ function App() {
               <a href="#home" className="text-gray-700 hover:text-cyan-600 transition-colors font-medium">Home</a>
               <a href="#features" className="text-gray-700 hover:text-cyan-600 transition-colors font-medium">Features</a>
               <a href="#how-it-works" className="text-gray-700 hover:text-cyan-600 transition-colors font-medium">How It Works</a>
-              <button className="text-gray-700 hover:text-cyan-600 transition-colors font-medium">Login</button>
-              <button 
-                onClick={() => setCurrentView('dashboard')}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 font-medium"
-              >
-                Try It Free
-              </button>
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-gray-700">Hi, {user?.name}</span>
+                  <button 
+                    onClick={() => setCurrentView('dashboard')}
+                    className="text-cyan-600 hover:text-cyan-700 transition-colors font-medium"
+                  >
+                    Dashboard
+                  </button>
+                  <button 
+                    onClick={logout}
+                    className="text-gray-700 hover:text-red-600 transition-colors font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => openAuthModal('login')}
+                    className="text-gray-700 hover:text-cyan-600 transition-colors font-medium"
+                  >
+                    Login
+                  </button>
+                  <button 
+                    onClick={handleTryFree}
+                    className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 font-medium"
+                  >
+                    Try It Free
+                  </button>
+                </>
+              )}
             </div>
             
             <button 
@@ -116,13 +160,37 @@ function App() {
               <a href="#home" className="block py-2 text-gray-700">Home</a>
               <a href="#features" className="block py-2 text-gray-700">Features</a>
               <a href="#how-it-works" className="block py-2 text-gray-700">How It Works</a>
-              <button className="block py-2 text-gray-700 text-left w-full">Login</button>
-              <button 
-                onClick={() => setCurrentView('dashboard')}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg mt-2"
-              >
-                Try It Free
-              </button>
+              {isAuthenticated ? (
+                <>
+                  <button 
+                    onClick={() => setCurrentView('dashboard')}
+                    className="block py-2 text-gray-700 text-left w-full"
+                  >
+                    Dashboard
+                  </button>
+                  <button 
+                    onClick={logout}
+                    className="block py-2 text-red-600 text-left w-full"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => openAuthModal('login')}
+                    className="block py-2 text-gray-700 text-left w-full"
+                  >
+                    Login
+                  </button>
+                  <button 
+                    onClick={handleTryFree}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg mt-2"
+                  >
+                    Try It Free
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -144,7 +212,7 @@ function App() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button 
-              onClick={() => setCurrentView('dashboard')}
+              onClick={handleTryFree}
               className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2"
             >
               <span>Try It Free</span>
@@ -258,7 +326,7 @@ function App() {
           <h2 className="text-4xl font-bold text-white mb-6">Ready to build your SaaS?</h2>
           <p className="text-xl text-cyan-100 mb-8">Join hundreds of founders who've validated and launched with AI guidance</p>
           <button 
-            onClick={() => setCurrentView('dashboard')}
+            onClick={handleTryFree}
             className="bg-white text-cyan-600 px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
             Start Free
@@ -284,6 +352,12 @@ function App() {
           </div>
         </div>
       </footer>
+
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authModalMode}
+      />
     </div>
   );
 
@@ -327,6 +401,11 @@ function App() {
         </nav>
         
         <div className="absolute bottom-4 left-4 right-4">
+          <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+            <div className="text-sm text-gray-600 mb-1">Logged in as:</div>
+            <div className="font-medium text-gray-900">{user?.name}</div>
+            <div className="text-sm text-gray-500">{user?.email}</div>
+          </div>
           <button 
             onClick={() => setCurrentView('landing')}
             className="w-full text-left text-sm text-gray-500 hover:text-gray-700 transition-colors"
@@ -510,6 +589,11 @@ function App() {
         </nav>
         
         <div className="absolute bottom-4 left-4 right-4">
+          <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+            <div className="text-sm text-gray-600 mb-1">Logged in as:</div>
+            <div className="font-medium text-gray-900">{user?.name}</div>
+            <div className="text-sm text-gray-500">{user?.email}</div>
+          </div>
           <button 
             onClick={() => setCurrentView('landing')}
             className="w-full text-left text-sm text-gray-500 hover:text-gray-700 transition-colors"
@@ -599,6 +683,14 @@ function App() {
   }
 
   return <Dashboard />;
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
 }
 
 export default App;
