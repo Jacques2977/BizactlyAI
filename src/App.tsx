@@ -662,18 +662,15 @@ function AppContent() {
               }}
               placeholder="Describe your startup idea or ask for guidance..."
               className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white"
-              disabled={isTyping}
+              autoComplete="off"
+              autoFocus
             />
             <button
               onClick={handleSendMessage}
-              disabled={isTyping || !newMessage.trim()}
+              disabled={!newMessage.trim()}
               className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-3 rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isTyping ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <Send className="w-5 h-5" />
-              )}
+              <Send className="w-5 h-5" />
             </button>
           </div>
           <div className="mt-2 text-xs text-gray-500">
