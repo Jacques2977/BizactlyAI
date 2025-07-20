@@ -55,7 +55,7 @@ Keep responses conversational, helpful, and focused on practical next steps. If 
     console.log('Sending request to OpenAI with', messages.length, 'messages');
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4',
       messages: messages,
       max_tokens: 500,
       temperature: 0.7,
