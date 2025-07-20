@@ -68,7 +68,7 @@ function AppContent() {
     setIsTyping(true);
     
     try {
-      // Get AI response
+      // Get AI response from OpenAI
       const aiResponseContent = await sendMessageToAI(newMessage, chatMessages);
       
       const aiResponse: ChatMessageState = {
@@ -83,7 +83,7 @@ function AppContent() {
       const errorResponse: ChatMessageState = {
         id: Date.now() + 1,
         type: 'ai',
-        content: 'I apologize, but I encountered an error. Please try again.'
+        content: 'I apologize, but I encountered an error connecting to the AI service. Please check your API key configuration and try again.'
       };
       setChatMessages(prev => [...prev, errorResponse]);
     } finally {
