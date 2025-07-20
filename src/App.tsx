@@ -60,16 +60,17 @@ function AppContent() {
   };
 
   const handleSendMessage = async () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || isTyping) return;
     
     const userMessage: ChatMessageState = { id: Date.now(), type: 'user', content: newMessage };
     setChatMessages(prev => [...prev, userMessage]);
-    setNewMessage('');
+    const messageToSend = newMessage.trim();
+    setNewMessage(''); // Clear input immediately
     setIsTyping(true);
     
     try {
       // Get AI response from OpenAI
-      const aiResponseContent = await sendMessageToAI(newMessage, chatMessages);
+      const aiResponseContent = await sendMessageToAI(messageToSend, chatMessages);
       
       const aiResponse: ChatMessageState = {
         id: Date.now() + 1,
@@ -653,13 +654,19 @@ function AppContent() {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
               placeholder="Describe your startup idea or ask for guidance..."
-              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white"
+              disabled={isTyping}
             />
             <button
               onClick={handleSendMessage}
-              disabled={isTyping}
+              disabled={isTyping || !newMessage.trim()}
               className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-3 rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isTyping ? (
@@ -668,6 +675,9 @@ function AppContent() {
                 <Send className="w-5 h-5" />
               )}
             </button>
+          </div>
+          <div className="mt-2 text-xs text-gray-500">
+            Press Enter to send • {newMessage.length}/500 characters
           </div>
         </div>
       </div>
