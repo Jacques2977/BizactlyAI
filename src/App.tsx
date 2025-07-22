@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/AuthModal';
+import { CustomIcon } from './components/CustomIcon';
 import { sendMessageToAI, type ChatMessage } from './api/chat';
 import { 
-  Network, 
   Rocket, 
   BarChart3, 
   Users, 
@@ -93,14 +93,14 @@ function AppContent() {
   };
 
   const LandingPage = () => (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-950">
       {/* Navbar */}
-      <nav className="bg-gray-800 shadow-sm sticky top-0 z-50 border-b border-gray-700">
+      <nav className="bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <Network className="w-6 h-6 text-white" />
+                <CustomIcon className="w-6 h-6" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 BizactlyAI
@@ -156,7 +156,7 @@ function AppContent() {
         
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-gray-800 border-t border-gray-700">
+          <div className="md:hidden bg-gray-900 border-t border-gray-800">
             <div className="px-4 py-2 space-y-2">
               <a href="#home" className="block py-2 text-gray-300">Home</a>
               <a href="#features" className="block py-2 text-gray-300">Features</a>
@@ -198,7 +198,7 @@ function AppContent() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-gray-900">
+      <section id="home" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 to-gray-950">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
             The AI startup cofounder for{' '}
@@ -228,7 +228,7 @@ function AppContent() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
+      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
@@ -264,7 +264,7 @@ function AppContent() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-950">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">Features</h2>
@@ -272,7 +272,7 @@ function AppContent() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
+            <div className="bg-gray-900 p-8 rounded-2xl shadow-sm border border-gray-800">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">Idea Validator</h3>
@@ -280,7 +280,7 @@ function AppContent() {
               <p className="text-gray-300">Get instant feedback on your SaaS idea with market analysis, competitor research, and revenue potential assessment.</p>
             </div>
             
-            <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
+            <div className="bg-gray-900 p-8 rounded-2xl shadow-sm border border-gray-800">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">MVP Feature Builder</h3>
@@ -288,7 +288,7 @@ function AppContent() {
               <p className="text-gray-300">AI-powered feature prioritization to help you build the right SaaS MVP with core features that drive subscriptions.</p>
             </div>
             
-            <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
+            <div className="bg-gray-900 p-8 rounded-2xl shadow-sm border border-gray-800">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">SaaS Business Model</h3>
@@ -296,7 +296,7 @@ function AppContent() {
               <p className="text-gray-300">Generate pricing tiers, subscription models, and revenue projections tailored to your SaaS market.</p>
             </div>
             
-            <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
+            <div className="bg-gray-900 p-8 rounded-2xl shadow-sm border border-gray-800">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">Growth Strategy Planner</h3>
@@ -308,11 +308,11 @@ function AppContent() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-16">What Founders Say</h2>
           
-          <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-8 rounded-2xl">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-2xl">
             <blockquote className="text-2xl text-white mb-6 italic">
               "BizactlyAI helped me validate my SaaS idea and reach $5k MRR in 3 months. The AI guidance was like having an experienced SaaS founder as my cofounder."
             </blockquote>
@@ -336,12 +336,12 @@ function AppContent() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-12">
+      <footer className="bg-gray-950 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Network className="w-5 h-5 text-white" />
+                <CustomIcon className="w-5 h-5" />
               </div>
               <span className="text-lg font-bold">BizactlyAI</span>
             </div>
@@ -363,13 +363,13 @@ function AppContent() {
   );
 
   const Dashboard = () => (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-950">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-gray-800 shadow-sm">
-        <div className="p-6 border-b border-gray-700">
+      <div className="fixed inset-y-0 left-0 w-64 bg-gray-900 shadow-sm">
+        <div className="p-6 border-b border-gray-800">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Network className="w-5 h-5 text-white" />
+              <CustomIcon className="w-5 h-5" />
             </div>
             <span className="text-lg font-bold text-white">BizactlyAI</span>
           </div>
@@ -435,7 +435,7 @@ function AppContent() {
               ].map((action, index) => {
                 const Icon = action.icon;
                 return (
-                  <button key={index} className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700 hover:shadow-md transition-all duration-300 text-left group">
+                  <button key={index} className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800 hover:shadow-md transition-all duration-300 text-left group">
                     <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
@@ -446,7 +446,7 @@ function AppContent() {
             </div>
             
             {/* Progress Overview */}
-            <div className="bg-gray-800 rounded-xl shadow-sm border border-gray-700 p-6">
+            <div className="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-6">
               <h2 className="text-xl font-semibold text-white mb-4">Your Startup Journey</h2>
               <div className="space-y-4">
                 {[
@@ -459,7 +459,7 @@ function AppContent() {
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                       item.status === 'completed' ? 'bg-green-100 text-green-600' :
                       item.status === 'in-progress' ? 'bg-blue-900 text-blue-400' :
-                      'bg-gray-700 text-gray-400'
+                      'bg-gray-800 text-gray-400'
                     }`}>
                       {item.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : index + 1}
                     </div>
@@ -468,7 +468,7 @@ function AppContent() {
                         <span className="font-medium text-white">{item.step}</span>
                         <span className="text-sm text-gray-400">{item.progress}%</span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-gray-800 rounded-full h-2">
                         <div 
                           className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${item.progress}%` }}
@@ -490,9 +490,9 @@ function AppContent() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700">
+              <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
                 <h3 className="text-lg font-semibold text-white mb-4">Validation Score</h3>
-                <div className="h-64 bg-gradient-to-r from-blue-900 to-purple-900 rounded-lg flex items-center justify-center">
+                <div className="h-64 bg-gradient-to-r from-blue-950 to-purple-950 rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-blue-400 mb-2">85%</div>
                     <div className="text-gray-300">Market Validation</div>
@@ -500,9 +500,9 @@ function AppContent() {
                 </div>
               </div>
               
-              <div className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700">
+              <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
                 <h3 className="text-lg font-semibold text-white mb-4">MVP Progress</h3>
-                <div className="h-64 bg-gradient-to-r from-purple-900 to-pink-900 rounded-lg flex items-center justify-center">
+                <div className="h-64 bg-gradient-to-r from-purple-950 to-pink-950 rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-purple-400 mb-2">60%</div>
                     <div className="text-gray-300">Features Complete</div>
@@ -529,7 +529,7 @@ function AppContent() {
                 { title: "First Customer Acquisition", category: "Growth", duration: "20 min read" },
                 { title: "Pricing Your SaaS", category: "Revenue", duration: "15 min read" },
               ].map((resource, index) => (
-                <div key={index} className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700 hover:shadow-md transition-shadow">
+                <div key={index} className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-3">
                     <span className="text-xs font-medium text-blue-400 bg-blue-900 px-2 py-1 rounded-full">
                       {resource.category}
@@ -551,13 +551,13 @@ function AppContent() {
   );
 
   const ChatInterface = () => (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-950">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-gray-800 shadow-sm">
-        <div className="p-6 border-b border-gray-700">
+      <div className="fixed inset-y-0 left-0 w-64 bg-gray-900 shadow-sm">
+        <div className="p-6 border-b border-gray-800">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Network className="w-5 h-5 text-white" />
+              <CustomIcon className="w-5 h-5" />
             </div>
             <span className="text-lg font-bold text-white">BizactlyAI</span>
           </div>
@@ -607,7 +607,7 @@ function AppContent() {
       {/* Chat Interface */}
       <div className="ml-64 flex flex-col h-screen">
         {/* Chat Header */}
-        <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+        <div className="bg-gray-900 border-b border-gray-800 px-6 py-4">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
@@ -626,7 +626,7 @@ function AppContent() {
               <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                 message.type === 'user' 
                   ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
-                  : 'bg-gray-800 shadow-sm border border-gray-700 text-white'
+                  : 'bg-gray-900 shadow-sm border border-gray-800 text-white'
               }`}>
                 <p className="text-sm leading-relaxed">{message.content}</p>
               </div>
@@ -636,7 +636,7 @@ function AppContent() {
           {/* Typing Indicator */}
           {isTyping && (
             <div className="flex justify-start">
-              <div className="bg-gray-800 shadow-sm border border-gray-700 px-4 py-3 rounded-2xl">
+              <div className="bg-gray-900 shadow-sm border border-gray-800 px-4 py-3 rounded-2xl">
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -648,7 +648,7 @@ function AppContent() {
         </div>
 
         {/* Message Input */}
-        <div className="bg-gray-800 border-t border-gray-700 p-4">
+        <div className="bg-gray-900 border-t border-gray-800 p-4">
           <div className="flex items-center space-x-4">
             <input
               type="text"
@@ -661,7 +661,7 @@ function AppContent() {
                 }
               }}
               placeholder="Describe your startup idea or ask for guidance..."
-              className="flex-1 px-4 py-3 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
+              className="flex-1 px-4 py-3 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-800 text-white placeholder-gray-400"
               autoComplete="off"
               autoFocus
             />
