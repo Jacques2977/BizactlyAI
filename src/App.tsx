@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/AuthModal';
 import { sendMessageToAI, type ChatMessage } from './api/chat';
 import { 
-  Brain, 
+  Network, 
   Rocket, 
   BarChart3, 
   Users, 
@@ -99,10 +99,10 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <Network className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 BizactlyAI
               </span>
             </div>
@@ -110,13 +110,13 @@ function AppContent() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#home" className="text-gray-300 hover:text-cyan-400 transition-colors font-medium">Home</a>
               <a href="#features" className="text-gray-300 hover:text-cyan-400 transition-colors font-medium">Features</a>
-              <a href="#how-it-works" className="text-gray-300 hover:text-cyan-400 transition-colors font-medium">How It Works</a>
+              <a href="#how-it-works" className="text-gray-300 hover:text-blue-400 transition-colors font-medium">How It Works</a>
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-300">Hi, {user?.name}</span>
                   <button 
                     onClick={() => setCurrentView('dashboard')}
-                    className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
+                    className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
                   >
                     Dashboard
                   </button>
@@ -131,13 +131,13 @@ function AppContent() {
                 <>
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="text-gray-300 hover:text-cyan-400 transition-colors font-medium"
+                    className="text-gray-300 hover:text-blue-400 transition-colors font-medium"
                   >
                     Login
                   </button>
                   <button 
                     onClick={handleTryFree}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 font-medium"
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 font-medium"
                   >
                     Try It Free
                   </button>
@@ -186,7 +186,7 @@ function AppContent() {
                   </button>
                   <button 
                     onClick={handleTryFree}
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg mt-2"
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg mt-2"
                   >
                     Try It Free
                   </button>
@@ -202,7 +202,7 @@ function AppContent() {
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
             The AI startup cofounder for{' '}
-            <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               SaaS founders
             </span>
           </h1>
@@ -214,12 +214,12 @@ function AppContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button 
               onClick={handleTryFree}
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2"
             >
               <span>Try It Free</span>
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="text-cyan-400 border-2 border-cyan-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-cyan-900 transition-all duration-300 flex items-center space-x-2">
+            <button className="text-blue-400 border-2 border-blue-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-900 transition-all duration-300 flex items-center space-x-2">
               <Play className="w-5 h-5" />
               <span>How It Works</span>
             </button>
@@ -237,7 +237,7 @@ function AppContent() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Lightbulb className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">1. Describe your idea</h3>
@@ -245,7 +245,7 @@ function AppContent() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">2. Get AI-guided MVP plan</h3>
@@ -253,7 +253,7 @@ function AppContent() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Rocket className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">3. Launch with confidence</h3>
@@ -322,13 +322,13 @@ function AppContent() {
       </section>
 
       {/* Final CTA Banner */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-cyan-500 to-blue-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-500 to-purple-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-6">Ready to build your SaaS?</h2>
-          <p className="text-xl text-blue-100 mb-8">Join hundreds of founders who've validated and launched with AI guidance</p>
+          <p className="text-xl text-purple-100 mb-8">Join hundreds of founders who've validated and launched with AI guidance</p>
           <button 
             onClick={handleTryFree}
-            className="bg-white text-cyan-600 px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            className="bg-white text-purple-600 px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
             Start Free
           </button>
@@ -340,8 +340,8 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <Network className="w-5 h-5 text-white" />
               </div>
               <span className="text-lg font-bold">BizactlyAI</span>
             </div>
@@ -368,8 +368,8 @@ function AppContent() {
       <div className="fixed inset-y-0 left-0 w-64 bg-gray-800 shadow-sm">
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Network className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-bold text-white">BizactlyAI</span>
           </div>
@@ -390,7 +390,7 @@ function AppContent() {
                 onClick={() => setCurrentView(item.view as View)}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                   currentView === item.view 
-                    ? 'bg-cyan-900 text-cyan-400' 
+                    ? 'bg-blue-900 text-blue-400' 
                     : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
@@ -428,10 +428,10 @@ function AppContent() {
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {[
-                { label: 'Validate New Idea', icon: Lightbulb, color: 'from-green-500 to-emerald-600' },
-                { label: 'Build MVP Plan', icon: FileText, color: 'from-blue-500 to-cyan-600' },
+                { label: 'Validate New Idea', icon: Lightbulb, color: 'from-blue-500 to-purple-600' },
+                { label: 'Build MVP Plan', icon: FileText, color: 'from-purple-500 to-pink-600' },
                 { label: 'Generate Canvas', icon: Target, color: 'from-purple-500 to-indigo-600' },
-                { label: 'Plan Launch', icon: Rocket, color: 'from-orange-500 to-red-600' },
+                { label: 'Plan Launch', icon: Rocket, color: 'from-indigo-500 to-blue-600' },
               ].map((action, index) => {
                 const Icon = action.icon;
                 return (
@@ -451,14 +451,14 @@ function AppContent() {
               <div className="space-y-4">
                 {[
                   { step: "Idea Validation", status: "completed", progress: 100 },
-                  { step: "MVP Planning", status: "in-progress", progress: 60 },
+                  { step: "SaaS MVP Planning", status: "in-progress", progress: 60 },
                   { step: "Feature Development", status: "pending", progress: 0 },
                   { step: "Launch Preparation", status: "pending", progress: 0 },
                 ].map((item, index) => (
                   <div key={index} className="flex items-center space-x-4">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                       item.status === 'completed' ? 'bg-green-100 text-green-600' :
-                      item.status === 'in-progress' ? 'bg-cyan-900 text-cyan-400' :
+                      item.status === 'in-progress' ? 'bg-blue-900 text-blue-400' :
                       'bg-gray-700 text-gray-400'
                     }`}>
                       {item.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : index + 1}
@@ -470,7 +470,7 @@ function AppContent() {
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
-                          className="bg-gradient-to-r from-cyan-500 to-blue-600 h-2 rounded-full transition-all duration-300"
+                          className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${item.progress}%` }}
                         ></div>
                       </div>
@@ -492,9 +492,9 @@ function AppContent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700">
                 <h3 className="text-lg font-semibold text-white mb-4">Validation Score</h3>
-                <div className="h-64 bg-gradient-to-r from-cyan-900 to-blue-900 rounded-lg flex items-center justify-center">
+                <div className="h-64 bg-gradient-to-r from-blue-900 to-purple-900 rounded-lg flex items-center justify-center">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-cyan-600 mb-2">85%</div>
+                    <div className="text-4xl font-bold text-blue-400 mb-2">85%</div>
                     <div className="text-gray-300">Market Validation</div>
                   </div>
                 </div>
@@ -502,9 +502,9 @@ function AppContent() {
               
               <div className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700">
                 <h3 className="text-lg font-semibold text-white mb-4">MVP Progress</h3>
-                <div className="h-64 bg-gradient-to-r from-blue-900 to-green-900 rounded-lg flex items-center justify-center">
+                <div className="h-64 bg-gradient-to-r from-purple-900 to-pink-900 rounded-lg flex items-center justify-center">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">60%</div>
+                    <div className="text-4xl font-bold text-purple-400 mb-2">60%</div>
                     <div className="text-gray-300">Features Complete</div>
                   </div>
                 </div>
@@ -531,13 +531,13 @@ function AppContent() {
               ].map((resource, index) => (
                 <div key={index} className="bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-700 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-3">
-                    <span className="text-xs font-medium text-cyan-400 bg-cyan-900 px-2 py-1 rounded-full">
+                    <span className="text-xs font-medium text-blue-400 bg-blue-900 px-2 py-1 rounded-full">
                       {resource.category}
                     </span>
                     <span className="text-xs text-gray-400">{resource.duration}</span>
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">{resource.title}</h3>
-                  <button className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center space-x-1">
+                  <button className="text-blue-400 hover:text-blue-300 font-medium flex items-center space-x-1">
                     <span>View Resource</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -556,8 +556,8 @@ function AppContent() {
       <div className="fixed inset-y-0 left-0 w-64 bg-gray-800 shadow-sm">
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Network className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-bold text-white">BizactlyAI</span>
           </div>
@@ -578,7 +578,7 @@ function AppContent() {
                 onClick={() => setCurrentView(item.view as View)}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                   currentView === item.view 
-                    ? 'bg-cyan-900 text-cyan-400' 
+                    ? 'bg-blue-900 text-blue-400' 
                     : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
@@ -609,7 +609,7 @@ function AppContent() {
         {/* Chat Header */}
         <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -625,7 +625,7 @@ function AppContent() {
             <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                 message.type === 'user' 
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white' 
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
                   : 'bg-gray-800 shadow-sm border border-gray-700 text-white'
               }`}>
                 <p className="text-sm leading-relaxed">{message.content}</p>
@@ -661,14 +661,14 @@ function AppContent() {
                 }
               }}
               placeholder="Describe your startup idea or ask for guidance..."
-              className="flex-1 px-4 py-3 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
+              className="flex-1 px-4 py-3 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
               autoComplete="off"
               autoFocus
             />
             <button
               onClick={handleSendMessage}
               disabled={!newMessage.trim()}
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-3 rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />
             </button>
