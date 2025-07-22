@@ -203,12 +203,12 @@ function AppContent() {
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
             The AI startup cofounder for{' '}
             <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-              solo builders
+              SaaS founders
             </span>
           </h1>
           
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Plan, launch, and grow — without burnout.
+            Build, validate, and scale your SaaS — without the overwhelm. Get AI-powered guidance from idea to $10k MRR.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -232,7 +232,7 @@ function AppContent() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
-            <p className="text-xl text-gray-300">Three simple steps to turn your idea into reality</p>
+            <p className="text-xl text-gray-300">Three simple steps to turn your SaaS idea into a profitable business</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -241,7 +241,7 @@ function AppContent() {
                 <Lightbulb className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">1. Describe your idea</h3>
-              <p className="text-gray-300">Tell our AI about your startup concept, target market, and goals. No business plan required.</p>
+              <p className="text-gray-300">Tell our AI about your SaaS concept, target market, and revenue goals. No complex business plan required.</p>
             </div>
             
             <div className="text-center">
@@ -249,7 +249,7 @@ function AppContent() {
                 <FileText className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">2. Get AI-guided MVP plan</h3>
-              <p className="text-gray-300">Receive a customized roadmap with features to build, validation steps, and launch strategy.</p>
+              <p className="text-gray-300">Receive a customized SaaS roadmap with core features, pricing strategy, and go-to-market plan.</p>
             </div>
             
             <div className="text-center">
@@ -257,7 +257,7 @@ function AppContent() {
                 <Rocket className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">3. Launch with confidence</h3>
-              <p className="text-gray-300">Execute your plan with ongoing AI support, tracking progress and adapting as you learn.</p>
+              <p className="text-gray-300">Launch your SaaS with ongoing AI support, tracking MRR growth and optimizing for scale.</p>
             </div>
           </div>
         </div>
@@ -268,7 +268,7 @@ function AppContent() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">Features</h2>
-            <p className="text-xl text-gray-300">Everything you need to validate and launch your startup</p>
+            <p className="text-xl text-gray-300">Everything you need to validate and launch your SaaS startup</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -277,7 +277,7 @@ function AppContent() {
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">Idea Validator</h3>
               </div>
-              <p className="text-gray-300">Get instant feedback on your startup idea with market analysis, competition research, and viability assessment.</p>
+              <p className="text-gray-300">Get instant feedback on your SaaS idea with market analysis, competitor research, and revenue potential assessment.</p>
             </div>
             
             <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
@@ -285,23 +285,23 @@ function AppContent() {
                 <CheckCircle className="w-8 h-8 text-green-500" />
                 <h3 className="text-xl font-semibold text-white">MVP Feature Builder</h3>
               </div>
-              <p className="text-gray-300">AI-powered feature prioritization to help you build the right MVP with the minimum viable features.</p>
+              <p className="text-gray-300">AI-powered feature prioritization to help you build the right SaaS MVP with core features that drive subscriptions.</p>
             </div>
             
             <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
-                <h3 className="text-xl font-semibold text-white">Lean Canvas Generator</h3>
+                <h3 className="text-xl font-semibold text-white">SaaS Business Model</h3>
               </div>
-              <p className="text-gray-300">Automatically generate a comprehensive lean canvas based on your idea and market research.</p>
+              <p className="text-gray-300">Generate pricing tiers, subscription models, and revenue projections tailored to your SaaS market.</p>
             </div>
             
             <div className="bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-700">
               <div className="flex items-center space-x-4 mb-4">
                 <CheckCircle className="w-8 h-8 text-green-500" />
-                <h3 className="text-xl font-semibold text-white">Launch Strategy Planner</h3>
+                <h3 className="text-xl font-semibold text-white">Growth Strategy Planner</h3>
               </div>
-              <p className="text-gray-300">Get a step-by-step launch plan with marketing strategies, pricing recommendations, and growth tactics.</p>
+              <p className="text-gray-300">Get a step-by-step growth plan with SaaS marketing strategies, customer acquisition, and retention tactics.</p>
             </div>
           </div>
         </div>
@@ -314,9 +314,9 @@ function AppContent() {
           
           <div className="bg-gradient-to-r from-gray-700 to-gray-600 p-8 rounded-2xl">
             <blockquote className="text-2xl text-white mb-6 italic">
-              "This tool helped me turn an idea into a product in just 6 weeks. The AI guidance was like having an experienced cofounder by my side."
+              "BizactlyAI helped me validate my SaaS idea and reach $5k MRR in 3 months. The AI guidance was like having an experienced SaaS founder as my cofounder."
             </blockquote>
-            <div className="text-gray-300 font-medium">— Sarah Chen, Early User</div>
+            <div className="text-gray-300 font-medium">— Sarah Chen, SaaS Founder</div>
           </div>
         </div>
       </section>
@@ -664,7 +664,7 @@ function AppContent() {
               className="flex-1 px-4 py-3 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
               autoComplete="off"
               autoFocus
-            />
+            <p className="text-xl text-blue-100 mb-8">Join hundreds of SaaS founders who've validated, launched, and scaled with AI guidance</p>
             <button
               onClick={handleSendMessage}
               disabled={!newMessage.trim()}
