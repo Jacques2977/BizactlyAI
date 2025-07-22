@@ -664,7 +664,7 @@ function AppContent() {
               className="flex-1 px-4 py-3 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-gray-700 text-white placeholder-gray-400"
               autoComplete="off"
               autoFocus
-            <p className="text-xl text-blue-100 mb-8">Join hundreds of SaaS founders who've validated, launched, and scaled with AI guidance</p>
+            />
             <button
               onClick={handleSendMessage}
               disabled={!newMessage.trim()}
