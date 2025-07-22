@@ -12,6 +12,9 @@ export const CustomIcon: React.FC<CustomIconProps> = ({ className = "w-6 h-6" })
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
     >
+      {/* Black background */}
+      <rect width="100" height="100" fill="#000000" rx="20" />
+      
       <defs>
         <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#3B82F6" />
