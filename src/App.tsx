@@ -201,14 +201,14 @@ function AppContent() {
       <section id="home" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            AI Startup Coach for{' '}
+            The AI startup cofounder for{' '}
             <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-              First-Time Founders
+              solo builders
             </span>
           </h1>
           
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Validate your idea, plan your MVP, and launch fast — all with AI guidance tailored for first-time entrepreneurs.
+            Plan, launch, and grow — without burnout.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
