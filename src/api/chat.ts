@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Note: In production, this should be handled server-side
+  dangerouslyAllowBrowser: true, // For dev only!
 });
 
 export interface ChatMessage {
@@ -11,74 +11,61 @@ export interface ChatMessage {
   content: string;
 }
 
-export async function sendMessageToAI(message: string, conversationHistory: ChatMessage[]): Promise<string> {
-  try {
-    // Check if API key is configured
-    if (!import.meta.env.VITE_OPENAI_API_KEY) {
-      throw new Error('OpenAI API key not configured. Please add VITE_OPENAI_API_KEY to your .env file.');
-    }
+const SYSTEM_PROMPT = `
+You are Bizactly.AI, an expert AI startup coach for first-time SaaS founders.
 
-    // Convert conversation history to OpenAI format
-    const messages = [
-      {
-        role: 'system' as const,
-        content: `You are BizactlyAI, an expert AI startup coach specifically designed to help first-time founders. Your expertise includes:
-
-- Idea validation and market research
-- MVP planning and feature prioritization  
+Your specialties include:
+- Idea validation
+- MVP planning
 - Lean canvas development
-- Launch strategy planning
-- Business model validation
-- Customer discovery guidance
-- Product-market fit assessment
+- Launch strategy
+- Product-market fit
+- Customer discovery
 
-You should:
-- Ask clarifying questions to better understand their startup idea
-- Provide actionable, specific advice
-- Break down complex concepts into simple steps
-- Be encouraging but realistic about challenges
-- Focus on lean startup methodology
-- Help them avoid common first-time founder mistakes
+Be clear, tactical, and encouraging. Focus on lean startup methods. Ask smart clarifying questions and guide users toward action.
+`;
 
-Keep responses conversational, helpful, and focused on practical next steps. If they share a startup idea, help them validate it and create an MVP plan.`
-      },
-      ...conversationHistory.map(msg => ({
-        role: msg.type === 'user' ? 'user' as const : 'assistant' as const,
-        content: msg.content
-      })),
-      {
-        role: 'user' as const,
-        content: message
-      }
-    ];
+function formatMessages(history: ChatMessage[], userMessage: string) {
+  return [
+    { role: 'system' as const, content: SYSTEM_PROMPT },
+    ...history.map(msg => ({
+      role: msg.type === 'user' ? 'user' : 'assistant',
+      content: msg.content,
+    })),
+    { role: 'user' as const, content: userMessage }
+  ];
+}
 
-    console.log('Sending request to OpenAI with', messages.length, 'messages');
+export async function sendMessageToAI(
+  message: string,
+  history: ChatMessage[]
+): Promise<string> {
+  if (!import.meta.env.VITE_OPENAI_API_KEY) {
+    return 'OpenAI API key missing. Please check your environment config.';
+  }
 
-    const completion = await openai.chat.completions.create({
+  try {
+    const response = await openai.chat.completions.create({
       model: 'gpt-4',
-      messages: messages,
-      max_tokens: 500,
+      messages: formatMessages(history, message),
       temperature: 0.7,
+      max_tokens: 600,
     });
 
-    console.log('Received response from OpenAI');
+    return response.choices[0]?.message?.content?.trim()
+      || 'Something went wrong. Try again in a moment.';
+  } catch (err: unknown) {
+    console.error('OpenAI Chat Error:', err);
+    
+    const fallback = 'An error occurred while processing your request. Please try again.';
+    
+    if (err instanceof Error) {
+      if (err.message.includes('quota')) return 'OpenAI quota exceeded. Check your usage limits.';
+      if (err.message.includes('rate limit')) return 'Too many requests. Wait a moment and try again.';
+      if (err.message.includes('API key')) return 'Invalid API key. Check your environment config.';
+      return `Error: ${err.message}`;
+    }
 
-    return completion.choices[0]?.message?.content || 'I apologize, but I encountered an issue processing your request. Please try again.';
-  } catch (error) {
-    console.error('OpenAI API Error:', error);
-    
-    if (error instanceof Error && error.message.includes('API key')) {
-      return 'OpenAI API key is missing or invalid. Please check your .env file and ensure VITE_OPENAI_API_KEY is set correctly.';
-    }
-    
-    if (error instanceof Error && error.message.includes('quota')) {
-      return 'OpenAI API quota exceeded. Please check your OpenAI account billing and usage limits.';
-    }
-    
-    if (error instanceof Error && error.message.includes('rate limit')) {
-      return 'Rate limit exceeded. Please wait a moment and try again.';
-    }
-    
-    return `I apologize, but I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`;
+    return fallback;
   }
 }
