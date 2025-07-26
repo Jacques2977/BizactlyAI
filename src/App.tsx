@@ -699,8 +699,19 @@ function AppContent() {
               <p className="text-gray-300">Curated resources for first-time founders</p>
             </div>
             
+            {/* State for collapsible sections */}
+            {(() => {
+              const [isChecklistExpanded, setIsChecklistExpanded] = React.useState(false);
+              
+              return (
+                <>
             {/* Featured Resource - Idea Validation Checklist */}
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-8 mb-8 border border-blue-800">
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl mb-8 border border-blue-800 overflow-hidden">
+              {/* Clickable Header */}
+              <button
+                onClick={() => setIsChecklistExpanded(!isChecklistExpanded)}
+                className="w-full p-8 text-left hover:bg-white hover:bg-opacity-5 transition-all duration-200"
+              >
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-white mb-2">📋 Idea Validation Checklist</h2>
@@ -708,13 +719,37 @@ function AppContent() {
                   <p className="text-blue-300 text-sm mt-1">⏱️ Time to complete: ~10 minutes</p>
                 </div>
                 <div className="text-right">
-                  <div className="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                  <div className="bg-white bg-opacity-20 rounded-lg px-4 py-2 mr-4">
                     <div className="text-lg font-bold text-white">Featured</div>
                     <div className="text-xs text-blue-200">Most Popular</div>
+                  </div>
+                  <div className="mt-2 text-white">
+                    {isChecklistExpanded ? (
+                      <svg className="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    )}
                   </div>
                 </div>
               </div>
               
+              {/* Click to expand indicator */}
+              <div className="text-center">
+                <div className="text-blue-200 text-sm">
+                  {isChecklistExpanded ? 'Click to collapse' : 'Click to expand full checklist'}
+                </div>
+              </div>
+              </button>
+              
+              {/* Collapsible Content */}
+              <div className={`transition-all duration-300 ease-in-out ${
+                isChecklistExpanded ? 'max-h-none opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+              }`}>
+                <div className="px-8 pb-8">
               <div className="space-y-6">
                 {[
                   {
@@ -853,7 +888,12 @@ function AppContent() {
                   </div>
                 </div>
               </div>
+                </div>
+              </div>
             </div>
+                </>
+              );
+            })()}
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
