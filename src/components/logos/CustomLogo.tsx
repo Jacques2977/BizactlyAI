@@ -20,12 +20,13 @@ export const CustomLogo: React.FC<CustomLogoProps> = ({
     >
       {/* Gradient Definitions */}
       <defs>
-        <radialGradient id="outerGradient" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0%" stopColor="#06B6D4" /> {/* Cyan */}
-          <stop offset="100%" stopColor="#4338CA" /> {/* Deep Indigo */}
-        </radialGradient>
+        <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3B82F6" /> {/* Blue */}
+          <stop offset="50%" stopColor="#8B5CF6" /> {/* Purple */}
+          <stop offset="100%" stopColor="#EC4899" /> {/* Pink/Magenta */}
+        </linearGradient>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
           <feMerge> 
             <feMergeNode in="coloredBlur"/>
             <feMergeNode in="SourceGraphic"/>
@@ -33,101 +34,92 @@ export const CustomLogo: React.FC<CustomLogoProps> = ({
         </filter>
       </defs>
 
-      {/* Outer Circle with Gradient */}
-      <circle
-        cx="50"
-        cy="50"
-        r="48"
-        fill="url(#outerGradient)"
-        filter="url(#glow)"
-      />
-
-      {/* Inner Target Ring */}
-      <circle
-        cx="50"
-        cy="50"
-        r="28"
-        fill="none"
-        stroke="white"
-        strokeWidth="2"
-        opacity="0.9"
-      />
-
-      {/* Lightbulb Shape */}
-      <g transform="translate(50, 50)">
-        {/* Bulb Top (Circular) */}
-        <circle
-          cx="0"
-          cy="-8"
-          r="12"
-          fill="white"
-          opacity="0.95"
+      {/* Network Connection Paths */}
+      <g fill="url(#networkGradient)" filter="url(#glow)">
+        
+        {/* Top curved connection */}
+        <path
+          d="M 25 35 Q 35 25 50 30 Q 65 35 75 25"
+          stroke="url(#networkGradient)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          fill="none"
         />
         
-        {/* Bulb Neck */}
-        <rect
-          x="-6"
-          y="2"
-          width="12"
-          height="8"
-          rx="2"
-          fill="white"
-          opacity="0.95"
+        {/* Left curved connection */}
+        <path
+          d="M 20 45 Q 15 55 25 65 Q 35 75 30 85"
+          stroke="url(#networkGradient)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          fill="none"
         />
         
-        {/* Bulb Base */}
-        <rect
-          x="-8"
-          y="10"
-          width="16"
-          height="4"
-          rx="2"
-          fill="white"
-          opacity="0.8"
+        {/* Right curved connection */}
+        <path
+          d="M 70 40 Q 85 50 75 65 Q 65 80 75 90"
+          stroke="url(#networkGradient)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          fill="none"
         />
-
-        {/* Inner Filament Lines */}
-        <g opacity="0.6">
-          <path
-            d="M -6 -8 Q 0 -4 6 -8"
-            stroke="#4338CA"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          <path
-            d="M -4 -12 Q 0 -8 4 -12"
-            stroke="#4338CA"
-            strokeWidth="1"
-            fill="none"
-          />
-        </g>
-
-        {/* AI Circuit/Signal Lines */}
-        <g opacity="0.7" stroke="white" strokeWidth="1.5" fill="none">
-          {/* Top signals */}
-          <line x1="0" y1="-22" x2="0" y2="-26" />
-          <line x1="8" y1="-18" x2="11" y2="-21" />
-          <line x1="-8" y1="-18" x2="-11" y2="-21" />
-          
-          {/* Side signals */}
-          <line x1="18" y1="-8" x2="22" y2="-8" />
-          <line x1="-18" y1="-8" x2="-22" y2="-8" />
-          
-          {/* Bottom signals */}
-          <line x1="12" y1="4" x2="15" y2="7" />
-          <line x1="-12" y1="4" x2="-15" y2="7" />
-        </g>
-
-        {/* Signal Dots */}
-        <g fill="white" opacity="0.8">
-          <circle cx="0" cy="-28" r="1" />
-          <circle cx="13" cy="-23" r="1" />
-          <circle cx="-13" cy="-23" r="1" />
-          <circle cx="24" cy="-8" r="1" />
-          <circle cx="-24" cy="-8" r="1" />
-          <circle cx="17" cy="9" r="1" />
-          <circle cx="-17" cy="9" r="1" />
-        </g>
+        
+        {/* Bottom curved connection */}
+        <path
+          d="M 35 75 Q 45 85 60 80 Q 75 75 80 85"
+          stroke="url(#networkGradient)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          fill="none"
+        />
+        
+        {/* Center connecting paths */}
+        <path
+          d="M 40 50 Q 50 45 60 50"
+          stroke="url(#networkGradient)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+        
+        {/* Network Nodes (Circles) */}
+        
+        {/* Top left node */}
+        <circle cx="25" cy="35" r="6" fill="url(#networkGradient)" />
+        <circle cx="25" cy="35" r="2.5" fill="#1F2937" />
+        
+        {/* Top right node */}
+        <circle cx="75" cy="25" r="6" fill="url(#networkGradient)" />
+        <circle cx="75" cy="25" r="2.5" fill="#1F2937" />
+        
+        {/* Left node */}
+        <circle cx="20" cy="45" r="6" fill="url(#networkGradient)" />
+        <circle cx="20" cy="45" r="2.5" fill="#1F2937" />
+        
+        {/* Center node */}
+        <circle cx="50" cy="50" r="7" fill="url(#networkGradient)" />
+        <circle cx="50" cy="50" r="3" fill="#1F2937" />
+        
+        {/* Right node */}
+        <circle cx="70" cy="40" r="6" fill="url(#networkGradient)" />
+        <circle cx="70" cy="40" r="2.5" fill="#1F2937" />
+        
+        {/* Bottom left node */}
+        <circle cx="30" cy="85" r="6" fill="url(#networkGradient)" />
+        <circle cx="30" cy="85" r="2.5" fill="#1F2937" />
+        
+        {/* Bottom right node */}
+        <circle cx="75" cy="90" r="5" fill="url(#networkGradient)" />
+        <circle cx="75" cy="90" r="2" fill="#1F2937" />
+        
+        {/* Top center node */}
+        <circle cx="50" cy="30" r="5" fill="url(#networkGradient)" />
+        <circle cx="50" cy="30" r="2" fill="#1F2937" />
+        
+        {/* Additional connecting node */}
+        <circle cx="80" cy="85" r="4" fill="url(#networkGradient)" />
+        <circle cx="80" cy="85" r="1.5" fill="#1F2937" />
+        
       </g>
     </svg>
   );
