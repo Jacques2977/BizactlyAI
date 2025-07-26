@@ -699,225 +699,252 @@ function AppContent() {
               <p className="text-gray-300">Curated resources for first-time founders</p>
             </div>
             
-            {/* State for collapsible sections */}
-            {(() => {
-              const [isChecklistExpanded, setIsChecklistExpanded] = React.useState(false);
-              
-              return (
-                <>
-            {/* Featured Resource - Idea Validation Checklist */}
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl mb-8 border border-blue-800 overflow-hidden">
-              {/* Clickable Header */}
-              <button
-                onClick={() => setIsChecklistExpanded(!isChecklistExpanded)}
-                className="w-full p-8 text-left hover:bg-white hover:bg-opacity-5 transition-all duration-200"
-              >
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">📋 Idea Validation Checklist</h2>
-                  <p className="text-blue-200">A 10-step guide to ensure your startup idea is worth pursuing.</p>
-                  <p className="text-blue-300 text-sm mt-1">⏱️ Time to complete: ~10 minutes</p>
-                </div>
-                <div className="text-right">
-                  <div className="bg-white bg-opacity-20 rounded-lg px-4 py-2 mr-4">
-                    <div className="text-lg font-bold text-white">Featured</div>
-                    <div className="text-xs text-blue-200">Most Popular</div>
-                  </div>
-                  <div className="mt-2 text-white">
-                    {isChecklistExpanded ? (
-                      <svg className="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                      </svg>
-                    ) : (
-                      <svg className="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Click to expand indicator */}
-              <div className="text-center">
-                <div className="text-blue-200 text-sm">
-                  {isChecklistExpanded ? 'Click to collapse' : 'Click to expand full checklist'}
-                </div>
-              </div>
-              </button>
-              
-              {/* Collapsible Content */}
-              <div className={`transition-all duration-300 ease-in-out ${
-                isChecklistExpanded ? 'max-h-none opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-              }`}>
-                <div className="px-8 pb-8">
-              <div className="space-y-6">
-                {[
-                  {
-                    step: "1. Problem Clarity",
-                    questions: [
-                      "Can you clearly explain the problem your startup solves in one sentence?",
-                      "Is this a real pain point people face regularly?"
-                    ],
-                    action: "If not, talk to 5 people in your target audience today."
-                  },
-                  {
-                    step: "2. Target Audience", 
-                    questions: [
-                      "Who experiences this problem? Be specific (e.g. \"freelance designers\" not \"everyone\").",
-                      "Can you define their demographics, behaviors, and needs?"
-                    ],
-                    action: "Use tools like UserPersona.dev or Google Forms for early research."
-                  },
-                  {
-                    step: "3. Frequency & Urgency",
-                    questions: [
-                      "How often does the problem occur (daily, weekly)?",
-                      "How urgent is solving it for them?"
-                    ],
-                    action: "Problems that are frequent + urgent tend to make better businesses."
-                  },
-                  {
-                    step: "4. Current Alternatives",
-                    questions: [
-                      "How are people solving this now? (manual methods, spreadsheets, another app?)",
-                      "What's bad or frustrating about those solutions?"
-                    ],
-                    action: "This reveals your unique angle or \"unfair advantage.\""
-                  },
-                  {
-                    step: "5. Market Size",
-                    questions: [
-                      "Estimate how many people have this problem (use keyword search, Reddit groups, LinkedIn).",
-                      "Is the market large enough to build a sustainable business?"
-                    ],
-                    action: "A niche market is okay if the need is strong and loyalty is high."
-                  },
-                  {
-                    step: "6. Willingness to Pay",
-                    questions: [
-                      "Would someone pay to solve this?",
-                      "Have you asked anyone, \"Would you pay $X for a solution to this?\""
-                    ],
-                    action: "Even pre-revenue, gauging pay intent is key for validation."
-                  },
-                  {
-                    step: "7. Unique Insight or Advantage",
-                    questions: [
-                      "What do you know (or can do) that others don't?",
-                      "Why are you uniquely positioned to build this?"
-                    ],
-                    action: "This might be your background, tech stack, network, or insight."
-                  },
-                  {
-                    step: "8. Early Interest",
-                    questions: [
-                      "Have you shared this idea publicly? Gotten DMs, follows, or email signups?",
-                      "Did anyone ask, \"Can I try it?\" or \"When will it be ready?\""
-                    ],
-                    action: "No reaction is data too—pivot or niche down."
-                  },
-                  {
-                    step: "9. Prototype Feedback",
-                    questions: [
-                      "Do you have a landing page, mockup, or clickable prototype?",
-                      "What was the feedback from real users (not just friends)?"
-                    ],
-                    action: "Use Figma, Carrd, or Typedream to test fast."
-                  },
-                  {
-                    step: "10. Pre-Validation Score",
-                    questions: [
-                      "Score your idea on the following categories (1–5 each):"
-                    ],
-                    action: "If your total score is under 15/25, dig deeper before building."
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="bg-white bg-opacity-10 rounded-lg p-4">
-                    <h3 className="font-semibold text-white mb-3">{item.step}</h3>
-                    <div className="space-y-2 mb-3">
-                      {item.questions.map((question, qIndex) => (
-                        <div key={qIndex} className="text-blue-100 text-sm">• {question}</div>
-                      ))}
-                    </div>
-                    <div className="bg-green-900 bg-opacity-50 rounded-md p-2">
-                      <div className="text-green-200 text-sm">✅ {item.action}</div>
-                    </div>
-                  </div>
-                ))}
-                
-                {/* Scoring Table */}
-                <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                  <h3 className="font-semibold text-white mb-4">📊 Validation Scoring Table</h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-blue-700">
-                          <th className="text-left py-2 text-blue-200">Category</th>
-                          <th className="text-center py-2 text-blue-200">Score (1–5)</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-blue-100">
-                        {[
-                          "Problem Clarity",
-                          "Market Size", 
-                          "Urgency/Frequency",
-                          "Willingness to Pay",
-                          "Early Interest"
-                        ].map((category, index) => (
-                          <tr key={index} className="border-b border-blue-800">
-                            <td className="py-2">{category}</td>
-                            <td className="text-center py-2">
-                              <div className="inline-block w-16 h-8 bg-white bg-opacity-20 rounded border text-center leading-8">
-                                ___
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                        <tr className="border-t-2 border-blue-600 font-semibold">
-                          <td className="py-2 text-white">Total:</td>
-                          <td className="text-center py-2 text-white">___ / 25</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="mt-4 p-3 bg-yellow-900 bg-opacity-50 rounded-md">
-                    <div className="text-yellow-200 text-sm">
-                      ➡️ <strong>Scoring Guide:</strong> If your score is under 15, dig deeper before building. 
-                      20+ indicates strong validation potential.
-                    </div>
-                  </div>
-                </div>
-              </div>
-                </div>
-              </div>
-            </div>
-                </>
-              );
-            })()}
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Resource Categories */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               {[
-                { title: "Idea Validation Checklist", category: "Validation", duration: "10 min read" },
-                { title: "MVP Development Guide", category: "Product", duration: "25 min read" },
-                { title: "Lean Canvas Template", category: "Planning", duration: "Template" },
-                { title: "Launch Strategy Playbook", category: "Launch", duration: "30 min read" },
-                { title: "First Customer Acquisition", category: "Growth", duration: "20 min read" },
-                { title: "Pricing Your SaaS", category: "Revenue", duration: "15 min read" },
-              ].map((resource, index) => (
-                <div key={index} className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-3">
-                    <span className="text-xs font-medium text-blue-400 bg-blue-900 px-2 py-1 rounded-full">
-                      {resource.category}
-                    </span>
-                    <span className="text-xs text-gray-400">{resource.duration}</span>
+                { 
+                  title: "Validation", 
+                  icon: Target, 
+                  count: "4 resources",
+                  color: "from-green-500 to-emerald-600"
+                },
+                { 
+                  title: "Development", 
+                  icon: FileText, 
+                  count: "6 resources",
+                  color: "from-blue-500 to-purple-600"
+                },
+                { 
+                  title: "Growth", 
+                  icon: TrendingUp, 
+                  count: "5 resources",
+                  color: "from-purple-500 to-pink-600"
+                },
+              ].map((category, index) => {
+                const Icon = category.icon;
+                return (
+                  <div key={index} className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className={`w-12 h-12 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center mb-4`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">{category.title}</h3>
+                    <p className="text-gray-400 text-sm">{category.count}</p>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{resource.title}</h3>
-                  <button className="text-blue-400 hover:text-blue-300 font-medium flex items-center space-x-1">
-                    <span>View Resource</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                );
+              })}
+            </div>
+
+            {/* Detailed Resources */}
+            <div className="space-y-8">
+              {/* Validation Section */}
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-3">
+                  <Target className="w-6 h-6 text-green-400" />
+                  <span>Idea Validation</span>
+                </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-green-400 bg-green-900 px-2 py-1 rounded-full">
+                        Essential
+                      </span>
+                      <span className="text-xs text-gray-400">10 min read</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">The Complete Idea Validation Checklist</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      A step-by-step guide to validate your startup idea before investing time and money. Learn how to test market demand, identify your target audience, and validate your value proposition.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Market research techniques</div>
+                      <div>• Customer interview frameworks</div>
+                      <div>• Problem-solution fit validation</div>
+                      <div>• Competitive analysis methods</div>
+                    </div>
+                    <button className="text-green-400 hover:text-green-300 font-medium flex items-center space-x-1">
+                      <span>Read Guide</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-green-400 bg-green-900 px-2 py-1 rounded-full">
+                        Framework
+                      </span>
+                      <span className="text-xs text-gray-400">15 min read</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">Customer Discovery Framework</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      Master the art of customer discovery with proven frameworks used by successful startups. Learn how to conduct effective interviews and extract actionable insights.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Interview question templates</div>
+                      <div>• Customer persona development</div>
+                      <div>• Pain point identification</div>
+                      <div>• Insight synthesis methods</div>
+                    </div>
+                    <button className="text-green-400 hover:text-green-300 font-medium flex items-center space-x-1">
+                      <span>Read Guide</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Development Section */}
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-3">
+                  <FileText className="w-6 h-6 text-blue-400" />
+                  <span>Product Development</span>
+                </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-blue-400 bg-blue-900 px-2 py-1 rounded-full">
+                        MVP Guide
+                      </span>
+                      <span className="text-xs text-gray-400">25 min read</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">Building Your First MVP</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      Learn how to build a Minimum Viable Product that validates your core assumptions while minimizing development time and costs. Focus on what matters most.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Feature prioritization frameworks</div>
+                      <div>• MVP vs. prototype differences</div>
+                      <div>• Technical architecture basics</div>
+                      <div>• Launch readiness checklist</div>
+                    </div>
+                    <button className="text-blue-400 hover:text-blue-300 font-medium flex items-center space-x-1">
+                      <span>Read Guide</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-blue-400 bg-blue-900 px-2 py-1 rounded-full">
+                        Template
+                      </span>
+                      <span className="text-xs text-gray-400">Download</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">Lean Canvas Template</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      A one-page business model template that helps you deconstruct your idea into its key assumptions. Perfect for planning and communicating your startup concept.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Editable template file</div>
+                      <div>• Step-by-step instructions</div>
+                      <div>• Real startup examples</div>
+                      <div>• Validation tracking sheet</div>
+                    </div>
+                    <button className="text-blue-400 hover:text-blue-300 font-medium flex items-center space-x-1">
+                      <span>Download Template</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Growth Section */}
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-3">
+                  <TrendingUp className="w-6 h-6 text-purple-400" />
+                  <span>Growth & Launch</span>
+                </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-purple-400 bg-purple-900 px-2 py-1 rounded-full">
+                        Strategy
+                      </span>
+                      <span className="text-xs text-gray-400">30 min read</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">Launch Strategy Playbook</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      A comprehensive guide to launching your startup successfully. From pre-launch preparation to post-launch optimization, cover all the essential steps.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Pre-launch checklist</div>
+                      <div>• Launch day execution plan</div>
+                      <div>• Marketing channel strategies</div>
+                      <div>• Metrics tracking setup</div>
+                    </div>
+                    <button className="text-purple-400 hover:text-purple-300 font-medium flex items-center space-x-1">
+                      <span>Read Playbook</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="text-xs font-medium text-purple-400 bg-purple-900 px-2 py-1 rounded-full">
+                        Acquisition
+                      </span>
+                      <span className="text-xs text-gray-400">20 min read</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3">First 100 Customers Guide</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      Proven strategies to acquire your first 100 customers without a big marketing budget. Learn from successful founders who've been there.
+                    </p>
+                    <div className="space-y-2 text-sm text-gray-400 mb-4">
+                      <div>• Low-cost acquisition channels</div>
+                      <div>• Community building tactics</div>
+                      <div>• Referral program setup</div>
+                      <div>• Customer retention strategies</div>
+                    </div>
+                    <button className="text-purple-400 hover:text-purple-300 font-medium flex items-center space-x-1">
+                      <span>Read Guide</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Resources */}
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-6">Additional Resources</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    {
+                      title: "SaaS Pricing Guide",
+                      category: "Revenue",
+                      duration: "15 min read",
+                      description: "Master SaaS pricing strategies and models",
+                      color: "text-yellow-400 bg-yellow-900"
+                    },
+                    {
+                      title: "Fundraising Basics",
+                      category: "Finance",
+                      duration: "35 min read",
+                      description: "Everything you need to know about raising capital",
+                      color: "text-red-400 bg-red-900"
+                    },
+                    {
+                      title: "Team Building",
+                      category: "Leadership",
+                      duration: "18 min read",
+                      description: "How to build and manage your founding team",
+                      color: "text-indigo-400 bg-indigo-900"
+                    },
+                  ].map((resource, index) => (
+                    <div key={index} className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                      <div className="flex items-start justify-between mb-3">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${resource.color}`}>
+                          {resource.category}
+                        </span>
+                        <span className="text-xs text-gray-400">{resource.duration}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">{resource.title}</h3>
+                      <p className="text-gray-300 text-sm mb-4">{resource.description}</p>
+                      <button className="text-blue-400 hover:text-blue-300 font-medium flex items-center space-x-1">
+                        <span>Read More</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
