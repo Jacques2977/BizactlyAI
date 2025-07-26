@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/AuthModal';
-import { CustomIcon } from './components/CustomIcon';
+import { Logo } from './components/Logo';
 import { sendMessageToAI, type ChatMessage } from './api/chat';
 import { 
   Rocket, 
@@ -98,14 +98,7 @@ function AppContent() {
       <nav className="bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <CustomIcon className="w-6 h-6" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                BizactlyAI
-              </span>
-            </div>
+            <Logo size="md" />
             
             <div className="hidden md:flex items-center space-x-8">
               <a href="#home" className="text-gray-300 hover:text-cyan-400 transition-colors font-medium">Home</a>
@@ -339,12 +332,7 @@ function AppContent() {
       <footer className="bg-gray-950 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <CustomIcon className="w-5 h-5" />
-              </div>
-              <span className="text-lg font-bold">BizactlyAI</span>
-            </div>
+            <Logo size="sm" className="mb-4 md:mb-0" />
             <div className="flex space-x-8 text-gray-400">
               <a href="#contact" className="hover:text-white transition-colors">Contact</a>
               <a href="#terms" className="hover:text-white transition-colors">Terms</a>
@@ -367,12 +355,7 @@ function AppContent() {
       {/* Sidebar */}
       <div className="fixed inset-y-0 left-0 w-64 bg-gray-900 shadow-sm">
         <div className="p-6 border-b border-gray-800">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <CustomIcon className="w-5 h-5" />
-            </div>
-            <span className="text-lg font-bold text-white">BizactlyAI</span>
-          </div>
+          <Logo size="sm" />
         </div>
         
         <nav className="p-4 space-y-2">
@@ -751,12 +734,7 @@ function AppContent() {
       {/* Sidebar */}
       <div className="fixed inset-y-0 left-0 w-64 bg-gray-900 shadow-sm">
         <div className="p-6 border-b border-gray-800">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <CustomIcon className="w-5 h-5" />
-            </div>
-            <span className="text-lg font-bold text-white">BizactlyAI</span>
-          </div>
+          <Logo size="sm" />
         </div>
         
         <nav className="p-4 space-y-2">
