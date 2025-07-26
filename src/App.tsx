@@ -684,9 +684,9 @@ function AppContent() {
                     }`}></div>
                     <div className="flex-1">
                       <div className="font-medium text-white">{activity.action}</div>
-                      </div>
+                    </div>
                     <div className="text-sm text-gray-400">{activity.time}</div>
-                      </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -761,60 +761,10 @@ function AppContent() {
                       <div>• Problem-solution fit validation</div>
                       <div>• Competitive analysis methods</div>
                     </div>
-                    <button 
-                      onClick={() => setShowValidationChecklist(!showValidationChecklist)}
-                      className="text-green-400 hover:text-green-300 font-medium flex items-center space-x-1"
-                    >
+                    <button className="text-green-400 hover:text-green-300 font-medium flex items-center space-x-1">
                       <span>Read Guide</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
-                    
-                    {/* Collapsible Validation Checklist */}
-                    {showValidationChecklist && (
-                      <div className="mt-6 pt-6 border-t border-gray-200">
-                        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-lg font-bold text-gray-900">Idea Validation Checklist</h4>
-                            <button
-                              onClick={() => setShowValidationChecklist(false)}
-                              className="text-gray-400 hover:text-gray-600"
-                            >
-                              <X className="w-5 h-5" />
-                            </button>
-                          </div>
-                          <p className="text-gray-600 mb-6">
-                            A 10-step guide to ensure your startup idea is worth pursuing.<br />
-                            <strong>Time to complete: ~10 minutes</strong>
-                          </p>
-                          
-                          <div className="space-y-6">
-                            {/* Step 1 */}
-                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
-                              <h5 className="font-bold text-gray-900 mb-2">1. Problem Clarity</h5>
-                              <ul className="text-gray-600 space-y-1 mb-3">
-                                <li>• Can you clearly explain the problem your startup solves in one sentence?</li>
-                                <li>• Is this a real pain point people face regularly?</li>
-                              </ul>
-                              <div className="bg-green-50 border border-green-200 rounded p-2">
-                                <p className="text-green-800 text-sm">✅ If not, talk to 5 people in your target audience today.</p>
-                              </div>
-                            </div>
-
-                            {/* Step 2 */}
-                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
-                              <h5 className="font-bold text-gray-900 mb-2">2. Target Audience</h5>
-                              <ul className="text-gray-600 space-y-1 mb-3">
-                                <li>• Who experiences this problem? Be specific (e.g. "freelance designers" not "everyone").</li>
-                                <li>• Can you define their demographics, behaviors, and needs?</li>
-                              </ul>
-                              <div className="bg-green-50 border border-green-200 rounded p-2">
-                                <p className="text-green-800 text-sm">✅ Use tools like UserPersona.dev or Google Forms for early research.</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
@@ -996,6 +946,53 @@ function AppContent() {
                   ))}
                 </div>
               </div>
+                    
+                    {/* Collapsible Validation Checklist */}
+                    {showValidationChecklist && (
+                      <div className="mt-6 pt-6 border-t border-gray-200">
+                        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="text-lg font-bold text-gray-900">Idea Validation Checklist</h4>
+                            <button
+                              onClick={() => setShowValidationChecklist(false)}
+                              className="text-gray-400 hover:text-gray-600"
+                            >
+                              <X className="w-5 h-5" />
+                            </button>
+                          </div>
+                          <p className="text-gray-600 mb-6">
+                            A 10-step guide to ensure your startup idea is worth pursuing.<br />
+                            <strong>Time to complete: ~10 minutes</strong>
+                          </p>
+                          
+                          <div className="space-y-6">
+                            {/* Step 1 */}
+                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                              <h5 className="font-bold text-gray-900 mb-2">1. Problem Clarity</h5>
+                              <ul className="text-gray-600 space-y-1 mb-3">
+                                <li>• Can you clearly explain the problem your startup solves in one sentence?</li>
+                                <li>• Is this a real pain point people face regularly?</li>
+                              </ul>
+                              <div className="bg-green-50 border border-green-200 rounded p-2">
+                                <p className="text-green-800 text-sm">✅ If not, talk to 5 people in your target audience today.</p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                              <h5 className="font-bold text-gray-900 mb-2">2. Target Audience</h5>
+                              <ul className="text-gray-600 space-y-1 mb-3">
+                                <li>• Who experiences this problem? Be specific (e.g. "freelance designers" not "everyone").</li>
+                                <li>• Can you define their demographics, behaviors, and needs?</li>
+                              </ul>
+                              <div className="bg-green-50 border border-green-200 rounded p-2">
+                                <p className="text-green-800 text-sm">✅ Use tools like UserPersona.dev or Google Forms for early research.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
             </div>
           </div>
         )}
