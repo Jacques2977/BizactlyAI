@@ -699,6 +699,162 @@ function AppContent() {
               <p className="text-gray-300">Curated resources for first-time founders</p>
             </div>
             
+            {/* Featured Resource - Idea Validation Checklist */}
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-8 mb-8 border border-blue-800">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-2">📋 Idea Validation Checklist</h2>
+                  <p className="text-blue-200">A 10-step guide to ensure your startup idea is worth pursuing.</p>
+                  <p className="text-blue-300 text-sm mt-1">⏱️ Time to complete: ~10 minutes</p>
+                </div>
+                <div className="text-right">
+                  <div className="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                    <div className="text-lg font-bold text-white">Featured</div>
+                    <div className="text-xs text-blue-200">Most Popular</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-6">
+                {[
+                  {
+                    step: "1. Problem Clarity",
+                    questions: [
+                      "Can you clearly explain the problem your startup solves in one sentence?",
+                      "Is this a real pain point people face regularly?"
+                    ],
+                    action: "If not, talk to 5 people in your target audience today."
+                  },
+                  {
+                    step: "2. Target Audience", 
+                    questions: [
+                      "Who experiences this problem? Be specific (e.g. \"freelance designers\" not \"everyone\").",
+                      "Can you define their demographics, behaviors, and needs?"
+                    ],
+                    action: "Use tools like UserPersona.dev or Google Forms for early research."
+                  },
+                  {
+                    step: "3. Frequency & Urgency",
+                    questions: [
+                      "How often does the problem occur (daily, weekly)?",
+                      "How urgent is solving it for them?"
+                    ],
+                    action: "Problems that are frequent + urgent tend to make better businesses."
+                  },
+                  {
+                    step: "4. Current Alternatives",
+                    questions: [
+                      "How are people solving this now? (manual methods, spreadsheets, another app?)",
+                      "What's bad or frustrating about those solutions?"
+                    ],
+                    action: "This reveals your unique angle or \"unfair advantage.\""
+                  },
+                  {
+                    step: "5. Market Size",
+                    questions: [
+                      "Estimate how many people have this problem (use keyword search, Reddit groups, LinkedIn).",
+                      "Is the market large enough to build a sustainable business?"
+                    ],
+                    action: "A niche market is okay if the need is strong and loyalty is high."
+                  },
+                  {
+                    step: "6. Willingness to Pay",
+                    questions: [
+                      "Would someone pay to solve this?",
+                      "Have you asked anyone, \"Would you pay $X for a solution to this?\""
+                    ],
+                    action: "Even pre-revenue, gauging pay intent is key for validation."
+                  },
+                  {
+                    step: "7. Unique Insight or Advantage",
+                    questions: [
+                      "What do you know (or can do) that others don't?",
+                      "Why are you uniquely positioned to build this?"
+                    ],
+                    action: "This might be your background, tech stack, network, or insight."
+                  },
+                  {
+                    step: "8. Early Interest",
+                    questions: [
+                      "Have you shared this idea publicly? Gotten DMs, follows, or email signups?",
+                      "Did anyone ask, \"Can I try it?\" or \"When will it be ready?\""
+                    ],
+                    action: "No reaction is data too—pivot or niche down."
+                  },
+                  {
+                    step: "9. Prototype Feedback",
+                    questions: [
+                      "Do you have a landing page, mockup, or clickable prototype?",
+                      "What was the feedback from real users (not just friends)?"
+                    ],
+                    action: "Use Figma, Carrd, or Typedream to test fast."
+                  },
+                  {
+                    step: "10. Pre-Validation Score",
+                    questions: [
+                      "Score your idea on the following categories (1–5 each):"
+                    ],
+                    action: "If your total score is under 15/25, dig deeper before building."
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="bg-white bg-opacity-10 rounded-lg p-4">
+                    <h3 className="font-semibold text-white mb-3">{item.step}</h3>
+                    <div className="space-y-2 mb-3">
+                      {item.questions.map((question, qIndex) => (
+                        <div key={qIndex} className="text-blue-100 text-sm">• {question}</div>
+                      ))}
+                    </div>
+                    <div className="bg-green-900 bg-opacity-50 rounded-md p-2">
+                      <div className="text-green-200 text-sm">✅ {item.action}</div>
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Scoring Table */}
+                <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                  <h3 className="font-semibold text-white mb-4">📊 Validation Scoring Table</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-blue-700">
+                          <th className="text-left py-2 text-blue-200">Category</th>
+                          <th className="text-center py-2 text-blue-200">Score (1–5)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-blue-100">
+                        {[
+                          "Problem Clarity",
+                          "Market Size", 
+                          "Urgency/Frequency",
+                          "Willingness to Pay",
+                          "Early Interest"
+                        ].map((category, index) => (
+                          <tr key={index} className="border-b border-blue-800">
+                            <td className="py-2">{category}</td>
+                            <td className="text-center py-2">
+                              <div className="inline-block w-16 h-8 bg-white bg-opacity-20 rounded border text-center leading-8">
+                                ___
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr className="border-t-2 border-blue-600 font-semibold">
+                          <td className="py-2 text-white">Total:</td>
+                          <td className="text-center py-2 text-white">___ / 25</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="mt-4 p-3 bg-yellow-900 bg-opacity-50 rounded-md">
+                    <div className="text-yellow-200 text-sm">
+                      ➡️ <strong>Scoring Guide:</strong> If your score is under 15, dig deeper before building. 
+                      20+ indicates strong validation potential.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { title: "Idea Validation Checklist", category: "Validation", duration: "10 min read" },
