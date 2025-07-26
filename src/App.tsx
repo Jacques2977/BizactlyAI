@@ -712,29 +712,73 @@ function AppContent() {
         {currentView === 'analytics' && (
           <div>
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">Startup Analytics</h1>
-              <p className="text-gray-300">Track your progress and key metrics</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{user?.name}'s Analytics</h1>
+              <p className="text-gray-300">Track your personal startup progress and key metrics</p>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
-                <h3 className="text-lg font-semibold text-white mb-4">Validation Score</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">Your Validation Score</h3>
                 <div className="h-64 bg-gradient-to-r from-blue-950 to-purple-950 rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-blue-400 mb-2">85%</div>
                     <div className="text-gray-300">Market Validation</div>
+                    <div className="text-sm text-gray-400 mt-2">Based on your research</div>
                   </div>
                 </div>
               </div>
               
               <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
-                <h3 className="text-lg font-semibold text-white mb-4">MVP Progress</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">Your MVP Progress</h3>
                 <div className="h-64 bg-gradient-to-r from-purple-950 to-pink-950 rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-purple-400 mb-2">60%</div>
-                    <div className="text-gray-300">Features Complete</div>
+                    <div className="text-gray-300">Features Planned</div>
+                    <div className="text-sm text-gray-400 mt-2">3 of 5 core features defined</div>
                   </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Personal Activity Timeline */}
+            <div className="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Your Recent Activity</h3>
+              <div className="space-y-4">
+                {[
+                  { 
+                    action: "Completed idea validation session", 
+                    time: "2 hours ago",
+                    type: "success"
+                  },
+                  { 
+                    action: "Defined target customer persona", 
+                    time: "1 day ago",
+                    type: "info"
+                  },
+                  { 
+                    action: "Started MVP feature planning", 
+                    time: "2 days ago",
+                    type: "progress"
+                  },
+                  { 
+                    action: "Created account and began journey", 
+                    time: "3 days ago",
+                    type: "milestone"
+                  },
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                    <div className={`w-3 h-3 rounded-full ${
+                      activity.type === 'success' ? 'bg-green-400' :
+                      activity.type === 'info' ? 'bg-blue-400' :
+                      activity.type === 'progress' ? 'bg-purple-400' :
+                      'bg-yellow-400'
+                    }`}></div>
+                    <div className="flex-1">
+                      <div className="font-medium text-white">{activity.action}</div>
+                    </div>
+                    <div className="text-sm text-gray-400">{activity.time}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
