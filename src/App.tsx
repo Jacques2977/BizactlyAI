@@ -421,61 +421,289 @@ function AppContent() {
         {currentView === 'dashboard' && (
           <div>
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">Welcome back, Founder!</h1>
-              <p className="text-gray-300">Let's continue building your startup with AI guidance</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {user?.name}!</h1>
+              <p className="text-gray-300">Your personalized SaaS startup roadmap is ready</p>
             </div>
             
-            {/* Quick Actions */}
+            {/* Current Focus Area */}
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-6 mb-8 border border-blue-800">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-white mb-2">Your Current Focus</h2>
+                  <p className="text-blue-200">Based on your progress, here's what to work on next</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-blue-300">Step 2</div>
+                  <div className="text-sm text-blue-200">of 6</div>
+                </div>
+              </div>
+              <div className="bg-blue-800 bg-opacity-50 rounded-lg p-4">
+                <h3 className="font-semibold text-white mb-2">🎯 MVP Feature Planning</h3>
+                <p className="text-blue-100 text-sm mb-3">
+                  Time to define your core SaaS features. Focus on the 3-5 features that will make users pay.
+                </p>
+                <button 
+                  onClick={() => setCurrentView('chat')}
+                  className="bg-white text-blue-900 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+                >
+                  Continue with AI Coach
+                </button>
+              </div>
+            </div>
+
+            {/* Personalized Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {[
-                { label: 'Validate New Idea', icon: Lightbulb, color: 'from-blue-500 to-purple-600' },
-                { label: 'Build MVP Plan', icon: FileText, color: 'from-purple-500 to-pink-600' },
-                { label: 'Generate Canvas', icon: Target, color: 'from-purple-500 to-indigo-600' },
-                { label: 'Plan Launch', icon: Rocket, color: 'from-indigo-500 to-blue-600' },
+                { label: 'Refine Your Idea', icon: Lightbulb, color: 'from-green-500 to-emerald-600', status: 'completed' },
+                { label: 'Build MVP Plan', icon: FileText, color: 'from-blue-500 to-purple-600', status: 'current' },
+                { label: 'Create Business Model', icon: Target, color: 'from-purple-500 to-indigo-600', status: 'next' },
+                { label: 'Launch Strategy', icon: Rocket, color: 'from-indigo-500 to-blue-600', status: 'future' },
               ].map((action, index) => {
                 const Icon = action.icon;
                 return (
-                  <button key={index} className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800 hover:shadow-md transition-all duration-300 text-left group">
-                    <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                  <button 
+                    key={index} 
+                    className={`bg-gray-900 p-6 rounded-xl shadow-sm border transition-all duration-300 text-left group relative ${
+                      action.status === 'completed' ? 'border-green-800' :
+                      action.status === 'current' ? 'border-blue-800 ring-2 ring-blue-900' :
+                      action.status === 'next' ? 'border-purple-800' :
+                      'border-gray-800 opacity-60'
+                    } hover:shadow-md`}
+                    disabled={action.status === 'future'}
+                  >
+                    {action.status === 'completed' && (
+                      <div className="absolute top-2 right-2">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                      </div>
+                    )}
+                    {action.status === 'current' && (
+                      <div className="absolute top-2 right-2">
+                        <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+                      </div>
+                    )}
+                    <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${
+                      action.status === 'future' ? 'opacity-50' : ''
+                    }`}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-lg font-semibold text-white">{action.label}</div>
+                    <div className={`text-lg font-semibold mb-1 ${
+                      action.status === 'future' ? 'text-gray-500' : 'text-white'
+                    }`}>
+                      {action.label}
+                    </div>
+                    <div className={`text-xs ${
+                      action.status === 'completed' ? 'text-green-400' :
+                      action.status === 'current' ? 'text-blue-400' :
+                      action.status === 'next' ? 'text-purple-400' :
+                      'text-gray-500'
+                    }`}>
+                      {action.status === 'completed' ? '✓ Completed' :
+                       action.status === 'current' ? '→ In Progress' :
+                       action.status === 'next' ? '◦ Up Next' :
+                       '◦ Coming Soon'}
+                    </div>
                   </button>
                 );
               })}
             </div>
             
-            {/* Progress Overview */}
+            {/* Personal Progress Journey */}
             <div className="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-6">
-              <h2 className="text-xl font-semibold text-white mb-4">Your Startup Journey</h2>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-white">Your SaaS Journey</h2>
+                <div className="text-sm text-gray-400">
+                  Started {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </div>
+              </div>
               <div className="space-y-4">
                 {[
-                  { step: "Idea Validation", status: "completed", progress: 100 },
-                  { step: "SaaS MVP Planning", status: "in-progress", progress: 60 },
-                  { step: "Feature Development", status: "pending", progress: 0 },
-                  { step: "Launch Preparation", status: "pending", progress: 0 },
+                  { 
+                    step: "💡 Idea Validation", 
+                    status: "completed", 
+                    progress: 100,
+                    description: "Market research & problem validation",
+                    timeSpent: "2 days"
+                  },
+                  { 
+                    step: "🛠️ MVP Feature Planning", 
+                    status: "in-progress", 
+                    progress: 60,
+                    description: "Defining core SaaS features & user flows",
+                    timeSpent: "1 day"
+                  },
+                  { 
+                    step: "📊 Business Model Design", 
+                    status: "pending", 
+                    progress: 0,
+                    description: "Pricing strategy & revenue model",
+                    timeSpent: "Not started"
+                  },
+                  { 
+                    step: "🚀 Launch Strategy", 
+                    status: "pending", 
+                    progress: 0,
+                    description: "Go-to-market plan & customer acquisition",
+                    timeSpent: "Not started"
+                  },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center space-x-4">
+                  <div key={index} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800 transition-colors">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      item.status === 'completed' ? 'bg-green-100 text-green-600' :
+                      item.status === 'completed' ? 'bg-green-900 text-green-400' :
                       item.status === 'in-progress' ? 'bg-blue-900 text-blue-400' :
                       'bg-gray-800 text-gray-400'
                     }`}>
                       {item.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : index + 1}
                     </div>
                     <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-white">{item.step}</span>
-                        <span className="text-sm text-gray-400">{item.progress}%</span>
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="font-medium text-white mb-1">{item.step}</div>
+                          <div className="text-sm text-gray-400">{item.description}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium text-white">{item.progress}%</div>
+                          <div className="text-xs text-gray-400">{item.timeSpent}</div>
+                        </div>
                       </div>
                       <div className="w-full bg-gray-800 rounded-full h-2">
                         <div 
-                          className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            item.status === 'completed' ? 'bg-gradient-to-r from-green-500 to-emerald-500' :
+                            item.status === 'in-progress' ? 'bg-gradient-to-r from-blue-500 to-purple-600' :
+                            'bg-gray-700'
+                          }`}
                           style={{ width: `${item.progress}%` }}
                         ></div>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+              
+              {/* Personal Insights */}
+              <div className="mt-6 pt-6 border-t border-gray-800">
+                <h3 className="text-lg font-semibold text-white mb-4">Your Progress Insights</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { 
+                      label: "Days Active", 
+                      value: "3", 
+                      icon: Calendar,
+                      color: "text-blue-400"
+                    },
+                    { 
+                      label: "AI Sessions", 
+                      value: "7", 
+                      icon: MessageSquare,
+                      color: "text-purple-400"
+                    },
+                    { 
+                      label: "Next Milestone", 
+                      value: "MVP Plan", 
+                      icon: Target,
+                      color: "text-green-400"
+                    },
+                  ].map((insight, index) => {
+                    const Icon = insight.icon;
+                    return (
+                      <div key={index} className="bg-gray-800 rounded-lg p-4 text-center">
+                        <Icon className={`w-6 h-6 mx-auto mb-2 ${insight.color}`} />
+                        <div className="text-xl font-bold text-white">{insight.value}</div>
+                        <div className="text-sm text-gray-400">{insight.label}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              
+              {/* Motivational Message */}
+              <div className="mt-6 bg-gradient-to-r from-blue-900 to-purple-900 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">Great momentum, {user?.name}! 🚀</div>
+                    <div className="text-blue-200 text-sm">
+                      You're 60% through MVP planning. Keep going to reach your first milestone!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentView === 'analytics' && (
+          <div>
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-white mb-2">{user?.name}'s Analytics</h1>
+              <p className="text-gray-300">Track your personal startup progress and key metrics</p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
+                <h3 className="text-lg font-semibold text-white mb-4">Your Validation Score</h3>
+                <div className="h-64 bg-gradient-to-r from-blue-950 to-purple-950 rounded-lg flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-blue-400 mb-2">85%</div>
+                    <div className="text-gray-300">Market Validation</div>
+                    <div className="text-sm text-gray-400 mt-2">Based on your research</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-800">
+                <h3 className="text-lg font-semibold text-white mb-4">Your MVP Progress</h3>
+                <div className="h-64 bg-gradient-to-r from-purple-950 to-pink-950 rounded-lg flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-purple-400 mb-2">60%</div>
+                    <div className="text-gray-300">Features Planned</div>
+                    <div className="text-sm text-gray-400 mt-2">3 of 5 core features defined</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Personal Activity Timeline */}
+            <div className="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Your Recent Activity</h3>
+              <div className="space-y-4">
+                {[
+                  { 
+                    action: "Completed idea validation session", 
+                    time: "2 hours ago",
+                    type: "success"
+                  },
+                  { 
+                    action: "Defined target customer persona", 
+                    time: "1 day ago",
+                    type: "info"
+                  },
+                  { 
+                    action: "Started MVP feature planning", 
+                    time: "2 days ago",
+                    type: "progress"
+                  },
+                  { 
+                    action: "Created account and began journey", 
+                    time: "3 days ago",
+                    type: "milestone"
+                  },
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                    <div className={`w-3 h-3 rounded-full ${
+                      activity.type === 'success' ? 'bg-green-400' :
+                      activity.type === 'info' ? 'bg-blue-400' :
+                      activity.type === 'progress' ? 'bg-purple-400' :
+                      'bg-yellow-400'
+                    }`}></div>
+                    <div className="flex-1">
+                        <span className="font-medium text-white">{item.step}</span>
+                      <div className="font-medium text-white">{activity.action}</div>
+                      </div>
+                    <div className="text-sm text-gray-400">{activity.time}</div>
+                      </div>
                 ))}
               </div>
             </div>
