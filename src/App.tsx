@@ -699,7 +699,6 @@ function AppContent() {
                       'bg-yellow-400'
                     }`}></div>
                     <div className="flex-1">
-                        <span className="font-medium text-white">{item.step}</span>
                       <div className="font-medium text-white">{activity.action}</div>
                       </div>
                     <div className="text-sm text-gray-400">{activity.time}</div>
