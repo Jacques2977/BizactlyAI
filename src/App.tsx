@@ -9,7 +9,9 @@ import {
   Users, 
   MessageSquare, 
   Target, 
-  TrendingUp, 
+  TrendingUp,
+  ChevronDown,
+  ChevronUp,
   CheckCircle, 
   ArrowRight, 
   Menu, 
@@ -45,6 +47,7 @@ function AppContent() {
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showValidationChecklist, setShowValidationChecklist] = useState(false);
+  const [showGlobalChecklist, setShowGlobalChecklist] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
 
   const openAuthModal = (mode: 'login' | 'signup') => {
@@ -95,6 +98,228 @@ function AppContent() {
 
   const LandingPage = () => (
     <div className="min-h-screen bg-gray-950">
+      {/* Global Idea Validation Checklist - Always Accessible */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 mb-8">
+        <button
+          onClick={() => setShowGlobalChecklist(!showGlobalChecklist)}
+          className="w-full px-6 py-4 text-left hover:bg-white/50 transition-colors duration-200 flex items-center justify-between"
+        >
+          <div className="flex items-center space-x-3">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              ✨ FEATURED
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">
+                Idea Validation Checklist
+              </h3>
+              <p className="text-sm text-gray-600">
+                10-step guide to validate your startup idea • ~10 minutes
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-500">
+              {showGlobalChecklist ? 'Click to collapse' : 'Click to expand'}
+            </span>
+            {showGlobalChecklist ? (
+              <ChevronUp className="w-5 h-5 text-gray-400" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-400" />
+            )}
+          </div>
+        </button>
+
+        {/* Global Validation Checklist Content */}
+        {showGlobalChecklist && (
+          <div className="px-6 pb-6 border-t bg-white/30">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg mt-4">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-xl font-bold">Idea Validation Checklist</h4>
+                <button
+                  onClick={() => setShowGlobalChecklist(false)}
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-blue-100 mb-6">
+                A 10-step guide to ensure your startup idea is worth pursuing.
+                <br />
+                <strong>Time to complete: ~10 minutes</strong>
+              </p>
+
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">1. Problem Clarity</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Can you clearly explain the problem your startup solves in one sentence?</li>
+                    <li>• Is this a real pain point people face regularly?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ If not, talk to 5 people in your target audience today.</p>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">2. Target Audience</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Who experiences this problem? Be specific (e.g. "freelance designers" not "everyone").</li>
+                    <li>• Can you define their demographics, behaviors, and needs?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ Use tools like UserPersona.dev or Google Forms for early research.</p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">3. Frequency & Urgency</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• How often does the problem occur (daily, weekly)?</li>
+                    <li>• How urgent is solving it for them?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ Problems that are frequent + urgent tend to make better businesses.</p>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">4. Current Alternatives</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• How are people solving this now? (manual methods, spreadsheets, another app?)</li>
+                    <li>• What's bad or frustrating about those solutions?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ This reveals your unique angle or "unfair advantage."</p>
+                  </div>
+                </div>
+
+                {/* Step 5 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">5. Market Size</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Estimate how many people have this problem (use keyword search, Reddit groups, LinkedIn).</li>
+                    <li>• Is the market large enough to build a sustainable business?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ A niche market is okay if the need is strong and loyalty is high.</p>
+                  </div>
+                </div>
+
+                {/* Step 6 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">6. Willingness to Pay</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Would someone pay to solve this?</li>
+                    <li>• Have you asked anyone, "Would you pay $X for a solution to this?"</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ Even pre-revenue, gauging pay intent is key for validation.</p>
+                  </div>
+                </div>
+
+                {/* Step 7 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">7. Unique Insight or Advantage</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• What do you know (or can do) that others don't?</li>
+                    <li>• Why are you uniquely positioned to build this?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ This might be your background, tech stack, network, or insight.</p>
+                  </div>
+                </div>
+
+                {/* Step 8 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">8. Early Interest</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Have you shared this idea publicly? Gotten DMs, follows, or email signups?</li>
+                    <li>• Did anyone ask, "Can I try it?" or "When will it be ready?"</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ No reaction is data too—pivot or niche down.</p>
+                  </div>
+                </div>
+
+                {/* Step 9 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">9. Prototype Feedback</h5>
+                  <ul className="space-y-1 text-blue-100 text-sm">
+                    <li>• Do you have a landing page, mockup, or clickable prototype?</li>
+                    <li>• What was the feedback from real users (not just friends)?</li>
+                  </ul>
+                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
+                    <p className="text-green-100 text-sm">✅ Use Figma, Carrd, or Typedream to test fast.</p>
+                  </div>
+                </div>
+
+                {/* Step 10 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
+                  <h5 className="font-semibold text-lg mb-2">10. Pre-Validation Score</h5>
+                  <p className="text-blue-100 text-sm mb-3">Score your idea on the following (1–5 each):</p>
+                  
+                  <div className="bg-white/20 rounded-lg p-4">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-white/20">
+                          <th className="text-left py-2 text-white">Category</th>
+                          <th className="text-center py-2 text-white">Score (1–5)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-blue-100">
+                        <tr className="border-b border-white/10">
+                          <td className="py-2">Problem Clarity</td>
+                          <td className="text-center py-2">
+                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-white/10">
+                          <td className="py-2">Market Size</td>
+                          <td className="text-center py-2">
+                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-white/10">
+                          <td className="py-2">Urgency/Frequency</td>
+                          <td className="text-center py-2">
+                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-white/10">
+                          <td className="py-2">Willingness to Pay</td>
+                          <td className="text-center py-2">
+                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-white/10">
+                          <td className="py-2">Early Interest</td>
+                          <td className="text-center py-2">
+                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
+                          </td>
+                        </tr>
+                        <tr className="font-semibold text-white">
+                          <td className="py-2">Total: ___ / 25</td>
+                          <td className="text-center py-2"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="mt-4 bg-yellow-500/20 border border-yellow-400/30 rounded p-3">
+                      <p className="text-yellow-100 text-sm">
+                        ➡️ <strong>If your score is under 15, dig deeper before building.</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Navbar */}
       <nav className="bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
