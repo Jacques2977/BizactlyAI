@@ -47,7 +47,6 @@ function AppContent() {
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showValidationChecklist, setShowValidationChecklist] = useState(false);
-  const [showGlobalChecklist, setShowGlobalChecklist] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
 
   const openAuthModal = (mode: 'login' | 'signup') => {
@@ -98,228 +97,6 @@ function AppContent() {
 
   const LandingPage = () => (
     <div className="min-h-screen bg-gray-950">
-      {/* Global Idea Validation Checklist - Always Accessible */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 mb-8">
-        <button
-          onClick={() => setShowGlobalChecklist(!showGlobalChecklist)}
-          className="w-full px-6 py-4 text-left hover:bg-white/50 transition-colors duration-200 flex items-center justify-between"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-              ✨ FEATURED
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">
-                Idea Validation Checklist
-              </h3>
-              <p className="text-sm text-gray-600">
-                10-step guide to validate your startup idea • ~10 minutes
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-500">
-              {showGlobalChecklist ? 'Click to collapse' : 'Click to expand'}
-            </span>
-            {showGlobalChecklist ? (
-              <ChevronUp className="w-5 h-5 text-gray-400" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-gray-400" />
-            )}
-          </div>
-        </button>
-
-        {/* Global Validation Checklist Content */}
-        {showGlobalChecklist && (
-          <div className="px-6 pb-6 border-t bg-white/30">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg mt-4">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-xl font-bold">Idea Validation Checklist</h4>
-                <button
-                  onClick={() => setShowGlobalChecklist(false)}
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              <p className="text-blue-100 mb-6">
-                A 10-step guide to ensure your startup idea is worth pursuing.
-                <br />
-                <strong>Time to complete: ~10 minutes</strong>
-              </p>
-
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">1. Problem Clarity</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Can you clearly explain the problem your startup solves in one sentence?</li>
-                    <li>• Is this a real pain point people face regularly?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ If not, talk to 5 people in your target audience today.</p>
-                  </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">2. Target Audience</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Who experiences this problem? Be specific (e.g. "freelance designers" not "everyone").</li>
-                    <li>• Can you define their demographics, behaviors, and needs?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ Use tools like UserPersona.dev or Google Forms for early research.</p>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">3. Frequency & Urgency</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• How often does the problem occur (daily, weekly)?</li>
-                    <li>• How urgent is solving it for them?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ Problems that are frequent + urgent tend to make better businesses.</p>
-                  </div>
-                </div>
-
-                {/* Step 4 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">4. Current Alternatives</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• How are people solving this now? (manual methods, spreadsheets, another app?)</li>
-                    <li>• What's bad or frustrating about those solutions?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ This reveals your unique angle or "unfair advantage."</p>
-                  </div>
-                </div>
-
-                {/* Step 5 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">5. Market Size</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Estimate how many people have this problem (use keyword search, Reddit groups, LinkedIn).</li>
-                    <li>• Is the market large enough to build a sustainable business?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ A niche market is okay if the need is strong and loyalty is high.</p>
-                  </div>
-                </div>
-
-                {/* Step 6 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">6. Willingness to Pay</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Would someone pay to solve this?</li>
-                    <li>• Have you asked anyone, "Would you pay $X for a solution to this?"</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ Even pre-revenue, gauging pay intent is key for validation.</p>
-                  </div>
-                </div>
-
-                {/* Step 7 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">7. Unique Insight or Advantage</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• What do you know (or can do) that others don't?</li>
-                    <li>• Why are you uniquely positioned to build this?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ This might be your background, tech stack, network, or insight.</p>
-                  </div>
-                </div>
-
-                {/* Step 8 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">8. Early Interest</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Have you shared this idea publicly? Gotten DMs, follows, or email signups?</li>
-                    <li>• Did anyone ask, "Can I try it?" or "When will it be ready?"</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ No reaction is data too—pivot or niche down.</p>
-                  </div>
-                </div>
-
-                {/* Step 9 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">9. Prototype Feedback</h5>
-                  <ul className="space-y-1 text-blue-100 text-sm">
-                    <li>• Do you have a landing page, mockup, or clickable prototype?</li>
-                    <li>• What was the feedback from real users (not just friends)?</li>
-                  </ul>
-                  <div className="mt-2 bg-green-500/20 border border-green-400/30 rounded p-2">
-                    <p className="text-green-100 text-sm">✅ Use Figma, Carrd, or Typedream to test fast.</p>
-                  </div>
-                </div>
-
-                {/* Step 10 */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border-l-4 border-blue-300">
-                  <h5 className="font-semibold text-lg mb-2">10. Pre-Validation Score</h5>
-                  <p className="text-blue-100 text-sm mb-3">Score your idea on the following (1–5 each):</p>
-                  
-                  <div className="bg-white/20 rounded-lg p-4">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-white/20">
-                          <th className="text-left py-2 text-white">Category</th>
-                          <th className="text-center py-2 text-white">Score (1–5)</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-blue-100">
-                        <tr className="border-b border-white/10">
-                          <td className="py-2">Problem Clarity</td>
-                          <td className="text-center py-2">
-                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
-                          </td>
-                        </tr>
-                        <tr className="border-b border-white/10">
-                          <td className="py-2">Market Size</td>
-                          <td className="text-center py-2">
-                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
-                          </td>
-                        </tr>
-                        <tr className="border-b border-white/10">
-                          <td className="py-2">Urgency/Frequency</td>
-                          <td className="text-center py-2">
-                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
-                          </td>
-                        </tr>
-                        <tr className="border-b border-white/10">
-                          <td className="py-2">Willingness to Pay</td>
-                          <td className="text-center py-2">
-                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
-                          </td>
-                        </tr>
-                        <tr className="border-b border-white/10">
-                          <td className="py-2">Early Interest</td>
-                          <td className="text-center py-2">
-                            <input type="number" min="1" max="5" className="w-16 px-2 py-1 rounded bg-white/20 text-white text-center border border-white/30" />
-                          </td>
-                        </tr>
-                        <tr className="font-semibold text-white">
-                          <td className="py-2">Total: ___ / 25</td>
-                          <td className="text-center py-2"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="mt-4 bg-yellow-500/20 border border-yellow-400/30 rounded p-3">
-                      <p className="text-yellow-100 text-sm">
-                        ➡️ <strong>If your score is under 15, dig deeper before building.</strong>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
       {/* Navbar */}
       <nav className="bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -986,10 +763,195 @@ function AppContent() {
                       <div>• Problem-solution fit validation</div>
                       <div>• Competitive analysis methods</div>
                     </div>
-                    <button className="text-green-400 hover:text-green-300 font-medium flex items-center space-x-1">
-                      <span>Read Guide</span>
-                      <ArrowRight className="w-4 h-4" />
+                    <button
+                      onClick={() => setShowValidationChecklist(!showValidationChecklist)}
+                      className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Read Guide
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </button>
+
+                    {/* Collapsible Validation Checklist */}
+                    {showValidationChecklist && (
+                      <div className="border-t border-gray-200 bg-white">
+                        <div className="p-6 relative">
+                          <button
+                            onClick={() => setShowValidationChecklist(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
+
+                          <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg mb-6">
+                            <h3 className="text-2xl font-bold mb-2">💡 Idea Validation Checklist</h3>
+                            <p className="text-blue-100">
+                              A comprehensive 10-step framework to validate your startup idea before building your MVP.
+                            </p>
+                          </div>
+
+                          <div className="space-y-6">
+                            {[
+                              {
+                                step: 1,
+                                title: "Problem Definition",
+                                questions: [
+                                  "What specific problem does your idea solve?",
+                                  "Who experiences this problem most acutely?",
+                                  "How are people currently solving this problem?"
+                                ],
+                                action: "Write a clear problem statement in one sentence"
+                              },
+                              {
+                                step: 2,
+                                title: "Target Market Research",
+                                questions: [
+                                  "Who is your ideal customer?",
+                                  "What is the size of your target market?",
+                                  "What are their demographics and psychographics?"
+                                ],
+                                action: "Create detailed buyer personas for your top 3 customer segments"
+                              },
+                              {
+                                step: 3,
+                                title: "Competitive Analysis",
+                                questions: [
+                                  "Who are your direct and indirect competitors?",
+                                  "What are their strengths and weaknesses?",
+                                  "What makes your solution different?"
+                                ],
+                                action: "List 5 competitors and analyze their pricing, features, and market position"
+                              },
+                              {
+                                step: 4,
+                                title: "Value Proposition",
+                                questions: [
+                                  "What unique value do you provide?",
+                                  "Why would customers choose you over alternatives?",
+                                  "What's your unfair advantage?"
+                                ],
+                                action: "Write a compelling value proposition using the formula: We help [target] achieve [benefit] by [unique approach]"
+                              },
+                              {
+                                step: 5,
+                                title: "Customer Interviews",
+                                questions: [
+                                  "Have you talked to potential customers?",
+                                  "What did you learn from these conversations?",
+                                  "Do they confirm your assumptions?"
+                                ],
+                                action: "Conduct 10+ customer interviews and document key insights"
+                              },
+                              {
+                                step: 6,
+                                title: "Market Demand Validation",
+                                questions: [
+                                  "Is there proven demand for your solution?",
+                                  "Are people actively searching for solutions?",
+                                  "What's the search volume for related keywords?"
+                                ],
+                                action: "Use Google Trends, keyword tools, and social media to gauge demand"
+                              },
+                              {
+                                step: 7,
+                                title: "Business Model Viability",
+                                questions: [
+                                  "How will you make money?",
+                                  "What are your revenue streams?",
+                                  "What are your key costs and margins?"
+                                ],
+                                action: "Create a simple financial model showing path to profitability"
+                              },
+                              {
+                                step: 8,
+                                title: "Technical Feasibility",
+                                questions: [
+                                  "Can you build this solution?",
+                                  "What technical challenges exist?",
+                                  "Do you have the right team/skills?"
+                                ],
+                                action: "Assess technical requirements and identify potential roadblocks"
+                              },
+                              {
+                                step: 9,
+                                title: "Go-to-Market Strategy",
+                                questions: [
+                                  "How will you reach your customers?",
+                                  "What are your marketing channels?",
+                                  "What's your customer acquisition cost?"
+                                ],
+                                action: "Outline your marketing strategy and customer acquisition plan"
+                              },
+                              {
+                                step: 10,
+                                title: "Risk Assessment",
+                                questions: [
+                                  "What could go wrong?",
+                                  "What are your biggest assumptions?",
+                                  "How will you mitigate key risks?"
+                                ],
+                                action: "List top 5 risks and create mitigation strategies for each"
+                              }
+                            ].map((item) => (
+                              <div key={item.step} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                                <div className="flex items-start space-x-4">
+                                  <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
+                                    {item.step}
+                                  </div>
+                                  <div className="flex-1">
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-3 border-l-4 border-blue-500 pl-3">
+                                      {item.title}
+                                    </h4>
+                                    <div className="space-y-2 mb-4">
+                                      {item.questions.map((question, idx) => (
+                                        <p key={idx} className="text-gray-700 flex items-start">
+                                          <span className="text-blue-500 mr-2">•</span>
+                                          {question}
+                                        </p>
+                                      ))}
+                                    </div>
+                                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                                      <p className="text-green-800 flex items-start">
+                                        <span className="text-green-600 mr-2">✓</span>
+                                        <strong>Action:</strong> {item.action}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Scoring Section */}
+                          <div className="mt-8 bg-gray-50 rounded-lg p-6">
+                            <h4 className="text-lg font-semibold text-gray-900 mb-4">📊 Validation Score</h4>
+                            <p className="text-gray-600 mb-4">
+                              Rate each step from 1-10 based on how confident you are in your answers:
+                            </p>
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                              {Array.from({ length: 10 }, (_, i) => (
+                                <div key={i} className="flex items-center space-x-2">
+                                  <label className="text-sm font-medium text-gray-700">
+                                    Step {i + 1}:
+                                  </label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="10"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center"
+                                    placeholder="1-10"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                              <p className="text-blue-800 text-sm">
+                                <strong>Scoring Guide:</strong> 70+ = Strong validation, proceed with MVP • 50-69 = Moderate validation, address weak areas • Below 50 = Significant concerns, pivot or iterate
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
@@ -1171,53 +1133,6 @@ function AppContent() {
                   ))}
                 </div>
               </div>
-                    
-                    {/* Collapsible Validation Checklist */}
-                    {showValidationChecklist && (
-                      <div className="mt-6 pt-6 border-t border-gray-200">
-                        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-lg font-bold text-gray-900">Idea Validation Checklist</h4>
-                            <button
-                              onClick={() => setShowValidationChecklist(false)}
-                              className="text-gray-400 hover:text-gray-600"
-                            >
-                              <X className="w-5 h-5" />
-                            </button>
-                          </div>
-                          <p className="text-gray-600 mb-6">
-                            A 10-step guide to ensure your startup idea is worth pursuing.<br />
-                            <strong>Time to complete: ~10 minutes</strong>
-                          </p>
-                          
-                          <div className="space-y-6">
-                            {/* Step 1 */}
-                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
-                              <h5 className="font-bold text-gray-900 mb-2">1. Problem Clarity</h5>
-                              <ul className="text-gray-600 space-y-1 mb-3">
-                                <li>• Can you clearly explain the problem your startup solves in one sentence?</li>
-                                <li>• Is this a real pain point people face regularly?</li>
-                              </ul>
-                              <div className="bg-green-50 border border-green-200 rounded p-2">
-                                <p className="text-green-800 text-sm">✅ If not, talk to 5 people in your target audience today.</p>
-                              </div>
-                            </div>
-
-                            {/* Step 2 */}
-                            <div className="bg-white rounded-lg p-4 border-l-4 border-blue-500">
-                              <h5 className="font-bold text-gray-900 mb-2">2. Target Audience</h5>
-                              <ul className="text-gray-600 space-y-1 mb-3">
-                                <li>• Who experiences this problem? Be specific (e.g. "freelance designers" not "everyone").</li>
-                                <li>• Can you define their demographics, behaviors, and needs?</li>
-                              </ul>
-                              <div className="bg-green-50 border border-green-200 rounded p-2">
-                                <p className="text-green-800 text-sm">✅ Use tools like UserPersona.dev or Google Forms for early research.</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
             </div>
           </div>
         )}
