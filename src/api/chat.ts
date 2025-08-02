@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { retrieveRelevantKnowledge, KnowledgeItem } from '../data/knowledgeBase';
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
@@ -59,9 +60,23 @@ INFORMATION SHARING:
 Remember: You're not just answering questions - you're having a meaningful conversation that helps founders build successful businesses. Be thorough, insightful, and genuinely helpful.
 `;
 
-function formatMessages(history: ChatMessage[], userMessage: string) {
+function formatMessages(history: ChatMessage[], userMessage: string, relevantKnowledge: KnowledgeItem[] = []) {
+  // Create context from retrieved knowledge
+  let contextPrompt = SYSTEM_PROMPT;
+  
+  if (relevantKnowledge.length > 0) {
+    contextPrompt += `\n\nRELEVANT KNOWLEDGE BASE:\n`;
+    relevantKnowledge.forEach((item, index) => {
+      contextPrompt += `\n${index + 1}. ${item.title} (Category: ${item.category})\n`;
+      contextPrompt += `${item.content}\n`;
+      contextPrompt += `Tags: ${item.tags.join(', ')}\n`;
+      contextPrompt += `---\n`;
+    });
+    contextPrompt += `\nUse this knowledge base information to provide more detailed, accurate, and helpful responses. Reference specific frameworks, metrics, and examples from the knowledge base when relevant to the user's question.\n`;
+  }
+
   return [
-    { role: 'system' as const, content: SYSTEM_PROMPT },
+    { role: 'system' as const, content: contextPrompt },
     ...history.map(msg => ({
       role: msg.type === 'user' ? 'user' : 'assistant',
       content: msg.content,
@@ -79,9 +94,14 @@ export async function sendMessageToAI(
   }
 
   try {
+    // Retrieve relevant knowledge using RAG
+    const relevantKnowledge = retrieveRelevantKnowledge(message, 3);
+    
+    console.log('Retrieved knowledge:', relevantKnowledge.map(k => k.title));
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
-      messages: formatMessages(history, message),
+      messages: formatMessages(history, message, relevantKnowledge),
       temperature: 0.8,
       max_tokens: 1200,
       presence_penalty: 0.1,
