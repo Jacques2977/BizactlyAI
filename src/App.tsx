@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/AuthModal';
 import { Logo } from './components/Logo';
-import { sendMessageToAI, type ChatMessage } from './api/chat';
+import { sendMessage, type ChatMessage } from './api/chat';
 import { 
   Rocket, 
   BarChart3, 
@@ -73,7 +73,7 @@ function AppContent() {
     
     try {
       // Get AI response from OpenAI
-      const aiResponseContent = await sendMessageToAI(messageToSend, chatMessages);
+      const aiResponseContent = await sendMessage(messageToSend, chatMessages);
       
       const aiResponse: ChatMessageState = {
         id: Date.now() + 1,
