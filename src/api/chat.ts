@@ -1,3 +1,5 @@
+import { retrieveRelevantKnowledge } from '../data/knowledgeBase';
+
 export async function sendMessage(message: string): Promise<string> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
