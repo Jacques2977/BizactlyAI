@@ -80,7 +80,7 @@ export async function sendMessageToAI(
 
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o',
       messages: formatMessages(history, message),
       temperature: 0.8,
       max_tokens: 1200,
