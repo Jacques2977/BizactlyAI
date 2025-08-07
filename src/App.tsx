@@ -1254,27 +1254,6 @@ function AppContent() {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-              placeholder="Describe your startup idea or ask for guidance..."
-              className="flex-1 px-4 py-3 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-800 text-white placeholder-gray-400"
-              autoComplete="off"
-              autoFocus
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!newMessage.trim()}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </div>
-          <div className="mt-2 text-xs text-gray-400">
-            Press Enter to send • {newMessage.length}/500 characters
-          </div>
         </div>
       </div>
     </div>
