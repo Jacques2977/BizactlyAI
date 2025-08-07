@@ -436,6 +436,20 @@ function AppContent() {
                 </button>
               </div>
             </div>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-4">
+                  <Rocket className="w-8 h-8 text-purple-500 mr-3" />
+                  <h3 className="text-lg font-semibold text-gray-900">MVP Planner</h3>
+                </div>
+                <p className="text-gray-600 mb-4">Create a detailed MVP plan with prioritized features and timeline.</p>
+                <button
+                  onClick={() => setActiveView('mvp-planner')}
+                  className="w-full bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors"
+                >
+                  Build MVP Plan
+                </button>
+              </div>
+
 
             {/* Personalized Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
