@@ -127,13 +127,13 @@ function AppContent() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 relative z-10">
-            AI Startup Coach for{' '}
+            AI Cofounder Platform for{' '}
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-              First-Time Founders
+              SaaS Startups
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto relative z-10">
-            Validate your idea, plan your MVP, and launch fast — all with AI.
+            From idea to $10K MRR — your AI cofounder handles validation, MVP planning, and growth strategy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
             <button
@@ -157,7 +157,7 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
-            <p className="text-xl text-gray-300">Three simple steps to launch your startup</p>
+            <p className="text-xl text-gray-300">Three simple steps to launch your SaaS</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -165,8 +165,8 @@ function AppContent() {
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/25">
                 <span className="text-2xl font-bold text-white">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-4">Describe your idea</h3>
-              <p className="text-gray-300">Tell our AI about your startup concept and target market</p>
+              <h3 className="text-xl font-semibold text-white mb-4">Describe your SaaS idea</h3>
+              <p className="text-gray-300">Tell our AI about your SaaS concept, target market, and business model</p>
               <ArrowRight className="w-6 h-6 text-gray-500 mx-auto mt-4 hidden md:block" />
             </div>
             
@@ -174,8 +174,8 @@ function AppContent() {
               <div className="bg-gradient-to-r from-purple-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-500/25">
                 <span className="text-2xl font-bold text-white">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-4">Get AI-guided MVP plan</h3>
-              <p className="text-gray-300">Receive a detailed roadmap with features, timeline, and strategy</p>
+              <h3 className="text-xl font-semibold text-white mb-4">Get AI-guided SaaS blueprint</h3>
+              <p className="text-gray-300">Receive a detailed roadmap with features, pricing strategy, and go-to-market plan</p>
               <ArrowRight className="w-6 h-6 text-gray-500 mx-auto mt-4 hidden md:block" />
             </div>
             
@@ -183,8 +183,8 @@ function AppContent() {
               <div className="bg-gradient-to-r from-green-500 to-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/25">
                 <span className="text-2xl font-bold text-white">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-4">Launch with confidence</h3>
-              <p className="text-gray-300">Execute your plan with ongoing AI coaching and support</p>
+              <h3 className="text-xl font-semibold text-white mb-4">Scale to $10K MRR</h3>
+              <p className="text-gray-300">Execute your plan with AI-driven growth tactics and revenue optimization</p>
             </div>
           </div>
         </div>
@@ -195,32 +195,32 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">Features</h2>
-            <p className="text-xl text-gray-300">Everything you need to validate and launch your startup</p>
+            <p className="text-xl text-gray-300">Everything you need to build and scale your SaaS</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:border-blue-500/50">
               <CheckCircle className="w-8 h-8 text-green-500 mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Idea Validator</h3>
-              <p className="text-gray-300">Validate your startup idea with AI-powered market analysis and feedback</p>
+              <h3 className="text-lg font-semibold text-white mb-2">SaaS Idea Validator</h3>
+              <p className="text-gray-300">Validate your SaaS concept with market analysis, competitor research, and demand forecasting</p>
             </div>
             
             <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 hover:border-purple-500/50">
               <CheckCircle className="w-8 h-8 text-green-500 mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">MVP Feature Builder</h3>
-              <p className="text-gray-300">Get a prioritized list of features for your minimum viable product</p>
+              <h3 className="text-lg font-semibold text-white mb-2">SaaS MVP Planner</h3>
+              <p className="text-gray-300">Get a prioritized feature roadmap, tech stack recommendations, and development timeline</p>
             </div>
             
             <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:border-indigo-500/50">
               <CheckCircle className="w-8 h-8 text-green-500 mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Lean Canvas Generator</h3>
-              <p className="text-gray-300">Automatically generate business model canvases for your startup</p>
+              <h3 className="text-lg font-semibold text-white mb-2">Pricing Strategy AI</h3>
+              <p className="text-gray-300">Generate optimal pricing tiers, freemium models, and revenue projections for your SaaS</p>
             </div>
             
             <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700 hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300 hover:border-pink-500/50">
               <CheckCircle className="w-8 h-8 text-green-500 mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Launch Strategy Planner</h3>
-              <p className="text-gray-300">Get step-by-step launch plans and growth tactics</p>
+              <h3 className="text-lg font-semibold text-white mb-2">Growth Engine</h3>
+              <p className="text-gray-300">AI-powered customer acquisition, retention strategies, and path to $10K MRR</p>
             </div>
           </div>
         </div>
@@ -241,9 +241,9 @@ function AppContent() {
                 ))}
               </div>
               <blockquote className="text-xl text-white mb-4">
-                "This tool helped me turn an idea into a product! The AI guidance was incredibly valuable for a first-time founder like me."
+                "BizactlyAI helped me go from idea to $8K MRR in 4 months. The pricing strategy and growth tactics were game-changing!"
               </blockquote>
-              <cite className="text-gray-300 font-medium">— Early User</cite>
+              <cite className="text-gray-300 font-medium">— Sarah Chen, Founder of TaskFlow SaaS</cite>
             </div>
           </div>
         </div>
@@ -254,12 +254,12 @@ function AppContent() {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4 relative z-10">Ready to build your SaaS?</h2>
-          <p className="text-xl text-blue-100 mb-8 relative z-10">Join thousands of founders who've launched with BizactlyAI</p>
+          <p className="text-xl text-blue-100 mb-8 relative z-10">Join 500+ SaaS founders who've reached $10K+ MRR with BizactlyAI</p>
           <button
             onClick={() => handleAuthClick('signup')}
             className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg hover:shadow-white/25 transition-all duration-300 relative z-10"
           >
-            Start Free
+            Start Building Your SaaS
           </button>
         </div>
       </section>
@@ -374,44 +374,44 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 Welcome back, {user?.name}!
               </h1>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Continue building your startup with AI-powered guidance.
+                Continue building your SaaS with your AI cofounder.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
                 <MessageSquare className="w-8 h-8 text-blue-500 mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">AI Startup Coach</h3>
-                <p className="text-gray-300 mb-4">Get personalized advice on idea validation, market research, and growth strategies.</p>
+                <h3 className="text-lg font-semibold text-white mb-2">AI SaaS Cofounder</h3>
+                <p className="text-gray-300 mb-4">Get personalized advice on SaaS validation, pricing strategy, and scaling to $10K MRR.</p>
                 <button
                   onClick={() => setActiveView('chat')}
                   className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                 >
-                  Start Coaching →
+                  Chat with AI Cofounder →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
                 <BarChart3 className="w-8 h-8 text-green-500 mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">Analytics Dashboard</h3>
-                <p className="text-gray-300 mb-4">Track your startup progress with key metrics and insights.</p>
+                <h3 className="text-lg font-semibold text-white mb-2">SaaS Metrics Dashboard</h3>
+                <p className="text-gray-300 mb-4">Track MRR, churn, CAC, LTV, and other critical SaaS metrics.</p>
                 <button
                   onClick={() => setActiveView('analytics')}
                   className="text-green-400 hover:text-green-300 font-medium transition-colors"
                 >
-                  View Analytics →
+                  View SaaS Metrics →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
                 <BookOpen className="w-8 h-8 text-purple-500 mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">Learning Resources</h3>
-                <p className="text-gray-300 mb-4">Access curated content, templates, and guides for founders.</p>
+                <h3 className="text-lg font-semibold text-white mb-2">SaaS Playbooks</h3>
+                <p className="text-gray-300 mb-4">Access proven SaaS templates, growth playbooks, and scaling strategies.</p>
                 <button
                   onClick={() => setActiveView('resources')}
                   className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
                 >
-                  Explore Resources →
+                  Access Playbooks →
                 </button>
               </div>
             </div>
@@ -420,16 +420,16 @@ function DashboardView({ onBack }: { onBack: () => void }) {
             <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg p-8 text-white shadow-xl">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
-                  <div className="text-3xl font-bold mb-2">10,000+</div>
-                  <div className="text-blue-100">Ideas Validated</div>
+                  <div className="text-3xl font-bold mb-2">500+</div>
+                  <div className="text-blue-100">SaaS Launched</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold mb-2">5,000+</div>
-                  <div className="text-blue-100">MVPs Launched</div>
+                  <div className="text-3xl font-bold mb-2">$2.5M+</div>
+                  <div className="text-blue-100">Total MRR Generated</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold mb-2">95%</div>
-                  <div className="text-blue-100">Success Rate</div>
+                  <div className="text-3xl font-bold mb-2">4.2 months</div>
+                  <div className="text-blue-100">Avg. Time to $10K MRR</div>
                 </div>
               </div>
             </div>
@@ -438,42 +438,29 @@ function DashboardView({ onBack }: { onBack: () => void }) {
 
         {activeView === 'analytics' && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Analytics Dashboard</h2>
+            <h2 className="text-2xl font-bold text-white">SaaS Metrics Dashboard</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-400">Total Sessions</p>
-                    <p className="text-2xl font-bold text-white">1,234</p>
+                    <p className="text-sm font-medium text-gray-400">Monthly Recurring Revenue</p>
+                    <p className="text-2xl font-bold text-white">$8,450</p>
                   </div>
                   <div className="text-green-500">
                     <BarChart3 className="w-8 h-8" />
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">+12% from last month</p>
+                <p className="text-xs text-gray-400 mt-2">+23% from last month</p>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-400">Ideas Validated</p>
-                    <p className="text-2xl font-bold text-white">89</p>
+                    <p className="text-sm font-medium text-gray-400">Active Customers</p>
+                    <p className="text-2xl font-bold text-white">127</p>
                   </div>
                   <div className="text-blue-500">
                     <MessageSquare className="w-8 h-8" />
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">+8% from last month</p>
-              </div>
-
-              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400">MVPs Created</p>
-                    <p className="text-2xl font-bold text-white">23</p>
-                  </div>
-                  <div className="text-purple-500">
-                    <BookOpen className="w-8 h-8" />
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">+15% from last month</p>
@@ -482,14 +469,27 @@ function DashboardView({ onBack }: { onBack: () => void }) {
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-400">Success Rate</p>
-                    <p className="text-2xl font-bold text-white">94%</p>
+                    <p className="text-sm font-medium text-gray-400">Churn Rate</p>
+                    <p className="text-2xl font-bold text-white">2.1%</p>
+                  </div>
+                  <div className="text-purple-500">
+                    <BookOpen className="w-8 h-8" />
+                  </div>
+                </div>
+                <p className="text-xs text-gray-400 mt-2">-0.8% from last month</p>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-400">Customer LTV</p>
+                    <p className="text-2xl font-bold text-white">$2,340</p>
                   </div>
                   <div className="text-green-500">
                     <BarChart3 className="w-8 h-8" />
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">+2% from last month</p>
+                <p className="text-xs text-gray-400 mt-2">+12% from last month</p>
               </div>
             </div>
 
@@ -498,17 +498,17 @@ function DashboardView({ onBack }: { onBack: () => void }) {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Validated idea: "AI-powered fitness app"</span>
+                  <span className="text-sm text-gray-300">New customer: Enterprise plan upgrade (+$299 MRR)</span>
                   <span className="text-xs text-gray-400">2 hours ago</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Created MVP plan for SaaS platform</span>
+                  <span className="text-sm text-gray-300">Pricing optimization: 18% conversion rate increase</span>
                   <span className="text-xs text-gray-400">1 day ago</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Completed market research session</span>
+                  <span className="text-sm text-gray-300">Feature launch: Advanced analytics dashboard</span>
                   <span className="text-xs text-gray-400">3 days ago</span>
                 </div>
               </div>
@@ -518,84 +518,84 @@ function DashboardView({ onBack }: { onBack: () => void }) {
 
         {activeView === 'resources' && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Learning Resources</h2>
+            <h2 className="text-2xl font-bold text-white">SaaS Growth Playbooks</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Startup Fundamentals</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">SaaS Validation Playbook</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• Idea Validation Framework</li>
-                  <li>• Market Research Guide</li>
-                  <li>• Customer Interview Templates</li>
-                  <li>• Competitive Analysis Tools</li>
+                  <li>• SaaS Market Sizing Framework</li>
+                  <li>• B2B Customer Interview Scripts</li>
+                  <li>• Competitor Analysis Templates</li>
+                  <li>• Problem-Solution Fit Metrics</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Access Playbook →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">MVP Development</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">SaaS MVP Blueprint</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• MVP Planning Templates</li>
-                  <li>• Feature Prioritization</li>
-                  <li>• User Story Mapping</li>
-                  <li>• Prototype Tools</li>
+                  <li>• Feature Prioritization Matrix</li>
+                  <li>• Tech Stack Recommendations</li>
+                  <li>• User Onboarding Flows</li>
+                  <li>• MVP Launch Checklist</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Access Blueprint →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Growth & Marketing</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">SaaS Pricing Mastery</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• Growth Hacking Strategies</li>
-                  <li>• Content Marketing Guide</li>
-                  <li>• Social Media Templates</li>
-                  <li>• Analytics Setup</li>
+                  <li>• Pricing Psychology Framework</li>
+                  <li>• Freemium vs. Trial Strategies</li>
+                  <li>• Value-Based Pricing Models</li>
+                  <li>• Price Testing Methodologies</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Master Pricing →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Funding & Investment</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">$10K MRR Roadmap</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• Pitch Deck Templates</li>
-                  <li>• Financial Modeling</li>
-                  <li>• Investor Outreach</li>
-                  <li>• Term Sheet Guide</li>
+                  <li>• Customer Acquisition Channels</li>
+                  <li>• Retention & Expansion Tactics</li>
+                  <li>• Revenue Optimization Guide</li>
+                  <li>• Scaling Team & Operations</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Get Roadmap →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Legal & Operations</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">SaaS Metrics & Analytics</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• Business Structure Guide</li>
-                  <li>• Contract Templates</li>
-                  <li>• IP Protection</li>
-                  <li>• Compliance Checklist</li>
+                  <li>• Key SaaS Metrics Dashboard</li>
+                  <li>• Cohort Analysis Templates</li>
+                  <li>• Churn Prediction Models</li>
+                  <li>• Growth Attribution Setup</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Setup Analytics →
                 </button>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-white mb-3">Tools & Templates</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">SaaS Fundraising Kit</h3>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li>• Business Model Canvas</li>
-                  <li>• Lean Canvas Template</li>
-                  <li>• OKR Framework</li>
-                  <li>• Roadmap Planning</li>
+                  <li>• SaaS Pitch Deck Template</li>
+                  <li>• Financial Model Builder</li>
+                  <li>• Investor Outreach Scripts</li>
+                  <li>• Due Diligence Checklist</li>
                 </ul>
                 <button className="mt-4 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">
-                  Access Resources →
+                  Get Fundraising Kit →
                 </button>
               </div>
             </div>
