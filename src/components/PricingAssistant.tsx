@@ -45,7 +45,6 @@ export const PricingAssistant: React.FC<PricingAssistantProps> = ({ onClose }) =
   };
 
   const PricingTierCard: React.FC<{ tier: PricingTier }> = ({ tier }) => (
-    <div className={`relative bg-white border-2 rounded-lg p-6 ${
     <div className={`relative bg-gray-800 border-2 rounded-lg p-6 ${
       tier.popular ? 'border-blue-500 shadow-lg' : 'border-gray-700'
     }`}>
