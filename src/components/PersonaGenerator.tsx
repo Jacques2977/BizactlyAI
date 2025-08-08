@@ -1,0 +1,313 @@
+import React, { useState } from 'react';
+import { Users, MapPin, Briefcase, Heart, Target, MessageCircle } from 'lucide-react';
+import { generatePersonas, PersonaGenerationResult, UserPersona } from '../api/personaGenerator';
+
+interface PersonaGeneratorProps {
+  onClose: () => void;
+}
+
+export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    productDescription: '',
+    targetMarket: '',
+    businessModel: '',
+  });
+  const [personaResult, setPersonaResult] = useState<PersonaGenerationResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleGeneratePersonas = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const result = await generatePersonas(
+        formData.productDescription,
+        formData.targetMarket,
+        formData.businessModel
+      );
+      setPersonaResult(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to generate personas');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const PersonaCard: React.FC<{ persona: UserPersona; isPrimary: boolean }> = ({ persona, isPrimary }) => (
+    <div className={`bg-white border-2 rounded-lg p-6 ${isPrimary ? 'border-blue-500' : 'border-gray-200'}`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          <div className="text-3xl">{persona.avatar}</div>
+          <div>
+            <h4 className="text-xl font-bold text-gray-900">{persona.name}</h4>
+            <p className="text-gray-600">{persona.jobTitle} at {persona.company}</p>
+          </div>
+        </div>
+        {isPrimary && (
+          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+            Primary
+          </span>
+        )}
+      </div>
+
+      {/* Demographics */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+          <MapPin className="w-4 h-4 mr-1" />
+          Demographics
+        </h5>
+        <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+          <div><strong>Age:</strong> {persona.age}</div>
+          <div><strong>Location:</strong> {persona.demographics.location}</div>
+          <div><strong>Income:</strong> {persona.demographics.income}</div>
+          <div><strong>Education:</strong> {persona.demographics.education}</div>
+        </div>
+      </div>
+
+      {/* Goals & Frustrations */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+          <Target className="w-4 h-4 mr-1" />
+          Goals & Frustrations
+        </h5>
+        <div className="space-y-2">
+          <div>
+            <span className="text-xs font-medium text-green-600 uppercase">Goals:</span>
+            <ul className="text-sm text-gray-700 ml-2">
+              {persona.psychographics.goals.map((goal, index) => (
+                <li key={index}>• {goal}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <span className="text-xs font-medium text-red-600 uppercase">Frustrations:</span>
+            <ul className="text-sm text-gray-700 ml-2">
+              {persona.psychographics.frustrations.map((frustration, index) => (
+                <li key={index}>• {frustration}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Pain Points */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+          <Heart className="w-4 h-4 mr-1" />
+          Pain Points
+        </h5>
+        <ul className="text-sm text-gray-700 space-y-1">
+          {persona.painPoints.map((pain, index) => (
+            <li key={index} className="flex items-start space-x-2">
+              <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></span>
+              <span>{pain}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Behavior */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+          <Briefcase className="w-4 h-4 mr-1" />
+          Behavior
+        </h5>
+        <div className="text-sm text-gray-600 space-y-1">
+          <div><strong>Tech Savviness:</strong> {persona.behavior.techSavviness}</div>
+          <div><strong>Buying Process:</strong> {persona.behavior.buyingProcess}</div>
+          <div>
+            <strong>Preferred Channels:</strong>
+            <div className="flex flex-wrap gap-1 mt-1">
+              {persona.behavior.preferredChannels.map((channel, index) => (
+                <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                  {channel}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quote */}
+      <div className="bg-gray-50 border-l-4 border-blue-500 p-3 rounded">
+        <MessageCircle className="w-4 h-4 text-blue-500 mb-1" />
+        <p className="text-sm italic text-gray-700">"{persona.quote}"</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col h-full bg-white">
+      {/* Header */}
+      <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r from-purple-500 to-pink-600">
+        <div className="flex items-center space-x-3">
+          <Users className="w-8 h-8 text-white" />
+          <div>
+            <h3 className="text-xl font-bold text-white">Persona Generator</h3>
+            <p className="text-purple-100 text-sm">Create detailed user personas</p>
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-white hover:text-purple-200 transition-colors text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6">
+        {!personaResult ? (
+          /* Input Form */
+          <form onSubmit={handleGeneratePersonas} className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Product Description *
+              </label>
+              <textarea
+                name="productDescription"
+                value={formData.productDescription}
+                onChange={handleInputChange}
+                required
+                rows={4}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Describe your product or service. What does it do? What problems does it solve?"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Target Market *
+              </label>
+              <input
+                type="text"
+                name="targetMarket"
+                value={formData.targetMarket}
+                onChange={handleInputChange}
+                required
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Who is your target market? (e.g., small business owners, marketing professionals, students)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Business Model (Optional)
+              </label>
+              <input
+                type="text"
+                name="businessModel"
+                value={formData.businessModel}
+                onChange={handleInputChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="How do you make money? (e.g., subscription, one-time purchase, freemium)"
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Generating Personas...</span>
+                </div>
+              ) : (
+                'Generate User Personas'
+              )}
+            </button>
+          </form>
+        ) : (
+          /* Persona Results */
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Your User Personas</h3>
+              <p className="text-gray-600">Detailed profiles of your target customers</p>
+            </div>
+
+            {/* Personas */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <PersonaCard persona={personaResult.primaryPersona} isPrimary={true} />
+              <PersonaCard persona={personaResult.secondaryPersona} isPrimary={false} />
+            </div>
+
+            {/* Insights */}
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6">
+              <h4 className="text-xl font-bold text-gray-900 mb-4">Strategic Insights</h4>
+              
+              <div className="space-y-4">
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-2">Market Segmentation</h5>
+                  <p className="text-gray-700 text-sm">{personaResult.insights.marketSegmentation}</p>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-2">Targeting Strategy</h5>
+                  <p className="text-gray-700 text-sm">{personaResult.insights.targetingStrategy}</p>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-2">Messaging Recommendations</h5>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    {personaResult.insights.messagingRecommendations.map((message, index) => (
+                      <li key={index} className="flex items-start space-x-2">
+                        <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
+                        <span>{message}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-2">Channel Recommendations</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {personaResult.insights.channelRecommendations.map((channel, index) => (
+                      <span key={index} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                        {channel}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setPersonaResult(null)}
+                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+              >
+                Generate New Personas
+              </button>
+              <button
+                onClick={() => {
+                  const resultText = JSON.stringify(personaResult, null, 2);
+                  navigator.clipboard.writeText(resultText);
+                }}
+                className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                Copy Personas
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

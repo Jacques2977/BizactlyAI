@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star, Edit3, TrendingUp } from 'lucide-react';
+import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star, Edit3, TrendingUp, Search, Rocket, Users, Target, DollarSign } from 'lucide-react';
 import { Logo } from './components/Logo';
 import { ChatInterface } from './components/ChatInterface';
 import { AuthModal } from './components/AuthModal';
 import { MetricsUpdateModal } from './components/MetricsUpdateModal';
 import { ProgressTracker } from './components/ProgressTracker';
+import { IdeaValidator } from './components/IdeaValidator';
+import { MVPPlanner } from './components/MVPPlanner';
+import { PersonaGenerator } from './components/PersonaGenerator';
+import { LaunchPlanAssistant } from './components/LaunchPlanAssistant';
+import { PricingAssistant } from './components/PricingAssistant';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useUserMetrics } from './hooks/useUserMetrics';
 
@@ -299,7 +304,7 @@ function AppContent() {
 
 // Dashboard Component (existing functionality)
 function DashboardView({ onBack }: { onBack: () => void }) {
-  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources'>('overview');
+  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources' | 'idea-validator' | 'mvp-planner' | 'persona-generator' | 'launch-plan' | 'pricing-assistant'>('overview');
   const [isMetricsModalOpen, setIsMetricsModalOpen] = useState(false);
   const { user, logout } = useAuth();
   const { metrics, progress, isLoading, updateMetrics } = useUserMetrics();
@@ -372,6 +377,36 @@ function DashboardView({ onBack }: { onBack: () => void }) {
           </div>
         )}
 
+        {activeView === 'idea-validator' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <IdeaValidator onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
+        {activeView === 'mvp-planner' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <MVPPlanner onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
+        {activeView === 'persona-generator' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <PersonaGenerator onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
+        {activeView === 'launch-plan' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <LaunchPlanAssistant onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
+        {activeView === 'pricing-assistant' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <PricingAssistant onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
         {activeView === 'overview' && (
           <div className="space-y-8">
             <div className="text-center">
@@ -418,6 +453,72 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 >
                   Access Playbooks →
                 </button>
+              </div>
+            </div>
+
+            {/* Startup Tools Section */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-white">SaaS Startup Tools</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
+                  <Search className="w-8 h-8 text-blue-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">Idea Validator</h3>
+                  <p className="text-gray-300 mb-4">Analyze your SaaS idea with market research, competition analysis, and improvement suggestions.</p>
+                  <button
+                    onClick={() => setActiveView('idea-validator')}
+                    className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                  >
+                    Validate Idea →
+                  </button>
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+                  <Rocket className="w-8 h-8 text-purple-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">MVP Prioritizer</h3>
+                  <p className="text-gray-300 mb-4">Get a prioritized feature roadmap and development timeline for your MVP.</p>
+                  <button
+                    onClick={() => setActiveView('mvp-planner')}
+                    className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+                  >
+                    Plan MVP →
+                  </button>
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300">
+                  <Users className="w-8 h-8 text-pink-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">Persona Generator</h3>
+                  <p className="text-gray-300 mb-4">Create detailed user personas with demographics, pain points, and behavior patterns.</p>
+                  <button
+                    onClick={() => setActiveView('persona-generator')}
+                    className="text-pink-400 hover:text-pink-300 font-medium transition-colors"
+                  >
+                    Generate Personas →
+                  </button>
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+                  <Target className="w-8 h-8 text-green-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">Launch Plan Assistant</h3>
+                  <p className="text-gray-300 mb-4">Get a comprehensive go-to-market strategy with actionable tasks and timelines.</p>
+                  <button
+                    onClick={() => setActiveView('launch-plan')}
+                    className="text-green-400 hover:text-green-300 font-medium transition-colors"
+                  >
+                    Create Launch Plan →
+                  </button>
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-yellow-500/10 transition-all duration-300">
+                  <DollarSign className="w-8 h-8 text-yellow-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">Pricing Assistant</h3>
+                  <p className="text-gray-300 mb-4">Optimize your pricing strategy with psychological insights and competitive analysis.</p>
+                  <button
+                    onClick={() => setActiveView('pricing-assistant')}
+                    className="text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
+                  >
+                    Optimize Pricing →
+                  </button>
+                </div>
               </div>
             </div>
 
