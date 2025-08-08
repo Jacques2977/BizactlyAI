@@ -123,6 +123,7 @@ function AppContent() {
                     Logout
                   </button>
                 </div>
+            </div>
             )}
 
             {activeView === 'analytics' && (
