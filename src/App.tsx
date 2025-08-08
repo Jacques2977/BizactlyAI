@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star } from 'lucide-react';
+import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star, Edit3, TrendingUp } from 'lucide-react';
 import { Logo } from './components/Logo';
 import { ChatInterface } from './components/ChatInterface';
 import { AuthModal } from './components/AuthModal';
+import { MetricsUpdateModal } from './components/MetricsUpdateModal';
+import { ProgressTracker } from './components/ProgressTracker';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { useUserMetrics } from './hooks/useUserMetrics';
 
 function AppContent() {
   const [activeView, setActiveView] = useState<'landing' | 'dashboard'>('landing');
@@ -297,7 +300,9 @@ function AppContent() {
 // Dashboard Component (existing functionality)
 function DashboardView({ onBack }: { onBack: () => void }) {
   const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources'>('overview');
+  const [isMetricsModalOpen, setIsMetricsModalOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { metrics, progress, isLoading, updateMetrics } = useUserMetrics();
 
   const navigation = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
@@ -439,80 +444,143 @@ function DashboardView({ onBack }: { onBack: () => void }) {
         {activeView === 'analytics' && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">SaaS Metrics Dashboard</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400">Monthly Recurring Revenue</p>
-                    <p className="text-2xl font-bold text-white">$8,450</p>
-                  </div>
-                  <div className="text-green-500">
-                    <BarChart3 className="w-8 h-8" />
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">+23% from last month</p>
-              </div>
-
-              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400">Active Customers</p>
-                    <p className="text-2xl font-bold text-white">127</p>
-                  </div>
-                  <div className="text-blue-500">
-                    <MessageSquare className="w-8 h-8" />
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">+15% from last month</p>
-              </div>
-
-              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400">Churn Rate</p>
-                    <p className="text-2xl font-bold text-white">2.1%</p>
-                  </div>
-                  <div className="text-purple-500">
-                    <BookOpen className="w-8 h-8" />
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">-0.8% from last month</p>
-              </div>
-
-              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400">Customer LTV</p>
-                    <p className="text-2xl font-bold text-white">$2,340</p>
-                  </div>
-                  <div className="text-green-500">
-                    <BarChart3 className="w-8 h-8" />
-                  </div>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">+12% from last month</p>
-              </div>
+            
+            {/* Update Metrics Button */}
+            <div className="flex justify-between items-center">
+              <p className="text-gray-300">Track your SaaS growth and key metrics</p>
+              <button
+                onClick={() => setIsMetricsModalOpen(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+              >
+                <Edit3 className="w-4 h-4" />
+                <span>Update Metrics</span>
+              </button>
             </div>
 
-            <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">New customer: Enterprise plan upgrade (+$299 MRR)</span>
-                  <span className="text-xs text-gray-400">2 hours ago</span>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <span className="ml-3 text-gray-300">Loading your metrics...</span>
+              </div>
+            ) : (
+              <>
+                {/* Progress Tracker */}
+                {progress && (
+                  <ProgressTracker progress={progress} />
+                )}
+
+                {/* Metrics Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Monthly Recurring Revenue</p>
+                        <p className="text-2xl font-bold text-white">${metrics?.mrr.toLocaleString() || '0'}</p>
+                      </div>
+                      <div className="text-green-500">
+                        <BarChart3 className="w-8 h-8" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {metrics?.monthlyGrowth ? `+${metrics.monthlyGrowth}% from last month` : 'Update to track growth'}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Active Customers</p>
+                        <p className="text-2xl font-bold text-white">{metrics?.customers || '0'}</p>
+                      </div>
+                      <div className="text-blue-500">
+                        <MessageSquare className="w-8 h-8" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {metrics?.customers ? 'Growing customer base' : 'Add your first customers'}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Churn Rate</p>
+                        <p className="text-2xl font-bold text-white">{metrics?.churnRate.toFixed(1) || '0'}%</p>
+                      </div>
+                      <div className="text-purple-500">
+                        <TrendingUp className="w-8 h-8" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {metrics?.churnRate && metrics.churnRate < 5 ? 'Healthy retention' : 'Focus on retention'}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Customer LTV</p>
+                        <p className="text-2xl font-bold text-white">${metrics?.ltv.toLocaleString() || '0'}</p>
+                      </div>
+                      <div className="text-green-500">
+                        <BarChart3 className="w-8 h-8" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {metrics?.cac && metrics?.ltv && metrics.ltv > metrics.cac * 3 ? 'Healthy LTV:CAC ratio' : 'Optimize unit economics'}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Pricing optimization: 18% conversion rate increase</span>
-                  <span className="text-xs text-gray-400">1 day ago</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Feature launch: Advanced analytics dashboard</span>
-                  <span className="text-xs text-gray-400">3 days ago</span>
+              </>
+            )}
+
+            {/* Insights Section */}
+            {metrics && (
+              <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">AI Insights & Recommendations</h3>
+                <div className="space-y-4">
+                  {metrics.mrr === 0 && (
+                    <div className="flex items-start space-x-3 bg-blue-900/30 border border-blue-700/50 rounded-lg p-4">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                      <div>
+                        <span className="text-sm text-blue-200 font-medium">Getting Started</span>
+                        <p className="text-sm text-blue-100 mt-1">Update your metrics to get personalized AI recommendations for growing your SaaS.</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {metrics.mrr > 0 && metrics.mrr < 1000 && (
+                    <div className="flex items-start space-x-3 bg-green-900/30 border border-green-700/50 rounded-lg p-4">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                      <div>
+                        <span className="text-sm text-green-200 font-medium">Early Stage Focus</span>
+                        <p className="text-sm text-green-100 mt-1">Focus on product-market fit and customer feedback. Aim for $1K MRR milestone.</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {metrics.churnRate > 10 && (
+                    <div className="flex items-start space-x-3 bg-red-900/30 border border-red-700/50 rounded-lg p-4">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                      <div>
+                        <span className="text-sm text-red-200 font-medium">High Churn Alert</span>
+                        <p className="text-sm text-red-100 mt-1">Your churn rate is high. Focus on customer success and product improvements.</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {metrics.cac > 0 && metrics.ltv > 0 && metrics.ltv < metrics.cac * 3 && (
+                    <div className="flex items-start space-x-3 bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-4">
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                      <div>
+                        <span className="text-sm text-yellow-200 font-medium">Unit Economics Warning</span>
+                        <p className="text-sm text-yellow-100 mt-1">Your LTV:CAC ratio needs improvement. Focus on increasing customer lifetime value or reducing acquisition costs.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -602,6 +670,16 @@ function DashboardView({ onBack }: { onBack: () => void }) {
           </div>
         )}
       </main>
+
+      {/* Metrics Update Modal */}
+      {metrics && (
+        <MetricsUpdateModal
+          isOpen={isMetricsModalOpen}
+          onClose={() => setIsMetricsModalOpen(false)}
+          currentMetrics={metrics}
+          onUpdate={updateMetrics}
+        />
+      )}
     </div>
   );
 }
