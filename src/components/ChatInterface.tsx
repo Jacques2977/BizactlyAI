@@ -172,9 +172,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-gray-900">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-blue-500 to-purple-600">
         <div className="flex items-center space-x-3">
           <Bot className="w-8 h-8 text-white" />
           <div>
@@ -191,7 +191,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-900">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -223,11 +223,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="flex items-center space-x-3 bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center space-x-3 bg-gray-800 rounded-lg p-4">
               <Bot className="w-6 h-6 text-blue-500" />
               <div className="flex items-center space-x-2">
                 <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                <span className="text-gray-600">Thinking...</span>
+                <span className="text-gray-300">Thinking...</span>
               </div>
             </div>
           </div>
@@ -236,14 +236,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t bg-gray-50">
+      <div className="p-4 border-t border-gray-700 bg-gray-800">
         <div className="flex space-x-2">
           <textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask me about idea validation, MVP planning, growth strategies..."
-            className="flex-1 resize-none border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 resize-none bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             rows={2}
             disabled={isLoading}
           />

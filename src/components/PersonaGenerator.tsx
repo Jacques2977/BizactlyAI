@@ -43,13 +43,13 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
   };
 
   const PersonaCard: React.FC<{ persona: UserPersona; isPrimary: boolean }> = ({ persona, isPrimary }) => (
-    <div className={`bg-white border-2 rounded-lg p-6 ${isPrimary ? 'border-blue-500' : 'border-gray-200'}`}>
+    <div className={`bg-gray-800 border-2 rounded-lg p-6 ${isPrimary ? 'border-blue-500' : 'border-gray-700'}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="text-3xl">{persona.avatar}</div>
           <div>
-            <h4 className="text-xl font-bold text-gray-900">{persona.name}</h4>
-            <p className="text-gray-600">{persona.jobTitle} at {persona.company}</p>
+            <h4 className="text-xl font-bold text-white">{persona.name}</h4>
+            <p className="text-gray-300">{persona.jobTitle} at {persona.company}</p>
           </div>
         </div>
         {isPrimary && (
@@ -61,11 +61,11 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
 
       {/* Demographics */}
       <div className="mb-4">
-        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+        <h5 className="font-semibold text-white mb-2 flex items-center">
           <MapPin className="w-4 h-4 mr-1" />
           Demographics
         </h5>
-        <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+        <div className="grid grid-cols-2 gap-2 text-sm text-gray-300">
           <div><strong>Age:</strong> {persona.age}</div>
           <div><strong>Location:</strong> {persona.demographics.location}</div>
           <div><strong>Income:</strong> {persona.demographics.income}</div>
@@ -75,22 +75,22 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
 
       {/* Goals & Frustrations */}
       <div className="mb-4">
-        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+        <h5 className="font-semibold text-white mb-2 flex items-center">
           <Target className="w-4 h-4 mr-1" />
           Goals & Frustrations
         </h5>
         <div className="space-y-2">
           <div>
-            <span className="text-xs font-medium text-green-600 uppercase">Goals:</span>
-            <ul className="text-sm text-gray-700 ml-2">
+            <span className="text-xs font-medium text-green-400 uppercase">Goals:</span>
+            <ul className="text-sm text-gray-300 ml-2">
               {persona.psychographics.goals.map((goal, index) => (
                 <li key={index}>• {goal}</li>
               ))}
             </ul>
           </div>
           <div>
-            <span className="text-xs font-medium text-red-600 uppercase">Frustrations:</span>
-            <ul className="text-sm text-gray-700 ml-2">
+            <span className="text-xs font-medium text-red-400 uppercase">Frustrations:</span>
+            <ul className="text-sm text-gray-300 ml-2">
               {persona.psychographics.frustrations.map((frustration, index) => (
                 <li key={index}>• {frustration}</li>
               ))}
@@ -101,11 +101,11 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
 
       {/* Pain Points */}
       <div className="mb-4">
-        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+        <h5 className="font-semibold text-white mb-2 flex items-center">
           <Heart className="w-4 h-4 mr-1" />
           Pain Points
         </h5>
-        <ul className="text-sm text-gray-700 space-y-1">
+        <ul className="text-sm text-gray-300 space-y-1">
           {persona.painPoints.map((pain, index) => (
             <li key={index} className="flex items-start space-x-2">
               <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></span>
@@ -117,18 +117,18 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
 
       {/* Behavior */}
       <div className="mb-4">
-        <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
+        <h5 className="font-semibold text-white mb-2 flex items-center">
           <Briefcase className="w-4 h-4 mr-1" />
           Behavior
         </h5>
-        <div className="text-sm text-gray-600 space-y-1">
+        <div className="text-sm text-gray-300 space-y-1">
           <div><strong>Tech Savviness:</strong> {persona.behavior.techSavviness}</div>
           <div><strong>Buying Process:</strong> {persona.behavior.buyingProcess}</div>
           <div>
             <strong>Preferred Channels:</strong>
             <div className="flex flex-wrap gap-1 mt-1">
               {persona.behavior.preferredChannels.map((channel, index) => (
-                <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                <span key={index} className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">
                   {channel}
                 </span>
               ))}
@@ -138,17 +138,17 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
       </div>
 
       {/* Quote */}
-      <div className="bg-gray-50 border-l-4 border-blue-500 p-3 rounded">
+      <div className="bg-gray-700/50 border-l-4 border-blue-500 p-3 rounded">
         <MessageCircle className="w-4 h-4 text-blue-500 mb-1" />
-        <p className="text-sm italic text-gray-700">"{persona.quote}"</p>
+        <p className="text-sm italic text-gray-300">"{persona.quote}"</p>
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-gray-900">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r from-purple-500 to-pink-600">
+      <div className="flex items-center justify-between p-6 border-b border-gray-700 bg-gradient-to-r from-purple-500 to-pink-600">
         <div className="flex items-center space-x-3">
           <Users className="w-8 h-8 text-white" />
           <div>
@@ -164,12 +164,12 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-6 bg-gray-900">
         {!personaResult ? (
           /* Input Form */
           <form onSubmit={handleGeneratePersonas} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Product Description *
               </label>
               <textarea
@@ -178,13 +178,13 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
                 onChange={handleInputChange}
                 required
                 rows={4}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 placeholder="Describe your product or service. What does it do? What problems does it solve?"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Target Market *
               </label>
               <input
@@ -193,13 +193,13 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
                 value={formData.targetMarket}
                 onChange={handleInputChange}
                 required
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 placeholder="Who is your target market? (e.g., small business owners, marketing professionals, students)"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Business Model (Optional)
               </label>
               <input
@@ -207,13 +207,13 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
                 name="businessModel"
                 value={formData.businessModel}
                 onChange={handleInputChange}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 placeholder="How do you make money? (e.g., subscription, one-time purchase, freemium)"
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+              <div className="bg-red-900/30 border border-red-700/50 text-red-200 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -237,8 +237,8 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
           /* Persona Results */
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Your User Personas</h3>
-              <p className="text-gray-600">Detailed profiles of your target customers</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Your User Personas</h3>
+              <p className="text-gray-300">Detailed profiles of your target customers</p>
             </div>
 
             {/* Personas */}
@@ -248,23 +248,23 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
             </div>
 
             {/* Insights */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6">
-              <h4 className="text-xl font-bold text-gray-900 mb-4">Strategic Insights</h4>
+            <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-700/50 rounded-lg p-6">
+              <h4 className="text-xl font-bold text-white mb-4">Strategic Insights</h4>
               
               <div className="space-y-4">
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Market Segmentation</h5>
-                  <p className="text-gray-700 text-sm">{personaResult.insights.marketSegmentation}</p>
+                  <h5 className="font-semibold text-white mb-2">Market Segmentation</h5>
+                  <p className="text-gray-300 text-sm">{personaResult.insights.marketSegmentation}</p>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Targeting Strategy</h5>
-                  <p className="text-gray-700 text-sm">{personaResult.insights.targetingStrategy}</p>
+                  <h5 className="font-semibold text-white mb-2">Targeting Strategy</h5>
+                  <p className="text-gray-300 text-sm">{personaResult.insights.targetingStrategy}</p>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Messaging Recommendations</h5>
-                  <ul className="text-sm text-gray-700 space-y-1">
+                  <h5 className="font-semibold text-white mb-2">Messaging Recommendations</h5>
+                  <ul className="text-sm text-gray-300 space-y-1">
                     {personaResult.insights.messagingRecommendations.map((message, index) => (
                       <li key={index} className="flex items-start space-x-2">
                         <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
@@ -275,10 +275,10 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Channel Recommendations</h5>
+                  <h5 className="font-semibold text-white mb-2">Channel Recommendations</h5>
                   <div className="flex flex-wrap gap-2">
                     {personaResult.insights.channelRecommendations.map((channel, index) => (
-                      <span key={index} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                      <span key={index} className="bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full text-sm">
                         {channel}
                       </span>
                     ))}
@@ -291,7 +291,7 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
             <div className="flex space-x-4">
               <button
                 onClick={() => setPersonaResult(null)}
-                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+                className="flex-1 bg-gray-700 text-gray-300 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors"
               >
                 Generate New Personas
               </button>
