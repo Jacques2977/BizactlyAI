@@ -128,6 +128,73 @@ function AppContent() {
                 <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
                   <Rocket className="w-8 h-8 text-purple-600 mb-4" />
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">MVP Planner</h3>
+                  <p className="text-gray-600 mb-4">
+                    Create a detailed MVP plan with prioritized features and timeline
+                  </p>
+                  <button
+                    onClick={() => setActiveView('mvp-planner')}
+                    className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300"
+                  >
+                    Build MVP Plan
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'analytics' && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h2>
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <p className="text-gray-600">Analytics features coming soon...</p>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'resources' && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900">Startup Resources</h2>
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <p className="text-gray-600">Curated resources for founders coming soon...</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Chat Interface */}
+        {showChat && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[80vh]">
+              <ChatInterface onClose={() => setShowChat(false)} />
+            </div>
+          </div>
+        )}
+
+        {/* MVP Planner */}
+        {showMVPPlanner && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-2xl w-full max-w-6xl h-[90vh]">
+              <MVPPlanner onClose={() => setShowMVPPlanner(false)} />
+            </div>
+          </div>
+        )}
+
+        {/* Auth Modal */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          initialMode={authMode}
+        />
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App;
+                {/* MVP Planner Card */}
+                <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+                  <Rocket className="w-8 h-8 text-purple-600 mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">MVP Planner</h3>
                   <p className="text-gray-600 mb-4">Create a detailed MVP plan with prioritized features and timeline</p>
                   <button 
                     onClick={() => setActiveView('mvp-planner')}
