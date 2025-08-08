@@ -209,8 +209,7 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
                 {mvpPlan.features.map((feature) => (
                   <div key={feature.id} className="border border-gray-600 rounded-lg p-4 hover:shadow-sm transition-shadow bg-gray-700/30">
                     <div className="flex items-start justify-between mb-2">
-                      <h5 className="font-semibold text-gray-900">{feature.name}</h5>
-                        completedTasks.has(task.id) ? 'text-green-400 line-through' : 'text-white'
+                      <h5 className="font-semibold text-white">{feature.name}</h5>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(feature.priority)}`}>
                           {feature.priority} priority
                         </span>

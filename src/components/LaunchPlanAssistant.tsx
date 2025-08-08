@@ -97,7 +97,6 @@ export const LaunchPlanAssistant: React.FC<LaunchPlanAssistantProps> = ({ onClos
           </button>
           <div className="flex-1">
             <h5 className={`font-semibold ${
-              completedTasks.has(task.id) ? 'text-green-800 line-through' : 'text-gray-900'
               completedTasks.has(task.id) ? 'text-green-400 line-through' : 'text-white'
             }`}>
               {task.title}
