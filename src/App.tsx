@@ -125,7 +125,6 @@ function AppContent() {
                 </div>
             </div>
             )}
-
             {activeView === 'analytics' && (
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h2>
