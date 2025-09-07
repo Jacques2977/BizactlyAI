@@ -125,6 +125,7 @@ Provide ONLY the JSON response, no additional text.`;
           }
         ],
         max_tokens: 2000,
+        max_completion_tokens: 2000,
         temperature: 0.7,
       }),
     });
