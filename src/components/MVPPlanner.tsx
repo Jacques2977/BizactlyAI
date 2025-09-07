@@ -219,7 +219,6 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getImpactColor(feature.impact)}`}>
                           {feature.impact} impact
                         </span>
-                      </div>
                     </div>
                     <p className="text-gray-300 text-sm mb-2">{feature.description}</p>
                     <div className="flex items-center justify-between text-xs text-gray-400 mt-3">
