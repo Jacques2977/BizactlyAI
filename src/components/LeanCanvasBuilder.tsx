@@ -127,8 +127,8 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       title: 'Unfair Advantage', 
       content: '', 
       completed: false,
-      prompt: "What gives you an advantage that's hard to copy?",
-      example: "Tesla's advantage: 'Vertical integration, supercharger network, and brand loyalty.'",
+      prompt: "What do you have that competitors can't easily copy?",
+      example: "Examples: Deep domain expertise, Exclusive partnerships, A unique community or distribution channel, Proprietary tech/AI model. What's your edge?",
       tips: [
         "Think beyond just being first to market",
         "Consider network effects, data advantages, team expertise",
