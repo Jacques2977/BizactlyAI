@@ -98,6 +98,10 @@ export const useConversations = () => {
 
     setConversations(updatedConversations);
     saveConversations(updatedConversations);
+    
+    // Debug logging to verify storage
+    console.log('Message added to conversation:', conversationId, message);
+    console.log('Updated conversations:', updatedConversations);
   };
 
   const deleteConversation = (conversationId: string) => {
@@ -132,11 +136,10 @@ export const useConversations = () => {
     const conversation = conversations.find(c => c.id === conversationId);
     if (!conversation) return '';
 
-    // Get last 10 messages for context (excluding the initial bot greeting)
+    // Get last 10 messages for context (excluding the initial bot greeting if it exists)
     const contextMessages = conversation.messages
-      .slice(-11) // Get last 11 messages
-      .slice(1)   // Remove the first one (initial greeting)
-      .slice(-10) // Keep only last 10
+      .filter(msg => !(msg.sender === 'bot' && msg.content.includes("Hi! I'm your AI startup coach"))) // Filter out initial greeting
+      .slice(-10) // Get last 10 messages
       .map(msg => `${msg.sender === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
       .join('\n\n');
 
