@@ -76,7 +76,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       timestamp: new Date(),
     };
 
+    // Save user message immediately
     addMessageToConversation(currentConversation.id, userMessage);
+    const currentInput = inputMessage;
     setInputMessage('');
     setIsLoading(true);
 
@@ -84,8 +86,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       // Get conversation context for continuity
       const context = getConversationContext(currentConversation.id);
       const messageWithContext = context 
-        ? `Previous conversation context:\n${context}\n\nCurrent message: ${inputMessage}`
-        : inputMessage;
+        ? `Previous conversation context:\n${context}\n\nCurrent message: ${currentInput}`
+        : currentInput;
       
       const response = await sendMessage(messageWithContext);
       
