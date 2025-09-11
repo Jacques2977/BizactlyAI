@@ -10,20 +10,131 @@ interface CanvasBlock {
   title: string;
   content: string;
   completed: boolean;
+  prompt: string;
+  example: string;
+  tips: string[];
 }
 
 export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>([
-    { id: 'problem', title: 'Problem', content: '', completed: false },
-    { id: 'customer-segments', title: 'Customer Segments', content: '', completed: false },
-    { id: 'unique-value-proposition', title: 'Unique Value Proposition', content: '', completed: false },
-    { id: 'solution', title: 'Solution', content: '', completed: false },
-    { id: 'channels', title: 'Channels', content: '', completed: false },
-    { id: 'revenue-streams', title: 'Revenue Streams', content: '', completed: false },
-    { id: 'cost-structure', title: 'Cost Structure', content: '', completed: false },
-    { id: 'key-metrics', title: 'Key Metrics', content: '', completed: false },
-    { id: 'unfair-advantage', title: 'Unfair Advantage', content: '', completed: false },
+    { 
+      id: 'problem', 
+      title: 'Problem', 
+      content: '', 
+      completed: false,
+      prompt: "What are the top 1–3 problems your target customers face?",
+      example: "Slack's problem was 'Teams struggle with fragmented communication tools that slow productivity.'",
+      tips: [
+        "Focus on painful, urgent problems that customers actively seek solutions for",
+        "Identify problems that happen frequently (daily/weekly)",
+        "Look for problems where existing alternatives are inadequate"
+      ]
+    },
+    { 
+      id: 'customer-segments', 
+      title: 'Customer Segments', 
+      content: '', 
+      completed: false,
+      prompt: "Who exactly has these problems? Be specific about demographics and characteristics.",
+      example: "Notion targets 'Knowledge workers at growing companies (50-500 employees) who need better project organization.'",
+      tips: [
+        "Define your early adopters vs mainstream market",
+        "Be specific about company size, role, industry",
+        "Focus on customers who feel the pain most acutely"
+      ]
+    },
+    { 
+      id: 'unique-value-proposition', 
+      title: 'Unique Value Proposition', 
+      content: '', 
+      completed: false,
+      prompt: "In one sentence, what makes your solution different and worth buying?",
+      example: "Zoom: 'Video conferencing that just works - reliable, simple, and accessible from anywhere.'",
+      tips: [
+        "Focus on the unique benefit, not features",
+        "Make it clear and memorable",
+        "Address why customers should choose you over alternatives"
+      ]
+    },
+    { 
+      id: 'solution', 
+      title: 'Solution', 
+      content: '', 
+      completed: false,
+      prompt: "What are the top 3 features that solve these problems?",
+      example: "Stripe's core features: 'Simple payment API, fraud detection, global payment methods.'",
+      tips: [
+        "Focus on must-have features, not nice-to-haves",
+        "Each feature should directly address a problem",
+        "Keep it simple - resist feature creep"
+      ]
+    },
+    { 
+      id: 'channels', 
+      title: 'Channels', 
+      content: '', 
+      completed: false,
+      prompt: "How will you reach your customers? What channels do they use?",
+      example: "HubSpot uses 'Content marketing, SEO, partner integrations, and direct sales.'",
+      tips: [
+        "Start with 1-2 channels you can execute well",
+        "Choose channels where your customers already spend time",
+        "Consider both acquisition and retention channels"
+      ]
+    },
+    { 
+      id: 'revenue-streams', 
+      title: 'Revenue Streams', 
+      content: '', 
+      completed: false,
+      prompt: "How will you make money? What pricing model fits best?",
+      example: "Salesforce: 'Monthly SaaS subscriptions with tiered pricing based on features and users.'",
+      tips: [
+        "Align pricing with customer value received",
+        "Consider freemium, subscription, or usage-based models",
+        "Test willingness to pay early"
+      ]
+    },
+    { 
+      id: 'cost-structure', 
+      title: 'Cost Structure', 
+      content: '', 
+      completed: false,
+      prompt: "What are your key costs to operate and acquire customers?",
+      example: "Dropbox costs: 'Cloud storage infrastructure, customer acquisition, engineering team.'",
+      tips: [
+        "Separate fixed costs from variable costs",
+        "Include customer acquisition costs (CAC)",
+        "Plan for scaling costs as you grow"
+      ]
+    },
+    { 
+      id: 'key-metrics', 
+      title: 'Key Metrics', 
+      content: '', 
+      completed: false,
+      prompt: "What metrics will tell you if your business is successful?",
+      example: "Intercom tracks: 'Monthly Active Users, Customer Acquisition Cost, Monthly Recurring Revenue.'",
+      tips: [
+        "Focus on leading indicators, not just revenue",
+        "Include both growth and retention metrics",
+        "Choose metrics you can actually measure"
+      ]
+    },
+    { 
+      id: 'unfair-advantage', 
+      title: 'Unfair Advantage', 
+      content: '', 
+      completed: false,
+      prompt: "What gives you an advantage that's hard to copy?",
+      example: "Tesla's advantage: 'Vertical integration, supercharger network, and brand loyalty.'",
+      tips: [
+        "Think beyond just being first to market",
+        "Consider network effects, data advantages, team expertise",
+        "Focus on sustainable competitive moats"
+      ]
+    },
   ]);
 
   const updateBlock = (id: string, content: string) => {
@@ -102,16 +213,35 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
             </div>
 
             <div className="space-y-4">
+              {/* AI Guidance Section */}
+              <div className="bg-blue-900/30 border border-blue-700/50 rounded-lg p-4 mb-6">
+                <h3 className="text-lg font-semibold text-blue-200 mb-3">AI Guidance</h3>
+                <p className="text-blue-100 mb-3">{currentBlock.prompt}</p>
+                
+                <div className="bg-blue-800/50 rounded-lg p-3 mb-3">
+                  <p className="text-sm text-blue-200">
+                    <span className="font-medium">👉 Example:</span> {currentBlock.example}
+                  </p>
+                </div>
+                
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-blue-200">💡 Tips:</p>
+                  {currentBlock.tips.map((tip, index) => (
+                    <p key={index} className="text-sm text-blue-100 ml-4">• {tip}</p>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Describe your {currentBlock.title.toLowerCase()}:
+                  {currentBlock.title}:
                 </label>
                 <textarea
                   value={currentBlock.content}
                   onChange={(e) => updateBlock(currentBlock.id, e.target.value)}
                   rows={6}
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  placeholder={`Enter your ${currentBlock.title.toLowerCase()} details...`}
+                  placeholder={`Describe your ${currentBlock.title.toLowerCase()}...`}
                 />
               </div>
 
