@@ -89,7 +89,7 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       content: '', 
       completed: false,
       prompt: "How will you make money? What pricing model fits best?",
-      example: "Salesforce: 'Monthly SaaS subscriptions with tiered pricing based on features and users.'",
+      example: "Options include: Monthly/annual subscriptions, Freemium with premium upgrades, Transaction fees or commissions, Enterprise licensing. Which revenue model fits best for your SaaS?",
       tips: [
         "Align pricing with customer value received",
         "Consider freemium, subscription, or usage-based models",
