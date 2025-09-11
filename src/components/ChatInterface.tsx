@@ -23,6 +23,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize with a new conversation if none exists
@@ -32,13 +33,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
     }
   }, []);
 
+  // Update local messages when conversation changes
+  useEffect(() => {
+    if (currentConversation) {
+      setMessages(currentConversation.messages);
+    }
+  }, [currentConversation]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [currentConversation?.messages]);
+  }, [messages]);
 
   const parseStructuredResponse = (content: string) => {
     const sections = {
@@ -82,7 +89,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       timestamp: new Date(),
     };
 
-    // Save user message immediately
+    // Add user message to local state immediately for instant UI update
+    setMessages(prev => [...prev, userMessage]);
+    
+    // Save user message to conversation storage
     addMessageToConversation(currentConversation.id, userMessage);
 
     setIsLoading(true);
@@ -103,6 +113,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
         timestamp: new Date(),
       };
 
+      // Add bot message to local state immediately
+      setMessages(prev => [...prev, botMessage]);
+      
+      // Save bot message to conversation storage
       addMessageToConversation(currentConversation.id, botMessage);
     } catch (error) {
       const errorMessage: ChatMessage = {
@@ -111,6 +125,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
         sender: 'bot',
         timestamp: new Date(),
       };
+      
+      // Add error message to local state immediately
+      setMessages(prev => [...prev, errorMessage]);
+      
+      // Save error message to conversation storage
       addMessageToConversation(currentConversation.id, errorMessage);
     } finally {
       setIsLoading(false);
@@ -270,7 +289,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-900">
-        {currentConversation.messages.map((message) => (
+        {messages.map((message) => (
           <div
             key={message.id}
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
