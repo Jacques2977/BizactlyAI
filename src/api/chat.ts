@@ -65,7 +65,7 @@ ${knowledgeContext}`
             content: message
           }
         ],
-        max_tokens: 1500,
+        max_completion_tokens: 1500,
         temperature: 0.8,
         presence_penalty: 0.1,
         frequency_penalty: 0.1,
