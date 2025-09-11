@@ -36,8 +36,8 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       title: 'Customer Segments', 
       content: '', 
       completed: false,
-      prompt: "Who exactly has these problems? Be specific about demographics and characteristics.",
-      example: "Notion targets 'Knowledge workers at growing companies (50-500 employees) who need better project organization.'",
+      prompt: "Who are the main groups of people or businesses experiencing these problems?",
+      example: "Small to mid-sized remote teams in tech startups.",
       tips: [
         "Define your early adopters vs mainstream market",
         "Be specific about company size, role, industry",
