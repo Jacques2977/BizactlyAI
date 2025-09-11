@@ -278,6 +278,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
           <div>
             <h3 className="text-lg font-semibold text-white">AI Startup Coach</h3>
             <p className="text-blue-100 text-sm">Your personal business advisor</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <MessageBubble
             key={message.id}
