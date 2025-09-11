@@ -10,6 +10,7 @@ import { MVPPlanner } from './components/MVPPlanner';
 import { PersonaGenerator } from './components/PersonaGenerator';
 import { LaunchPlanAssistant } from './components/LaunchPlanAssistant';
 import { PricingAssistant } from './components/PricingAssistant';
+import { LeanCanvasBuilder } from './components/LeanCanvasBuilder';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useUserMetrics } from './hooks/useUserMetrics';
 
@@ -304,7 +305,7 @@ function AppContent() {
 
 // Dashboard Component (existing functionality)
 function DashboardView({ onBack }: { onBack: () => void }) {
-  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources' | 'idea-validator' | 'mvp-planner' | 'persona-generator' | 'launch-plan' | 'pricing-assistant'>('overview');
+  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources' | 'idea-validator' | 'mvp-planner' | 'persona-generator' | 'launch-plan' | 'pricing-assistant' | 'lean-canvas'>('overview');
   const [isMetricsModalOpen, setIsMetricsModalOpen] = useState(false);
   const { user, logout } = useAuth();
   const { metrics, progress, isLoading, updateMetrics } = useUserMetrics();
@@ -407,6 +408,12 @@ function DashboardView({ onBack }: { onBack: () => void }) {
           </div>
         )}
 
+        {activeView === 'lean-canvas' && (
+          <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+            <LeanCanvasBuilder onClose={() => setActiveView('overview')} />
+          </div>
+        )}
+
         {activeView === 'overview' && (
           <div className="space-y-8">
             <div className="text-center">
@@ -460,6 +467,18 @@ function DashboardView({ onBack }: { onBack: () => void }) {
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-white">SaaS Startup Tools</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+                  <Target className="w-8 h-8 text-indigo-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">Lean Canvas Builder</h3>
+                  <p className="text-gray-300 mb-4">Create a complete business model canvas with guided step-by-step process and AI insights.</p>
+                  <button
+                    onClick={() => setActiveView('lean-canvas')}
+                    className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                  >
+                    Build Canvas →
+                  </button>
+                </div>
+
                 <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
                   <Search className="w-8 h-8 text-blue-500 mb-4" />
                   <h3 className="text-lg font-semibold text-white mb-2">Idea Validator</h3>
