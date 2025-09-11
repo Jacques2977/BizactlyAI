@@ -22,7 +22,7 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center space-x-1 ${className}`}>
       {/* Custom SVG Logo with Blue-Purple Gradient */}
       <div className={`${imageSizes[size]} flex-shrink-0`}>
         <svg 
