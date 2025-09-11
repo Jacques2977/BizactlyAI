@@ -28,7 +28,7 @@ export const Logo: React.FC<LogoProps> = ({
       {/* Logo Image */}
       <div className={`${imageSizes[size]} flex-shrink-0`}>
         <img 
-          src="/src/assets/images/logo.jpg"
+          src="/logo.jpg"
           alt="Bizactly.AI Logo"
           className="w-full h-full object-contain drop-shadow-lg"
           onError={(e) => {
