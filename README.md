@@ -1,4 +1,4 @@
-# BizactlyAI - AI Startup Coach
+# Bizactly.AI - AI Startup Coach
 
 An AI-powered platform designed to help first-time founders validate ideas, plan MVPs, and launch successful startups.
 
@@ -44,6 +44,7 @@ An AI-powered platform designed to help first-time founders validate ideas, plan
 ## Usage
 
 1. Visit the landing page to learn about BizactlyAI
+1. Visit the landing page to learn about Bizactly.AI
 2. Click "Try It Free" to access the dashboard
 3. Use the AI Coach to get personalized startup guidance
 4. Track your progress through the analytics dashboard

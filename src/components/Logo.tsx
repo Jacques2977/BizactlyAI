@@ -34,7 +34,7 @@ export const Logo: React.FC<LogoProps> = ({
       
       {showText && (
         <span className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent`}>
-          BizactlyAI
+          Bizactly.AI
         </span>
       )}
     </div>

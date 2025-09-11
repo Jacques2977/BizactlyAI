@@ -287,7 +287,7 @@ function AppContent() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-            <p>&copy; 2025 BizactlyAI. All rights reserved.</p>
+            <p>&copy; 2025 Bizactly.AI. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -421,7 +421,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 Welcome back, {user?.name}!
               </h1>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Continue building your SaaS with your AI cofounder.
+                Join 500+ SaaS founders who've reached $10K+ MRR with Bizactly.AI
               </p>
             </div>
 
