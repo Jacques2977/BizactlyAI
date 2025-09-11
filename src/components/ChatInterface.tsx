@@ -46,21 +46,24 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       insights: '',
       steps: '',
       tip: '',
-      questions: ''
+      questions: '',
+      progress: ''
     };
 
     // Split content by section headers
     const summaryMatch = content.match(/\*\*📋 SUMMARY\*\*(.*?)(?=\*\*🎯|$)/s);
     const insightsMatch = content.match(/\*\*🎯 KEY INSIGHTS\*\*(.*?)(?=\*\*📊|$)/s);
-    const stepsMatch = content.match(/\*\*📊 ACTIONABLE STEPS\*\*(.*?)(?=\*\*💡|$)/s);
-    const tipMatch = content.match(/\*\*💡 EXPERT TIP\*\*(.*?)(?=\*\*❓|$)/s);
-    const questionsMatch = content.match(/\*\*❓ FOLLOW-UP QUESTIONS\*\*(.*?)$/s);
+    const stepsMatch = content.match(/\*\*📊 ACTIONABLE STEPS\*\*(.*?)(?=\*\*💡|🚀|$)/s);
+    const tipMatch = content.match(/\*\*💡 EXPERT TIP\*\*(.*?)(?=\*\*❓|🚀|$)/s);
+    const questionsMatch = content.match(/\*\*❓ FOLLOW-UP QUESTIONS\*\*(.*?)(?=\*\*🚀|$)/s);
+    const progressMatch = content.match(/\*\*🚀 PROGRESS TRACKER\*\*(.*?)$/s);
 
     sections.summary = summaryMatch ? summaryMatch[1].trim() : '';
     sections.insights = insightsMatch ? insightsMatch[1].trim() : '';
     sections.steps = stepsMatch ? stepsMatch[1].trim() : '';
     sections.tip = tipMatch ? tipMatch[1].trim() : '';
     sections.questions = questionsMatch ? questionsMatch[1].trim() : '';
+    sections.progress = progressMatch ? progressMatch[1].trim() : '';
 
     return sections;
   };
@@ -141,7 +144,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
     const sections = parseStructuredResponse(content);
     
     // If no structured sections found, render as regular message
-    if (!sections.summary && !sections.insights && !sections.steps && !sections.tip && !sections.questions) {
+    if (!sections.summary && !sections.insights && !sections.steps && !sections.tip && !sections.questions && !sections.progress) {
       return (
         <div className="bg-gray-50 rounded-lg p-4">
           <div className="whitespace-pre-wrap text-gray-800">{content}</div>
@@ -198,6 +201,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
               <h4 className="font-semibold text-indigo-800 ml-2">Follow-up Questions</h4>
             </div>
             <div className="text-indigo-700 whitespace-pre-wrap">{sections.questions}</div>
+          </div>
+        )}
+
+        {sections.progress && (
+          <div className="bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-400 rounded-lg p-4">
+            <div className="flex items-center mb-2">
+              <span className="text-lg">🚀</span>
+              <h4 className="font-semibold text-orange-800 ml-2">Progress Tracker</h4>
+            </div>
+            <div className="text-orange-700 whitespace-pre-wrap">{sections.progress}</div>
           </div>
         )}
       </div>
