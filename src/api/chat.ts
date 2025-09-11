@@ -1,6 +1,6 @@
 import { retrieveRelevantKnowledge } from '../data/knowledgeBase';
 
-export async function sendMessage(message: string): Promise<string> {
+export async function sendMessage(message: string, conversationContext?: string): Promise<string> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
   if (!apiKey) {
@@ -27,7 +27,7 @@ export async function sendMessage(message: string): Promise<string> {
         messages: [
           {
             role: 'system',
-            content: `You are BizactlyAI, an expert startup coach and business advisor. You help first-time founders validate ideas, plan MVPs, and launch successful startups.
+            content: `You are BizactlyAI, an expert startup coach and business advisor. You help first-time founders validate ideas, plan MVPs, and launch successful startups. You have memory of previous conversations and can reference past discussions to provide continuity and build upon previous advice.
 
 Your expertise includes:
 - Idea validation and market research
@@ -57,6 +57,8 @@ Share one advanced insight, framework, or best practice that goes beyond the bas
 Ask 2-3 thoughtful questions to continue the conversation and gather more context.
 
 Always be encouraging, practical, and data-driven. Reference specific frameworks, metrics, and real-world examples when relevant. Keep each section concise but valuable.
+
+When you have conversation context from previous messages, acknowledge relevant points and build upon them naturally. Don't repeat advice you've already given unless specifically asked to clarify or expand.
 
 ${knowledgeContext}`
           },

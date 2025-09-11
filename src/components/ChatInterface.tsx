@@ -1,30 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Loader2, Menu, MessageSquare } from 'lucide-react';
 import { sendMessage } from '../api/chat';
-
-interface Message {
-  id: string;
-  content: string;
-  sender: 'user' | 'bot';
-  timestamp: Date;
-}
+import { useConversations } from '../hooks/useConversations';
+import { ConversationSidebar } from './ConversationSidebar';
+import { ChatMessage } from '../types/conversation';
 
 interface ChatInterfaceProps {
   onClose: () => void;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "👋 Hi! I'm your AI startup coach. I'm here to help you validate ideas, plan your MVP, develop growth strategies, and navigate the startup journey. What would you like to work on today?",
-      sender: 'bot',
-      timestamp: new Date(),
-    },
-  ]);
+  const {
+    currentConversation,
+    createNewConversation,
+    loadConversation,
+    addMessageToConversation,
+    deleteConversation,
+    getConversationSummaries,
+    getConversationContext
+  } = useConversations();
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize with a new conversation if none exists
+  useEffect(() => {
+    if (!currentConversation) {
+      createNewConversation();
+    }
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,7 +38,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [currentConversation?.messages]);
 
   const parseStructuredResponse = (content: string) => {
     const sections = {
@@ -61,37 +67,44 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
+    if (!currentConversation) return;
 
-    const userMessage: Message = {
+    const userMessage: ChatMessage = {
       id: Date.now().toString(),
       content: inputMessage,
       sender: 'user',
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    addMessageToConversation(currentConversation.id, userMessage);
     setInputMessage('');
     setIsLoading(true);
 
     try {
-      const response = await sendMessage(inputMessage);
+      // Get conversation context for continuity
+      const context = getConversationContext(currentConversation.id);
+      const messageWithContext = context 
+        ? `Previous conversation context:\n${context}\n\nCurrent message: ${inputMessage}`
+        : inputMessage;
       
-      const botMessage: Message = {
+      const response = await sendMessage(messageWithContext);
+      
+      const botMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         content: response,
         sender: 'bot',
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, botMessage]);
+      addMessageToConversation(currentConversation.id, botMessage);
     } catch (error) {
-      const errorMessage: Message = {
+      const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file.',
         sender: 'bot',
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      addMessageToConversation(currentConversation.id, errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -101,6 +114,24 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  const handleNewConversation = () => {
+    createNewConversation();
+    setIsSidebarOpen(false);
+  };
+
+  const handleSelectConversation = (conversationId: string) => {
+    loadConversation(conversationId);
+    setIsSidebarOpen(false);
+  };
+
+  const handleDeleteConversation = (conversationId: string) => {
+    deleteConversation(conversationId);
+    // If we deleted the current conversation, create a new one
+    if (currentConversation?.id === conversationId) {
+      createNewConversation();
     }
   };
 
@@ -171,11 +202,41 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
     );
   };
 
+  if (!currentConversation) {
+    return (
+      <div className="flex items-center justify-center h-full bg-gray-900">
+        <div className="text-center">
+          <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-300">Loading conversation...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col h-full bg-gray-900">
+    <div className="flex h-full bg-gray-900">
+      {/* Sidebar */}
+      <ConversationSidebar
+        conversations={getConversationSummaries()}
+        currentConversationId={currentConversation.id}
+        onSelectConversation={handleSelectConversation}
+        onNewConversation={handleNewConversation}
+        onDeleteConversation={handleDeleteConversation}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+
+      {/* Main Chat Area */}
+      <div className="flex flex-col flex-1">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-blue-500 to-purple-600">
         <div className="flex items-center space-x-3">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="text-white hover:text-blue-200 transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
           <Bot className="w-8 h-8 text-white" />
           <div>
             <h3 className="text-lg font-semibold text-white">AI Startup Coach</h3>
@@ -192,7 +253,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-900">
-        {messages.map((message) => (
+        {currentConversation.messages.map((message) => (
           <div
             key={message.id}
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -256,6 +317,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
