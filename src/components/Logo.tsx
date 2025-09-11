@@ -1,5 +1,4 @@
 import React from 'react';
-import { CustomLogo } from './logos/CustomLogo';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -18,18 +17,19 @@ export const Logo: React.FC<LogoProps> = ({
     lg: 'text-2xl'
   };
 
-  const iconSizes = {
+  const imageSizes = {
     sm: 'w-6 h-6',
-    md: 'w-8 h-8', 
+    md: 'w-8 h-8',
     lg: 'w-10 h-10'
   };
 
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
-      {/* Custom SVG Logo */}
-      <CustomLogo 
-        size={size === 'sm' ? 24 : size === 'md' ? 32 : 40}
-        className="drop-shadow-lg"
+      {/* Logo Image */}
+      <img 
+        src="/src/assets/images/logo.jpg"
+        alt="Bizactly.AI Logo"
+        className={`${imageSizes[size]} drop-shadow-lg rounded-lg`}
       />
       
       {showText && (
