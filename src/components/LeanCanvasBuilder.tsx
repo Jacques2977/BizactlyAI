@@ -102,7 +102,7 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       content: '', 
       completed: false,
       prompt: "What are your key costs to operate and acquire customers?",
-      example: "Dropbox costs: 'Cloud storage infrastructure, customer acquisition, engineering team.'",
+      example: "Common SaaS costs: Hosting & infrastructure (AWS, GCP, etc.), Development (engineering, design, no-code tools), Sales & marketing spend, Customer support. Which 2–3 costs will be most significant early on?",
       tips: [
         "Separate fixed costs from variable costs",
         "Include customer acquisition costs (CAC)",
