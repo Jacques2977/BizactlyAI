@@ -25,6 +25,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize with a new conversation if none exists
@@ -114,11 +115,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
         timestamp: new Date(),
       };
 
+      // Start streaming effect
+      setStreamingMessageId(botMessage.id);
+
       // Add bot message to local state immediately
       setMessages(prev => [...prev, botMessage]);
       
       // Save bot message to conversation storage
       addMessageToConversation(currentConversation.id, botMessage);
+      
+      // Stop streaming after message is fully displayed
+      setTimeout(() => {
+        setStreamingMessageId(null);
+      }, response.length * 20 + 500); // Match streaming speed + buffer
     } catch (error) {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -289,6 +298,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
             key={message.id}
             message={message}
             renderBotMessage={renderBotMessage}
+            isStreaming={message.sender === 'bot' && streamingMessageId === message.id}
           />
         ))}
 
@@ -297,8 +307,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
             <div className="flex items-center space-x-3 bg-gray-800 rounded-lg p-4">
               <Bot className="w-6 h-6 text-blue-500" />
               <div className="flex items-center space-x-2">
-                <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                <span className="text-gray-300">Thinking...</span>
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                </div>
+                <span className="text-gray-300">AI is thinking...</span>
               </div>
             </div>
           </div>
