@@ -294,27 +294,21 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
             key={message.id}
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <div
-              className={`max-w-[80%] ${
-                message.sender === 'user'
-                  ? 'bg-blue-500 text-white rounded-lg p-3'
-                  : 'w-full'
-              }`}
-            >
-              {message.sender === 'user' ? (
-                <div className="flex items-start space-x-2">
-                  <User className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <div className="whitespace-pre-wrap">{message.content}</div>
+            {message.sender === 'user' ? (
+              <div className="flex items-end space-x-2 max-w-[80%]">
+                <div className="bg-blue-500 text-white rounded-lg px-3 py-2 whitespace-pre-wrap">
+                  {message.content}
                 </div>
-              ) : (
-                <div className="flex items-start space-x-3">
-                  <Bot className="w-6 h-6 mt-1 flex-shrink-0 text-blue-500" />
-                  <div className="flex-1">
-                    {renderBotMessage(message.content)}
-                  </div>
+                <User className="w-5 h-5 text-blue-400" />
+              </div>
+            ) : (
+              <div className="flex items-start space-x-3 w-full">
+                <Bot className="w-6 h-6 mt-1 flex-shrink-0 text-blue-500" />
+                <div className="flex-1">
+                  {renderBotMessage(message.content)}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         ))}
 
