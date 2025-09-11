@@ -75,8 +75,8 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       title: 'Channels', 
       content: '', 
       completed: false,
-      prompt: "How will you reach your customers? What channels do they use?",
-      example: "HubSpot uses 'Content marketing, SEO, partner integrations, and direct sales.'",
+      prompt: "How will you reach your target customers?",
+      example: "Common SaaS channels: SEO & content marketing, Social media & community building, B2B sales outreach, Product Hunt & app marketplaces. Which 2–3 channels will you prioritize first?",
       tips: [
         "Start with 1-2 channels you can execute well",
         "Choose channels where your customers already spend time",
