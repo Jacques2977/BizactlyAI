@@ -9,7 +9,7 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = ({ 
   size = 'md', 
   className = '',
-  showText = true 
+  showText = false 
 }) => {
   const sizeClasses = {
     sm: 'text-lg',
@@ -27,7 +27,7 @@ export const Logo: React.FC<LogoProps> = ({
     <div className={`flex items-center space-x-2 ${className}`}>
       {/* Logo Image */}
       <img 
-        src="/src/assets/images/logo.jpg"
+        src="src/assets/images/logo.jpg"
         alt="Bizactly.AI Logo"
         className={`${imageSizes[size]} drop-shadow-lg rounded-lg`}
       />
