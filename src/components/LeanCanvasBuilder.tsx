@@ -114,12 +114,12 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       title: 'Key Metrics', 
       content: '', 
       completed: false,
-      prompt: "What metrics will tell you if your business is successful?",
-      example: "Intercom tracks: 'Monthly Active Users, Customer Acquisition Cost, Monthly Recurring Revenue.'",
+      prompt: "What numbers will tell you that your SaaS is working?",
+      example: "SaaS examples: # of signups or waitlist entries, Monthly active users (MAU), Conversion rate from free → paid, Customer churn rate. Which 2–3 metrics will you track first?",
       tips: [
-        "Focus on leading indicators, not just revenue",
-        "Include both growth and retention metrics",
-        "Choose metrics you can actually measure"
+        "Start with 2-3 key metrics you can actually measure",
+        "Focus on leading indicators that predict success",
+        "Track both acquisition and retention metrics"
       ]
     },
     { 
