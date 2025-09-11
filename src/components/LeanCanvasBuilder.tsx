@@ -62,11 +62,11 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
       title: 'Solution', 
       content: '', 
       completed: false,
-      prompt: "What are the top 3 features that solve these problems?",
-      example: "Stripe's core features: 'Simple payment API, fraud detection, global payment methods.'",
+      prompt: "What's the simplest version of your product that solves the core problems?",
+      example: "A Kanban board with task assignments and chat integration.",
       tips: [
-        "Focus on must-have features, not nice-to-haves",
-        "Each feature should directly address a problem",
+        "Focus on the simplest solution that works",
+        "Address the core problems, not every possible feature",
         "Keep it simple - resist feature creep"
       ]
     },
