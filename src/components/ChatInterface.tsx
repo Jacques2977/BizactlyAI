@@ -74,7 +74,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
     const currentInput = inputMessage;
     setInputMessage('');
-    setIsLoading(true);
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -85,6 +84,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
 
     // Save user message immediately
     addMessageToConversation(currentConversation.id, userMessage);
+
+    setIsLoading(true);
 
     try {
       // Get conversation context for continuity
