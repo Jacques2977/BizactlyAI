@@ -3,6 +3,7 @@ import { Send, Bot, User, Loader2, Menu, MessageSquare } from 'lucide-react';
 import { sendMessage } from '../api/chat';
 import { useConversations } from '../hooks/useConversations';
 import { ConversationSidebar } from './ConversationSidebar';
+import { MessageBubble } from './MessageBubble';
 import { ChatMessage } from '../types/conversation';
 
 interface ChatInterfaceProps {
@@ -290,26 +291,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-900">
         {messages.map((message) => (
-          <div
+          <MessageBubble
             key={message.id}
-            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            {message.sender === 'user' ? (
-              <div className="flex items-end space-x-2 max-w-[80%]">
-                <div className="bg-blue-500 text-white rounded-lg px-3 py-2 whitespace-pre-wrap">
-                  {message.content}
-                </div>
-                <User className="w-5 h-5 text-blue-400" />
-              </div>
-            ) : (
-              <div className="flex items-start space-x-3 w-full">
-                <Bot className="w-6 h-6 mt-1 flex-shrink-0 text-blue-500" />
-                <div className="flex-1">
-                  {renderBotMessage(message.content)}
-                </div>
-              </div>
-            )}
-          </div>
+            message={message}
+            renderBotMessage={renderBotMessage}
+          />
         ))}
 
         {isLoading && (
