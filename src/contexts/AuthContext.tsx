@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, AuthState, LoginCredentials, SignupCredentials } from '../types/auth';
+import { UserSubscription } from '../types/subscription';
 
 interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
@@ -65,12 +66,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const user = savedUsers.find((u: any) => u.email === credentials.email);
       
       if (!user) {
-        throw new Error('User not found');
+        throw new Error('Invalid email or password');
       }
       
       // In a real app, you'd verify the password hash
       if (user.password !== credentials.password) {
-        throw new Error('Invalid password');
+        throw new Error('Invalid email or password');
       }
       
       const { password, ...userWithoutPassword } = user;
@@ -116,9 +117,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         createdAt: new Date().toISOString(),
       };
       
+      // Create default subscription for new user
+      const defaultSubscription: UserSubscription = {
+        id: Date.now().toString(),
+        userId: newUser.id,
+        planId: 'free-trial',
+        status: 'trialing',
+        currentPeriodStart: new Date().toISOString(),
+        currentPeriodEnd: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days
+        cancelAtPeriodEnd: false,
+        usage: {
+          aiChats: 0,
+          tools: 0,
+          projects: 0
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      
       // Save to localStorage (in real app, this would be an API call)
       const updatedUsers = [...savedUsers, newUser];
       localStorage.setItem('bizactly_users', JSON.stringify(updatedUsers));
+      localStorage.setItem(`subscription_${newUser.id}`, JSON.stringify(defaultSubscription));
       
       const { password, ...userWithoutPassword } = newUser;
       
