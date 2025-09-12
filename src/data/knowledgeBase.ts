@@ -328,6 +328,119 @@ export const knowledgeBase: KnowledgeItem[] = [
     category: 'growth',
     tags: ['growth-hacking', 'aarrr', 'viral-growth', 'metrics', 'acquisition']
   }
+  ,
+  {
+    id: 'competitor-analysis-framework',
+    title: 'Comprehensive Competitor Analysis Framework',
+    content: `
+    Competitor Analysis Framework:
+    
+    1. Direct Competitors: Same product, same market
+    - Feature comparison matrix
+    - Pricing analysis
+    - Market share assessment
+    - Customer reviews analysis
+    
+    2. Indirect Competitors: Different solution, same problem
+    - Alternative approaches to solving the problem
+    - Substitute products or services
+    - Adjacent market players
+    
+    3. Potential Competitors: Could enter your market
+    - Large tech companies with resources
+    - Startups in adjacent spaces
+    - Traditional companies digitalizing
+    
+    Key Analysis Areas:
+    
+    Product Analysis:
+    - Core features and functionality
+    - User experience and design
+    - Technical architecture
+    - Integration capabilities
+    - Mobile vs web presence
+    
+    Pricing Analysis:
+    - Pricing models (freemium, subscription, usage-based)
+    - Price points across tiers
+    - Value proposition at each tier
+    - Discounting strategies
+    - Enterprise vs SMB pricing
+    
+    Marketing Analysis:
+    - Brand positioning and messaging
+    - Target customer segments
+    - Marketing channels and tactics
+    - Content marketing strategy
+    - Social media presence
+    - SEO and paid advertising
+    
+    Sales Analysis:
+    - Sales process and methodology
+    - Sales team structure
+    - Channel partnerships
+    - Customer acquisition cost (CAC)
+    - Sales cycle length
+    
+    Customer Analysis:
+    - Customer segments and personas
+    - Customer satisfaction scores
+    - Churn rates and retention
+    - Customer success programs
+    - Support quality and channels
+    
+    Financial Analysis:
+    - Revenue model and streams
+    - Funding history and investors
+    - Valuation and growth metrics
+    - Profitability indicators
+    - Market capitalization (if public)
+    
+    SWOT Analysis Framework:
+    Strengths: What they do well
+    Weaknesses: Where they fall short
+    Opportunities: Market gaps they could fill
+    Threats: Risks to their business
+    
+    Competitive Intelligence Sources:
+    - Company websites and blogs
+    - SEC filings (for public companies)
+    - Press releases and news articles
+    - Customer reviews (G2, Capterra, TrustPilot)
+    - Social media and forums
+    - Industry reports and analyst coverage
+    - Job postings and LinkedIn
+    - Patent filings
+    - Web traffic analysis tools
+    - Pricing pages and sales materials
+    
+    Red Flags to Watch:
+    - Sudden pricing changes
+    - Key executive departures
+    - Funding announcements
+    - New product launches
+    - Partnership announcements
+    - Customer complaints or issues
+    - Technical outages or problems
+    
+    Competitive Positioning Strategies:
+    1. Head-to-head: Direct competition on features/price
+    2. Differentiation: Unique value proposition
+    3. Niche focus: Specialized market segment
+    4. Cost leadership: Lowest price in market
+    5. Premium positioning: Highest quality/service
+    
+    Monitoring and Updates:
+    - Set up Google Alerts for competitor names
+    - Monitor their social media and blogs
+    - Track their job postings for strategic insights
+    - Review customer feedback regularly
+    - Update analysis quarterly
+    - Share insights across your team
+    `,
+    category: 'competitive-analysis',
+    tags: ['competitor-analysis', 'market-research', 'competitive-intelligence', 'swot-analysis', 'positioning']
+  }
 ];
 
 // Simple text similarity function for RAG retrieval

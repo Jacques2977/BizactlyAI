@@ -13,6 +13,7 @@ import { MVPPlanner } from './components/MVPPlanner';
 import { PersonaGenerator } from './components/PersonaGenerator';
 import { LaunchPlanAssistant } from './components/LaunchPlanAssistant';
 import { PricingAssistant } from './components/PricingAssistant';
+import { CompetitorAnalysis } from './components/CompetitorAnalysis';
 import { LeanCanvasBuilder } from './components/LeanCanvasBuilder';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useUserMetrics } from './hooks/useUserMetrics';
@@ -704,7 +705,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 <p className="text-gray-300 mb-4">Get personalized advice on SaaS validation, pricing strategy, and scaling to $10K MRR.</p>
                 <button
                   onClick={() => {
-                    if (handleFeatureUse('aiChats', 'AI Chat Sessions')) {
+                    if (handleFeatureAccess('aiChats', 'AI Chat Sessions')) {
                       setActiveView('chat');
                     }
                   }}
@@ -761,7 +762,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <p className="text-gray-300 mb-4">Analyze your SaaS idea with market research, competition analysis, and improvement suggestions.</p>
                   <button
                     onClick={() => {
-                      if (handleFeatureUse('tools', 'Idea Validation Tools')) {
+                      if (handleFeatureAccess('tools', 'Idea Validation Tools')) {
                         setActiveView('idea-validator');
                       }
                     }}
@@ -777,7 +778,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <p className="text-gray-300 mb-4">Get a prioritized feature roadmap and development timeline for your MVP.</p>
                   <button
                     onClick={() => {
-                      if (handleFeatureUse('tools', 'MVP Planning Tools')) {
+                      if (handleFeatureAccess('tools', 'MVP Planning Tools')) {
                         setActiveView('mvp-planner');
                       }
                     }}
@@ -793,7 +794,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <p className="text-gray-300 mb-4">Create detailed user personas with demographics, pain points, and behavior patterns.</p>
                   <button
                     onClick={() => {
-                      if (handleFeatureUse('tools', 'Persona Generation Tools')) {
+                      if (handleFeatureAccess('tools', 'Persona Generation Tools')) {
                         setActiveView('persona-generator');
                       }
                     }}
@@ -809,7 +810,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <p className="text-gray-300 mb-4">Get a comprehensive go-to-market strategy with actionable tasks and timelines.</p>
                   <button
                     onClick={() => {
-                      if (handleFeatureUse('tools', 'Launch Planning Tools')) {
+                      if (handleFeatureAccess('tools', 'Launch Planning Tools')) {
                         setActiveView('launch-plan');
                       }
                     }}
@@ -825,7 +826,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <p className="text-gray-300 mb-4">Optimize your pricing strategy with psychological insights and competitive analysis.</p>
                   <button
                     onClick={() => {
-                      if (handleFeatureUse('tools', 'Pricing Strategy Tools')) {
+                      if (handleFeatureAccess('tools', 'Pricing Strategy Tools')) {
                         setActiveView('pricing-assistant');
                       }
                     }}
