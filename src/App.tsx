@@ -53,6 +53,7 @@ function AppContent() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#home" className="text-gray-300 hover:text-blue-400 font-medium transition-colors">Home</a>
               <a href="#features" className="text-gray-300 hover:text-blue-400 font-medium transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-300 hover:text-blue-400 font-medium transition-colors">Pricing</a>
               <a href="#how-it-works" className="text-gray-300 hover:text-blue-400 font-medium transition-colors">How It Works</a>
               
               {isAuthenticated ? (
@@ -108,6 +109,7 @@ function AppContent() {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <a href="#home" className="block px-3 py-2 text-gray-300 hover:text-blue-400 font-medium transition-colors">Home</a>
               <a href="#features" className="block px-3 py-2 text-gray-300 hover:text-blue-400 font-medium transition-colors">Features</a>
+              <a href="#pricing" className="block px-3 py-2 text-gray-300 hover:text-blue-400 font-medium transition-colors">Pricing</a>
               <a href="#how-it-works" className="block px-3 py-2 text-gray-300 hover:text-blue-400 font-medium transition-colors">How It Works</a>
               {!isAuthenticated && (
                 <>
@@ -235,6 +237,119 @@ function AppContent() {
               <CheckCircle className="w-8 h-8 text-green-500 mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Growth Engine</h3>
               <p className="text-gray-300">AI-powered customer acquisition, retention strategies, and path to $10K MRR</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Choose Your Plan</h2>
+            <p className="text-xl text-gray-300">Start free and scale as you grow</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Free Plan */}
+            <div className="bg-gray-700 rounded-lg p-6 border border-gray-600 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="text-2xl mb-2">🌱</div>
+                <h3 className="text-xl font-bold text-white mb-2">Free Plan</h3>
+                <p className="text-sm text-gray-300 mb-4">"Idea Stage"</p>
+                <div className="text-3xl font-bold text-white">$0</div>
+                <p className="text-gray-400">Forever free</p>
+              </div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-300">
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />20 AI messages/day</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />1 Lean Canvas</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />1 Competitor Snapshot</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Learning resources</li>
+              </ul>
+              <button
+                onClick={() => handleAuthClick('signup')}
+                className="w-full bg-gray-600 text-white py-2 rounded-lg font-medium hover:bg-gray-500 transition-colors"
+              >
+                Get Started Free
+              </button>
+            </div>
+
+            {/* Starter Plan */}
+            <div className="bg-gradient-to-b from-blue-600 to-blue-700 rounded-lg p-6 border-2 border-blue-500 relative hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center">
+                  <Star className="w-4 h-4 mr-1" />
+                  Most Popular
+                </span>
+              </div>
+              <div className="text-center mb-6">
+                <div className="text-2xl mb-2">🚀</div>
+                <h3 className="text-xl font-bold text-white mb-2">Starter Plan</h3>
+                <p className="text-sm text-blue-100 mb-4">"MVP Builder"</p>
+                <div className="text-3xl font-bold text-white">$19</div>
+                <p className="text-blue-100">/month</p>
+              </div>
+              <ul className="space-y-2 mb-6 text-sm text-blue-100">
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Unlimited AI chat</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Unlimited Lean Canvases</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />MVP roadmap generator</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />3 competitor analysis</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Export projects (PDF)</li>
+              </ul>
+              <button
+                onClick={() => handleAuthClick('signup')}
+                className="w-full bg-white text-blue-600 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+              >
+                Start Free Trial
+              </button>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="bg-gray-700 rounded-lg p-6 border border-gray-600 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="text-2xl mb-2">💼</div>
+                <h3 className="text-xl font-bold text-white mb-2">Pro Plan</h3>
+                <p className="text-sm text-gray-300 mb-4">"Launch & Growth"</p>
+                <div className="text-3xl font-bold text-white">$49</div>
+                <p className="text-gray-400">/month</p>
+              </div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-300">
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Everything in Starter</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />10 competitor tracking</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Financial model generator</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Marketing playbooks</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Team collaboration (2)</li>
+              </ul>
+              <button
+                onClick={() => handleAuthClick('signup')}
+                className="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors"
+              >
+                Start Free Trial
+              </button>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="bg-gray-700 rounded-lg p-6 border border-gray-600 hover:shadow-xl hover:shadow-yellow-500/10 transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="text-2xl mb-2">🏢</div>
+                <h3 className="text-xl font-bold text-white mb-2">Enterprise</h3>
+                <p className="text-sm text-gray-300 mb-4">"Scale & Invest"</p>
+                <div className="text-3xl font-bold text-white">$99</div>
+                <p className="text-gray-400">/month</p>
+              </div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-300">
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Everything in Pro</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />White-label reports</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Unlimited competitors</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Pitch deck generator</li>
+                <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />API access</li>
+              </ul>
+              <button
+                onClick={() => handleAuthClick('signup')}
+                className="w-full bg-yellow-600 text-white py-2 rounded-lg font-medium hover:bg-yellow-700 transition-colors"
+              >
+                Contact Sales
+              </button>
             </div>
           </div>
         </div>
@@ -487,6 +602,54 @@ function DashboardView({ onBack }: { onBack: () => void }) {
 
         {activeView === 'overview' && (
           <div className="space-y-8">
+            {/* Current Subscription Status */}
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg p-6 border border-gray-600">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="text-3xl">
+                    {currentPlan?.id === 'free' && '🌱'}
+                    {currentPlan?.id === 'starter' && '🚀'}
+                    {currentPlan?.id === 'pro' && '💼'}
+                    {currentPlan?.id === 'enterprise' && '🏢'}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{currentPlan?.name}</h3>
+                    <p className="text-gray-300">
+                      {currentPlan?.price === 0 ? 'Free forever' : `$${currentPlan?.price}/month`}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center space-x-6 mb-2">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400">AI Chats</div>
+                      <div className="font-semibold text-blue-400">
+                        {getRemainingUsage('aiChats') === -1 ? 'Unlimited' : `${getRemainingUsage('aiChats')} left`}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400">Tools</div>
+                      <div className="font-semibold text-green-400">
+                        {getRemainingUsage('tools') === -1 ? 'Unlimited' : `${getRemainingUsage('tools')} left`}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400">Projects</div>
+                      <div className="font-semibold text-purple-400">
+                        {getRemainingUsage('projects') === -1 ? 'Unlimited' : `${getRemainingUsage('projects')} left`}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsSubscriptionModalOpen(true)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+                  >
+                    {currentPlan?.id === 'free' ? 'Upgrade Plan' : 'Manage Subscription'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Trial Expiry Warning */}
             {isTrialExpired() && (
               <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-4">
@@ -532,32 +695,6 @@ function DashboardView({ onBack }: { onBack: () => void }) {
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                 Join 500+ SaaS founders who've reached $10K+ MRR with Bizactly.AI
               </p>
-              {currentPlan && (
-                <div className="mt-4 inline-flex items-center space-x-4 bg-gray-800 rounded-lg px-6 py-3 border border-gray-700">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400">Current Plan</div>
-                    <div className="font-semibold text-white">{currentPlan.name}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400">AI Chats Remaining</div>
-                    <div className="font-semibold text-blue-400">
-                      {getRemainingUsage('aiChats') === -1 ? 'Unlimited' : getRemainingUsage('aiChats')}
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400">Tools Remaining</div>
-                    <div className="font-semibold text-green-400">
-                      {getRemainingUsage('tools') === -1 ? 'Unlimited' : getRemainingUsage('tools')}
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setIsSubscriptionModalOpen(true)}
-                    className="text-purple-400 hover:text-purple-300 font-medium text-sm"
-                  >
-                    Upgrade →
-                  </button>
-                </div>
-              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
