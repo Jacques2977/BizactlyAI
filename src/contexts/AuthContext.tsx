@@ -121,10 +121,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const defaultSubscription: UserSubscription = {
         id: Date.now().toString(),
         userId: newUser.id,
-        planId: 'free-trial',
-        status: 'trialing',
+        planId: 'free',
+        status: 'active',
         currentPeriodStart: new Date().toISOString(),
-        currentPeriodEnd: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days
+        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year
         cancelAtPeriodEnd: false,
         usage: {
           aiChats: 0,

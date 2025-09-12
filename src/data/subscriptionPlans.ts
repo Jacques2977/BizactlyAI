@@ -2,79 +2,77 @@ import { SubscriptionPlan } from '../types/subscription';
 
 export const subscriptionPlans: SubscriptionPlan[] = [
   {
-    id: 'free-trial',
-    name: 'Free Trial',
+    id: 'free',
+    name: 'Free Plan',
     price: 0,
     billingCycle: 'monthly',
     features: [
-      '10 AI coaching sessions',
-      '1 idea validation',
-      '1 MVP plan',
-      'Basic analytics',
-      'Email support'
+      '20 AI chat messages per day',
+      '1 Lean Canvas generator',
+      '1 Competitor Snapshot',
+      'Access to learning resources',
+      'Basic templates'
     ],
     limits: {
-      aiChats: 10,
-      tools: 3,
+      aiChats: 20,
+      tools: 2,
       projects: 1
     }
   },
   {
     id: 'starter',
-    name: 'Starter',
-    price: 29,
+    name: 'Starter Plan',
+    price: 19,
     billingCycle: 'monthly',
+    popular: true,
     features: [
-      '100 AI coaching sessions',
-      '5 idea validations',
-      '3 MVP plans',
-      'All startup tools',
-      'Progress tracking',
-      'Priority email support'
+      'Unlimited AI chat',
+      'Unlimited Lean Canvases',
+      'MVP roadmap generator',
+      'Competitor analysis (up to 3)',
+      'Save/export projects (PDF)',
+      'Email support'
     ],
     limits: {
-      aiChats: 100,
-      tools: 10,
-      projects: 3
+      aiChats: -1,
+      tools: -1,
+      projects: 5
     },
     stripePriceId: 'price_starter_monthly'
   },
   {
     id: 'pro',
-    name: 'Pro',
-    price: 79,
+    name: 'Pro Plan',
+    price: 49,
     billingCycle: 'monthly',
-    popular: true,
     features: [
-      'Unlimited AI coaching',
-      'Unlimited idea validations',
-      'Unlimited MVP plans',
-      'All startup tools',
-      'Advanced analytics',
-      'Custom personas',
-      'Launch plan templates',
+      'Everything in Starter',
+      'Advanced competitor tracking (10)',
+      'Financial model generator',
+      'Marketing playbooks & AI campaigns',
+      'Team collaboration (2 teammates)',
       'Priority support'
     ],
     limits: {
       aiChats: -1,
       tools: -1,
-      projects: 10
+      projects: -1
     },
     stripePriceId: 'price_pro_monthly'
   },
   {
     id: 'enterprise',
-    name: 'Enterprise',
-    price: 199,
+    name: 'Enterprise Plan',
+    price: 99,
     billingCycle: 'monthly',
     features: [
       'Everything in Pro',
-      'Unlimited projects',
-      'Team collaboration',
-      'Custom integrations',
-      'Dedicated account manager',
-      'Phone support',
-      'Custom onboarding'
+      'White-label reports',
+      'Unlimited competitors',
+      'Investor pitch deck generator',
+      'Dedicated AI workspace',
+      'API access',
+      'Custom branding'
     ],
     limits: {
       aiChats: -1,
