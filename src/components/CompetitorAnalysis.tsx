@@ -1,0 +1,379 @@
+import React, { useState } from 'react';
+import { Search, TrendingUp, DollarSign, Users, Star, ExternalLink, Target, AlertCircle, Lightbulb, Shield } from 'lucide-react';
+import { analyzeCompetitors, CompetitorAnalysisResult, CompetitorInfo } from '../api/competitorAnalysis';
+
+interface CompetitorAnalysisProps {
+  onClose: () => void;
+}
+
+export const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    productDescription: '',
+    targetMarket: '',
+    maxCompetitors: '5',
+  });
+  const [analysisResult, setAnalysisResult] = useState<CompetitorAnalysisResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleAnalyzeCompetitors = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const result = await analyzeCompetitors(
+        formData.productDescription,
+        formData.targetMarket,
+        parseInt(formData.maxCompetitors)
+      );
+      setAnalysisResult(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to analyze competitors');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getMarketPositionColor = (position: string) => {
+    switch (position.toLowerCase()) {
+      case 'market leader': return 'bg-red-100 text-red-800';
+      case 'challenger': return 'bg-orange-100 text-orange-800';
+      case 'niche player': return 'bg-blue-100 text-blue-800';
+      case 'startup': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const CompetitorCard: React.FC<{ competitor: CompetitorInfo }> = ({ competitor }) => (
+    <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          <div className="flex items-center space-x-2 mb-2">
+            <h4 className="text-xl font-bold text-white">{competitor.name}</h4>
+            <a
+              href={competitor.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+          <p className="text-gray-300 text-sm mb-3">{competitor.description}</p>
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getMarketPositionColor(competitor.marketPosition)}`}>
+            {competitor.marketPosition}
+          </span>
+        </div>
+      </div>
+
+      {/* Pricing */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-white mb-2 flex items-center">
+          <DollarSign className="w-4 h-4 mr-1" />
+          Pricing ({competitor.pricing.model})
+        </h5>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {competitor.pricing.tiers.slice(0, 2).map((tier, index) => (
+            <div key={index} className="bg-gray-700/50 rounded p-2">
+              <div className="font-medium text-white text-sm">{tier.name}</div>
+              <div className="text-blue-400 font-bold">{tier.price}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Key Features */}
+      <div className="mb-4">
+        <h5 className="font-semibold text-white mb-2">Key Features</h5>
+        <div className="flex flex-wrap gap-1">
+          {competitor.features.slice(0, 4).map((feature, index) => (
+            <span key={index} className="bg-blue-900/30 text-blue-300 px-2 py-1 rounded text-xs">
+              {feature}
+            </span>
+          ))}
+          {competitor.features.length > 4 && (
+            <span className="text-gray-400 text-xs">+{competitor.features.length - 4} more</span>
+          )}
+        </div>
+      </div>
+
+      {/* Strengths & Weaknesses */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <h5 className="font-semibold text-green-400 mb-2 text-sm">Strengths</h5>
+          <ul className="text-xs text-gray-300 space-y-1">
+            {competitor.strengths.slice(0, 2).map((strength, index) => (
+              <li key={index} className="flex items-start space-x-1">
+                <span className="text-green-500 mt-0.5">+</span>
+                <span>{strength}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h5 className="font-semibold text-red-400 mb-2 text-sm">Weaknesses</h5>
+          <ul className="text-xs text-gray-300 space-y-1">
+            {competitor.weaknesses.slice(0, 2).map((weakness, index) => (
+              <li key={index} className="flex items-start space-x-1">
+                <span className="text-red-500 mt-0.5">-</span>
+                <span>{weakness}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Social Proof */}
+      {competitor.socialProof && (
+        <div className="flex items-center justify-between text-sm text-gray-400 pt-3 border-t border-gray-700">
+          <div className="flex items-center space-x-1">
+            <Star className="w-3 h-3 text-yellow-500" />
+            <span>{competitor.socialProof.rating}/5</span>
+            <span>({competitor.socialProof.reviews} reviews)</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Users className="w-3 h-3" />
+            <span>{competitor.socialProof.customers}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col h-full bg-gray-900">
+      {/* Header */}
+      <div className="flex items-center justify-between p-6 border-b border-gray-700 bg-gradient-to-r from-red-500 to-pink-600">
+        <div className="flex items-center space-x-3">
+          <Search className="w-8 h-8 text-white" />
+          <div>
+            <h3 className="text-xl font-bold text-white">Competitor Analysis</h3>
+            <p className="text-red-100 text-sm">Analyze your competitive landscape</p>
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-white hover:text-red-200 transition-colors text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6 bg-gray-900">
+        {!analysisResult ? (
+          /* Input Form */
+          <form onSubmit={handleAnalyzeCompetitors} className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Product Description *
+              </label>
+              <textarea
+                name="productDescription"
+                value={formData.productDescription}
+                onChange={handleInputChange}
+                required
+                rows={4}
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Describe your product or service. What does it do? What problems does it solve?"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Target Market *
+              </label>
+              <input
+                type="text"
+                name="targetMarket"
+                value={formData.targetMarket}
+                onChange={handleInputChange}
+                required
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Who is your target customer? (e.g., small businesses, developers, marketers)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Number of Competitors to Analyze
+              </label>
+              <select
+                name="maxCompetitors"
+                value={formData.maxCompetitors}
+                onChange={handleInputChange}
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              >
+                <option value="3">3 Competitors</option>
+                <option value="5">5 Competitors</option>
+                <option value="7">7 Competitors</option>
+                <option value="10">10 Competitors</option>
+              </select>
+            </div>
+
+            {error && (
+              <div className="bg-red-900/30 border border-red-700/50 text-red-200 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Analyzing Competitors...</span>
+                </div>
+              ) : (
+                'Analyze Competitors'
+              )}
+            </button>
+          </form>
+        ) : (
+          /* Analysis Results */
+          <div className="space-y-6">
+            {/* Market Insights */}
+            <div className="bg-gradient-to-r from-red-900/30 to-pink-900/30 border border-red-700/50 rounded-lg p-6">
+              <h3 className="text-2xl font-bold text-white mb-4">Market Insights</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-white mb-2 flex items-center">
+                    <DollarSign className="w-5 h-5 mr-2 text-green-500" />
+                    Average Pricing
+                  </h4>
+                  <p className="text-gray-300">{analysisResult.marketInsights.averagePricing}</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-white mb-2 flex items-center">
+                    <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
+                    Common Features
+                  </h4>
+                  <div className="flex flex-wrap gap-1">
+                    {analysisResult.marketInsights.commonFeatures.slice(0, 4).map((feature, index) => (
+                      <span key={index} className="bg-blue-900/30 text-blue-300 px-2 py-1 rounded text-xs">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Competitors Grid */}
+            <div>
+              <h4 className="text-xl font-bold text-white mb-4">
+                Competitor Analysis ({analysisResult.competitors.length} found)
+              </h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {analysisResult.competitors.map((competitor) => (
+                  <CompetitorCard key={competitor.id} competitor={competitor} />
+                ))}
+              </div>
+            </div>
+
+            {/* Competitive Advantages */}
+            <div className="bg-green-900/30 border border-green-700/50 rounded-lg p-6">
+              <h4 className="text-lg font-bold text-white mb-3 flex items-center">
+                <Shield className="w-6 h-6 text-green-600 mr-2" />
+                Your Competitive Advantages
+              </h4>
+              <ul className="space-y-2">
+                {analysisResult.competitiveAdvantages.map((advantage, index) => (
+                  <li key={index} className="flex items-start space-x-2">
+                    <Target className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-300 text-sm">{advantage}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Recommendations */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-blue-900/30 border border-blue-700/50 rounded-lg p-6">
+                <h4 className="text-lg font-bold text-white mb-3">Positioning Recommendations</h4>
+                <ul className="space-y-2">
+                  {analysisResult.recommendations.positioning.map((rec, index) => (
+                    <li key={index} className="flex items-start space-x-2">
+                      <Lightbulb className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-blue-200 text-sm">{rec}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-purple-900/30 border border-purple-700/50 rounded-lg p-6">
+                <h4 className="text-lg font-bold text-white mb-3">Pricing Recommendations</h4>
+                <ul className="space-y-2">
+                  {analysisResult.recommendations.pricing.map((rec, index) => (
+                    <li key={index} className="flex items-start space-x-2">
+                      <DollarSign className="w-4 h-4 text-purple-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-purple-200 text-sm">{rec}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* SWOT Analysis */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-green-900/30 border border-green-700/50 rounded-lg p-6">
+                <h4 className="text-lg font-bold text-white mb-3">Market Opportunities</h4>
+                <ul className="space-y-2">
+                  {analysisResult.swotAnalysis.opportunities.map((opportunity, index) => (
+                    <li key={index} className="flex items-start space-x-2">
+                      <TrendingUp className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-green-200 text-sm">{opportunity}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-6">
+                <h4 className="text-lg font-bold text-white mb-3">Market Threats</h4>
+                <ul className="space-y-2">
+                  {analysisResult.swotAnalysis.threats.map((threat, index) => (
+                    <li key={index} className="flex items-start space-x-2">
+                      <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-red-200 text-sm">{threat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setAnalysisResult(null)}
+                className="flex-1 bg-gray-700 text-gray-300 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors"
+              >
+                Analyze Different Market
+              </button>
+              <button
+                onClick={() => {
+                  const resultText = JSON.stringify(analysisResult, null, 2);
+                  navigator.clipboard.writeText(resultText);
+                }}
+                className="flex-1 bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                Export Analysis
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
