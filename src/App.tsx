@@ -403,11 +403,13 @@ function DashboardView({ onBack }: { onBack: () => void }) {
             </nav>
 
             <div className="flex items-center space-x-3">
+              <>
               {/* Subscription Status */}
               {currentPlan && (
                 <div className="hidden md:flex items-center space-x-2 bg-gray-700 px-3 py-1 rounded-lg">
                   <span className="text-sm text-gray-300">{currentPlan.name}</span>
                 </div>
+              )}
               <div className="flex items-center space-x-2">
                 <User className="w-5 h-5 text-gray-400" />
                 <span className="text-sm font-medium text-gray-300">{user?.name}</span>
@@ -419,6 +421,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 <LogOut className="w-4 h-4" />
                 <span className="text-sm">Logout</span>
               </button>
+              </>
             </div>
           </div>
         </div>
