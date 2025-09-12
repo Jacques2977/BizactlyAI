@@ -8,9 +8,10 @@ import { ChatMessage } from '../types/conversation';
 
 interface ChatInterfaceProps {
   onClose: () => void;
+  onFeatureUse?: () => boolean;
 }
 
-export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeatureUse }) => {
   const {
     currentConversation,
     createNewConversation,
@@ -80,6 +81,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose }) => {
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
     if (!currentConversation) return;
+    
+    // Check usage limits before sending message
+    if (onFeatureUse && !onFeatureUse()) {
+      return;
+    }
 
     const currentInput = inputMessage;
     setInputMessage('');

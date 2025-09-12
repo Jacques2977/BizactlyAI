@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star, Edit3, TrendingUp, Search, Rocket, Users, Target, DollarSign } from 'lucide-react';
+import { MessageSquare, BarChart3, BookOpen, Menu, X, User, LogOut, CheckCircle, ArrowRight, Star, Edit3, TrendingUp, Search, Rocket, Users, Target, DollarSign, CreditCard } from 'lucide-react';
 import { Logo } from './components/Logo';
 import { ChatInterface } from './components/ChatInterface';
 import { AuthModal } from './components/AuthModal';
 import { MetricsUpdateModal } from './components/MetricsUpdateModal';
+import { SubscriptionModal } from './components/SubscriptionModal';
+import { BillingDashboard } from './components/BillingDashboard';
+import { UsageLimitModal } from './components/UsageLimitModal';
 import { ProgressTracker } from './components/ProgressTracker';
 import { IdeaValidator } from './components/IdeaValidator';
 import { MVPPlanner } from './components/MVPPlanner';
@@ -13,6 +16,8 @@ import { PricingAssistant } from './components/PricingAssistant';
 import { LeanCanvasBuilder } from './components/LeanCanvasBuilder';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useUserMetrics } from './hooks/useUserMetrics';
+import { useSubscription } from './hooks/useSubscription';
+import { SubscriptionPlan } from './types/subscription';
 
 function AppContent() {
   const [activeView, setActiveView] = useState<'landing' | 'dashboard'>('landing');
@@ -305,17 +310,61 @@ function AppContent() {
 
 // Dashboard Component (existing functionality)
 function DashboardView({ onBack }: { onBack: () => void }) {
-  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources' | 'idea-validator' | 'mvp-planner' | 'persona-generator' | 'launch-plan' | 'pricing-assistant' | 'lean-canvas'>('overview');
+  const [activeView, setActiveView] = useState<'overview' | 'chat' | 'analytics' | 'resources' | 'billing' | 'idea-validator' | 'mvp-planner' | 'persona-generator' | 'launch-plan' | 'pricing-assistant' | 'lean-canvas'>('overview');
   const [isMetricsModalOpen, setIsMetricsModalOpen] = useState(false);
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+  const [usageLimitModal, setUsageLimitModal] = useState<{
+    isOpen: boolean;
+    feature: 'aiChats' | 'tools' | 'projects';
+    featureName: string;
+  }>({
+    isOpen: false,
+    feature: 'aiChats',
+    featureName: ''
+  });
   const { user, logout } = useAuth();
   const { metrics, progress, isLoading, updateMetrics } = useUserMetrics();
+  const { 
+    subscription, 
+    currentPlan, 
+    canUseFeature, 
+    getRemainingUsage, 
+    incrementUsage,
+    updateSubscription,
+    isTrialExpired,
+    getDaysUntilExpiry
+  } = useSubscription();
 
   const navigation = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
     { id: 'chat', label: 'AI Coach', icon: MessageSquare },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'billing', label: 'Billing', icon: CreditCard },
     { id: 'resources', label: 'Resources', icon: BookOpen },
   ];
+
+  const handleFeatureAccess = (feature: 'aiChats' | 'tools' | 'projects', featureName: string): boolean => {
+    if (canUseFeature(feature)) {
+      incrementUsage(feature);
+      return true;
+    } else {
+      setUsageLimitModal({
+        isOpen: true,
+        feature,
+        featureName
+      });
+      return false;
+    }
+  };
+
+  const handleSubscribe = (plan: SubscriptionPlan) => {
+    updateSubscription({
+      planId: plan.id,
+      status: plan.price === 0 ? 'trialing' : 'active',
+      currentPeriodStart: new Date().toISOString(),
+      currentPeriodEnd: new Date(Date.now() + (plan.billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toISOString()
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -354,6 +403,14 @@ function DashboardView({ onBack }: { onBack: () => void }) {
             </nav>
 
             <div className="flex items-center space-x-3">
+              {/* Subscription Status */}
+              {currentPlan && (
+                <div className="hidden md:flex items-center space-x-2 bg-gray-700 px-3 py-1 rounded-lg">
+                  <span className="text-sm text-gray-300">{currentPlan.name}</span>
+            <MVPPlanner 
+              onClose={() => setActiveView('overview')} 
+              onFeatureUse={() => handleFeatureUse('tools', 'MVP Planning Tools')}
+            />
               <div className="flex items-center space-x-2">
                 <User className="w-5 h-5 text-gray-400" />
                 <span className="text-sm font-medium text-gray-300">{user?.name}</span>
@@ -392,30 +449,82 @@ function DashboardView({ onBack }: { onBack: () => void }) {
 
         {activeView === 'persona-generator' && (
           <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-            <PersonaGenerator onClose={() => setActiveView('overview')} />
+            <PersonaGenerator 
+              onClose={() => setActiveView('overview')} 
+              onFeatureUse={() => handleFeatureUse('tools', 'Persona Generation Tools')}
+            />
           </div>
         )}
 
         {activeView === 'launch-plan' && (
           <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-            <LaunchPlanAssistant onClose={() => setActiveView('overview')} />
+            <LaunchPlanAssistant 
+              onClose={() => setActiveView('overview')} 
+              onFeatureUse={() => handleFeatureUse('tools', 'Launch Planning Tools')}
+            />
           </div>
         )}
 
         {activeView === 'pricing-assistant' && (
           <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-            <PricingAssistant onClose={() => setActiveView('overview')} />
+            <PricingAssistant 
+              onClose={() => setActiveView('overview')} 
+              onFeatureUse={() => handleFeatureUse('tools', 'Pricing Strategy Tools')}
+            />
           </div>
         )}
 
         {activeView === 'lean-canvas' && (
           <div className="h-[600px] bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-            <LeanCanvasBuilder onClose={() => setActiveView('overview')} />
+            <LeanCanvasBuilder 
+              onClose={() => setActiveView('overview')} 
+              onFeatureUse={() => handleFeatureUse('tools', 'Lean Canvas Tools')}
+            />
           </div>
         )}
 
+        {activeView === 'billing' && <BillingDashboard />}
+
         {activeView === 'overview' && (
           <div className="space-y-8">
+            {/* Trial Expiry Warning */}
+            {isTrialExpired() && (
+              <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <AlertCircle className="w-5 h-5 text-red-400" />
+                    <span className="text-red-200 font-medium">Your free trial has expired</span>
+                  </div>
+                  <button
+                    onClick={() => setIsSubscriptionModalOpen(true)}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                  >
+                    Upgrade Now
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Trial Warning */}
+            {subscription?.status === 'trialing' && getDaysUntilExpiry() <= 3 && (
+              <div className="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <AlertCircle className="w-5 h-5 text-yellow-400" />
+                    <span className="text-yellow-200 font-medium">
+                      Your free trial expires in {getDaysUntilExpiry()} days
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setIsSubscriptionModalOpen(true)}
+                    className="bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-700 transition-colors"
+                  >
+                    Choose Plan
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="text-center">
               <h1 className="text-4xl font-bold text-white mb-4">
                 Welcome back, {user?.name}!
@@ -423,6 +532,32 @@ function DashboardView({ onBack }: { onBack: () => void }) {
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                 Join 500+ SaaS founders who've reached $10K+ MRR with Bizactly.AI
               </p>
+              {currentPlan && (
+                <div className="mt-4 inline-flex items-center space-x-4 bg-gray-800 rounded-lg px-6 py-3 border border-gray-700">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400">Current Plan</div>
+                    <div className="font-semibold text-white">{currentPlan.name}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400">AI Chats Remaining</div>
+                    <div className="font-semibold text-blue-400">
+                      {getRemainingUsage('aiChats') === -1 ? 'Unlimited' : getRemainingUsage('aiChats')}
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400">Tools Remaining</div>
+                    <div className="font-semibold text-green-400">
+                      {getRemainingUsage('tools') === -1 ? 'Unlimited' : getRemainingUsage('tools')}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsSubscriptionModalOpen(true)}
+                    className="text-purple-400 hover:text-purple-300 font-medium text-sm"
+                  >
+                    Upgrade →
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -431,7 +566,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                 <h3 className="text-lg font-semibold text-white mb-2">AI SaaS Cofounder</h3>
                 <p className="text-gray-300 mb-4">Get personalized advice on SaaS validation, pricing strategy, and scaling to $10K MRR.</p>
                 <button
-                  onClick={() => setActiveView('chat')}
+                  onClick={() => {
+                    if (handleFeatureUse('aiChats', 'AI Chat Sessions')) {
+                      setActiveView('chat');
+                    }
+                  }}
                   className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                 >
                   Chat with AI Cofounder →
@@ -484,7 +623,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <h3 className="text-lg font-semibold text-white mb-2">Idea Validator</h3>
                   <p className="text-gray-300 mb-4">Analyze your SaaS idea with market research, competition analysis, and improvement suggestions.</p>
                   <button
-                    onClick={() => setActiveView('idea-validator')}
+                    onClick={() => {
+                      if (handleFeatureUse('tools', 'Idea Validation Tools')) {
+                        setActiveView('idea-validator');
+                      }
+                    }}
                     className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                   >
                     Validate Idea →
@@ -496,7 +639,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <h3 className="text-lg font-semibold text-white mb-2">MVP Prioritizer</h3>
                   <p className="text-gray-300 mb-4">Get a prioritized feature roadmap and development timeline for your MVP.</p>
                   <button
-                    onClick={() => setActiveView('mvp-planner')}
+                    onClick={() => {
+                      if (handleFeatureUse('tools', 'MVP Planning Tools')) {
+                        setActiveView('mvp-planner');
+                      }
+                    }}
                     className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
                   >
                     Plan MVP →
@@ -508,7 +655,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <h3 className="text-lg font-semibold text-white mb-2">Persona Generator</h3>
                   <p className="text-gray-300 mb-4">Create detailed user personas with demographics, pain points, and behavior patterns.</p>
                   <button
-                    onClick={() => setActiveView('persona-generator')}
+                    onClick={() => {
+                      if (handleFeatureUse('tools', 'Persona Generation Tools')) {
+                        setActiveView('persona-generator');
+                      }
+                    }}
                     className="text-pink-400 hover:text-pink-300 font-medium transition-colors"
                   >
                     Generate Personas →
@@ -520,7 +671,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <h3 className="text-lg font-semibold text-white mb-2">Launch Plan Assistant</h3>
                   <p className="text-gray-300 mb-4">Get a comprehensive go-to-market strategy with actionable tasks and timelines.</p>
                   <button
-                    onClick={() => setActiveView('launch-plan')}
+                    onClick={() => {
+                      if (handleFeatureUse('tools', 'Launch Planning Tools')) {
+                        setActiveView('launch-plan');
+                      }
+                    }}
                     className="text-green-400 hover:text-green-300 font-medium transition-colors"
                   >
                     Create Launch Plan →
@@ -532,7 +687,11 @@ function DashboardView({ onBack }: { onBack: () => void }) {
                   <h3 className="text-lg font-semibold text-white mb-2">Pricing Assistant</h3>
                   <p className="text-gray-300 mb-4">Optimize your pricing strategy with psychological insights and competitive analysis.</p>
                   <button
-                    onClick={() => setActiveView('pricing-assistant')}
+                    onClick={() => {
+                      if (handleFeatureUse('tools', 'Pricing Strategy Tools')) {
+                        setActiveView('pricing-assistant');
+                      }
+                    }}
                     className="text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
                   >
                     Optimize Pricing →
@@ -800,6 +959,22 @@ function DashboardView({ onBack }: { onBack: () => void }) {
           onUpdate={updateMetrics}
         />
       )}
+
+      {/* Subscription Modal */}
+      <SubscriptionModal
+        isOpen={isSubscriptionModalOpen}
+        onClose={() => setIsSubscriptionModalOpen(false)}
+        onSubscribe={handlePlanUpgrade}
+        currentPlanId={subscription?.planId}
+      />
+
+      {/* Usage Limit Modal */}
+      <UsageLimitModal
+        isOpen={usageLimitModal.isOpen}
+        onClose={() => setUsageLimitModal(prev => ({ ...prev, isOpen: false }))}
+        feature={usageLimitModal.feature}
+        featureName={usageLimitModal.featureName}
+      />
     </div>
   );
 }
