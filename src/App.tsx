@@ -964,7 +964,7 @@ function DashboardView({ onBack }: { onBack: () => void }) {
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
         onClose={() => setIsSubscriptionModalOpen(false)}
-        onSubscribe={handlePlanUpgrade}
+        onSubscribe={handleSubscribe}
         currentPlanId={subscription?.planId}
       />
 
