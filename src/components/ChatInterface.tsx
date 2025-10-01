@@ -41,14 +41,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     if (currentConversation) {
       setMessages(currentConversation.messages);
     }
-  }, [currentConversation?.messages, currentConversation?.id]);
+  }, [currentConversation?.id, currentConversation?.messages?.length]);
 
-  // Ensure messages stay in sync with conversation updates
-  useEffect(() => {
-    if (currentConversation && messages.length !== currentConversation.messages.length) {
-      setMessages(currentConversation.messages);
-    }
-  }, [currentConversation?.messages, messages.length]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -138,7 +132,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     } catch (error) {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file.',
+        content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file. Error: ' + (error instanceof Error ? error.message : 'Unknown error'),
         sender: 'bot',
         timestamp: new Date(),
       };

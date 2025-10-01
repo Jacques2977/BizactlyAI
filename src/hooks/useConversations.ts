@@ -87,17 +87,21 @@ export const useConversations = () => {
           title: conv.title === 'New Conversation' ? generateConversationTitle(message.content) : conv.title
         };
         
-        // Update current conversation immediately if it's the active one
-        if (currentConversation?.id === conversationId) {
-          setCurrentConversation(updatedConv);
-        }
-        
         return updatedConv;
       }
       return conv;
     });
 
     setConversations(updatedConversations);
+    
+    // Update current conversation immediately if it's the active one
+    if (currentConversation?.id === conversationId) {
+      const updatedCurrentConv = updatedConversations.find(c => c.id === conversationId);
+      if (updatedCurrentConv) {
+        setCurrentConversation(updatedCurrentConv);
+      }
+    }
+    
     saveConversations(updatedConversations);
   };
 
