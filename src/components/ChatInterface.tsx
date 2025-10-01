@@ -41,7 +41,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     if (currentConversation) {
       setMessages(currentConversation.messages);
     }
-  }, [currentConversation?.id, currentConversation?.messages?.length]);
+  }, [currentConversation]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -132,7 +132,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     } catch (error) {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file. Error: ' + (error instanceof Error ? error.message : 'Unknown error'),
+        content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file.',
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -272,74 +272,74 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
 
       {/* Main Chat Area */}
       <div className="flex flex-col flex-1">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-blue-500 to-purple-600">
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-white hover:text-blue-200 transition-colors"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-          <Bot className="w-8 h-8 text-white" />
-          <div>
-            <h3 className="text-lg font-semibold text-white">AI Startup Coach</h3>
-            <p className="text-blue-100 text-sm">Your personal business advisor</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <MessageBubble
-            key={message.id}
-            message={message}
-            renderBotMessage={renderBotMessage}
-            isStreaming={message.sender === 'bot' && streamingMessageId === message.id}
-          />
-        ))}
-
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="flex items-center space-x-3 bg-gray-800 rounded-lg p-4">
-              <Bot className="w-6 h-6 text-blue-500" />
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
-                <span className="text-gray-300">AI is thinking...</span>
-              </div>
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-blue-500 to-purple-600">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="text-white hover:text-blue-200 transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <Bot className="w-8 h-8 text-white" />
+            <div>
+              <h3 className="text-lg font-semibold text-white">AI Startup Coach</h3>
+              <p className="text-blue-100 text-sm">Your personal business advisor</p>
             </div>
           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
+        </div>
 
-      {/* Input */}
-      <div className="p-4 border-t border-gray-700 bg-gray-800">
-        <div className="flex space-x-2">
-          <textarea
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me about idea validation, MVP planning, growth strategies..."
-            className="flex-1 resize-none bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            rows={2}
-            disabled={isLoading}
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputMessage.trim() || isLoading}
-            className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Send className="w-5 h-5" />
-          </button>
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.map((message) => (
+            <MessageBubble
+              key={message.id}
+              message={message}
+              renderBotMessage={renderBotMessage}
+              isStreaming={message.sender === 'bot' && streamingMessageId === message.id}
+            />
+          ))}
+
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="flex items-center space-x-3 bg-gray-800 rounded-lg p-4">
+                <Bot className="w-6 h-6 text-blue-500" />
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                  <span className="text-gray-300">AI is thinking...</span>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <div className="p-4 border-t border-gray-700 bg-gray-800">
+          <div className="flex space-x-2">
+            <textarea
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask me about idea validation, MVP planning, growth strategies..."
+              className="flex-1 resize-none bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              rows={2}
+              disabled={isLoading}
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputMessage.trim() || isLoading}
+              className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
