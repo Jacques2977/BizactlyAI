@@ -97,9 +97,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       timestamp: new Date(),
     };
 
-    // Add user message to local state immediately for instant UI update
-    setMessages(prev => [...prev, userMessage]);
-    
     // Save user message to conversation storage
     addMessageToConversation(currentConversation.id, userMessage);
 
@@ -124,9 +121,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       // Start streaming effect
       setStreamingMessageId(botMessage.id);
 
-      // Add bot message to local state immediately
-      setMessages(prev => [...prev, botMessage]);
-      
       // Save bot message to conversation storage
       addMessageToConversation(currentConversation.id, botMessage);
       
@@ -141,9 +135,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
         sender: 'bot',
         timestamp: new Date(),
       };
-      
-      // Add error message to local state immediately
-      setMessages(prev => [...prev, errorMessage]);
       
       // Save error message to conversation storage
       addMessageToConversation(currentConversation.id, errorMessage);
