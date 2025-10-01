@@ -41,7 +41,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     if (currentConversation) {
       setMessages(currentConversation.messages);
     }
-  }, [currentConversation]);
+  }, [currentConversation?.messages, currentConversation?.id]);
+
+  // Ensure messages stay in sync with conversation updates
+  useEffect(() => {
+    if (currentConversation && messages.length !== currentConversation.messages.length) {
+      setMessages(currentConversation.messages);
+    }
+  }, [currentConversation?.messages, messages.length]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -97,7 +104,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       timestamp: new Date(),
     };
 
-    // Save user message to conversation storage
+    // Add user message to conversation
     addMessageToConversation(currentConversation.id, userMessage);
 
     setIsLoading(true);
@@ -121,7 +128,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       // Start streaming effect
       setStreamingMessageId(botMessage.id);
 
-      // Save bot message to conversation storage
+      // Add bot message to conversation
       addMessageToConversation(currentConversation.id, botMessage);
       
       // Stop streaming after message is fully displayed
@@ -136,7 +143,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
         timestamp: new Date(),
       };
       
-      // Save error message to conversation storage
+      // Add error message to conversation
       addMessageToConversation(currentConversation.id, errorMessage);
     } finally {
       setIsLoading(false);

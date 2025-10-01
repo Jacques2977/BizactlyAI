@@ -87,24 +87,18 @@ export const useConversations = () => {
           title: conv.title === 'New Conversation' ? generateConversationTitle(message.content) : conv.title
         };
         
+        // Update current conversation immediately if it's the active one
+        if (currentConversation?.id === conversationId) {
+          setCurrentConversation(updatedConv);
+        }
+        
         return updatedConv;
       }
       return conv;
     });
 
     setConversations(updatedConversations);
-    
-    // Update current conversation state immediately
-    const updatedCurrentConv = updatedConversations.find(c => c.id === conversationId);
-    if (currentConversation?.id === conversationId && updatedCurrentConv) {
-      setCurrentConversation(updatedCurrentConv);
-    }
-    
     saveConversations(updatedConversations);
-    
-    // Debug logging to verify storage
-    console.log('Message added to conversation:', conversationId, message);
-    console.log('Updated conversations:', updatedConversations);
   };
 
   const deleteConversation = (conversationId: string) => {
