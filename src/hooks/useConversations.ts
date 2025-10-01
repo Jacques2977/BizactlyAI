@@ -78,31 +78,31 @@ export const useConversations = () => {
   };
 
   const addMessageToConversation = (conversationId: string, message: ChatMessage) => {
-    const updatedConversations = conversations.map(conv => {
-      if (conv.id === conversationId) {
-        const updatedConv = {
-          ...conv,
-          messages: [...conv.messages, message],
-          updatedAt: new Date().toISOString(),
-          title: conv.title === 'New Conversation' ? generateConversationTitle(message.content) : conv.title
-        };
-        
-        return updatedConv;
-      }
-      return conv;
-    });
+    setConversations(prevConversations => {
+      const updatedConversations = prevConversations.map(conv => {
+        if (conv.id === conversationId) {
+          const updatedConv = {
+            ...conv,
+            messages: [...conv.messages, message],
+            updatedAt: new Date().toISOString(),
+            title: conv.title === 'New Conversation' ? generateConversationTitle(message.content) : conv.title
+          };
+          
+          // Update current conversation if it's the active one
+          if (currentConversation?.id === conversationId) {
+            setCurrentConversation(updatedConv);
+          }
+          
+          return updatedConv;
+        }
+        return conv;
+      });
 
-    setConversations(updatedConversations);
-    
-    // Update current conversation immediately if it's the active one
-    if (currentConversation?.id === conversationId) {
-      const updatedCurrentConv = updatedConversations.find(c => c.id === conversationId);
-      if (updatedCurrentConv) {
-        setCurrentConversation(updatedCurrentConv);
-      }
-    }
-    
-    saveConversations(updatedConversations);
+      // Save to localStorage
+      saveConversations(updatedConversations);
+      
+      return updatedConversations;
+    });
   };
 
   const deleteConversation = (conversationId: string) => {

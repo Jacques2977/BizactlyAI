@@ -25,7 +25,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -36,20 +35,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     }
   }, []);
 
-  // Update local messages when conversation changes
-  useEffect(() => {
-    if (currentConversation) {
-      setMessages(currentConversation.messages);
-    }
-  }, [currentConversation]);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [currentConversation?.messages]);
 
   const parseStructuredResponse = (content: string) => {
     const sections = {
@@ -130,9 +122,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
         setStreamingMessageId(null);
       }, response.length * 20 + 500); // Match streaming speed + buffer
     } catch (error) {
+      console.error('Chat error:', error);
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please make sure your OpenAI API key is configured correctly in your .env file.',
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please make sure your OpenAI API key is configured correctly in your .env file.`,
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -291,7 +284,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((message) => (
+          {currentConversation.messages.map((message) => (
             <MessageBubble
               key={message.id}
               message={message}
