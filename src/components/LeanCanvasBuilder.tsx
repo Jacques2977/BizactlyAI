@@ -451,7 +451,6 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
                       <Download className="w-4 h-4" />
                       <span>Export CSV</span>
                     </button>
-                  </button>
                   </div>
                   
                   {/* Third-party Integration Options */}
