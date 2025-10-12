@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Search, TrendingUp, Users, DollarSign, AlertCircle, CheckCircle, Lightbulb } from 'lucide-react';
 import { validateIdea, IdeaValidationResult } from '../api/ideaValidator';
 import { useDataStorage } from '../hooks/useDataStorage';
-import { useDataStorage } from '../hooks/useDataStorage';
 
 interface IdeaValidatorProps {
   onClose: () => void;

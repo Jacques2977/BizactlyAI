@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Users, MapPin, Briefcase, Heart, Target, MessageCircle } from 'lucide-react';
 import { generatePersonas, PersonaGenerationResult, UserPersona } from '../api/personaGenerator';
 import { useDataStorage } from '../hooks/useDataStorage';
-import { useDataStorage } from '../hooks/useDataStorage';
 
 interface PersonaGeneratorProps {
   onClose: () => void;

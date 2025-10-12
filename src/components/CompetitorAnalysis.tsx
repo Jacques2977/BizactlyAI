@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Search, TrendingUp, DollarSign, Users, Star, ExternalLink, Target, AlertCircle, Lightbulb, Shield } from 'lucide-react';
 import { analyzeCompetitors, CompetitorAnalysisResult, CompetitorInfo } from '../api/competitorAnalysis';
 import { useDataStorage } from '../hooks/useDataStorage';
-import { useDataStorage } from '../hooks/useDataStorage';
 
 interface CompetitorAnalysisProps {
   onClose: () => void;

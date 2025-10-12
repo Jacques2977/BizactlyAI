@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Rocket, Calendar, CheckCircle, Clock, AlertTriangle, Target } from 'lucide-react';
 import { generateLaunchPlan, LaunchPlan, LaunchTask } from '../api/launchPlanAssistant';
 import { useDataStorage } from '../hooks/useDataStorage';
-import { useDataStorage } from '../hooks/useDataStorage';
 
 interface LaunchPlanAssistantProps {
   onClose: () => void;
