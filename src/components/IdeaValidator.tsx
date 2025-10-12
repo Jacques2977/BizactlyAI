@@ -18,7 +18,6 @@ export const IdeaValidator: React.FC<IdeaValidatorProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [currentDocumentId, setCurrentDocumentId] = useState<string | null>(null);
-  const { saveDocument, getDocumentsByType } = useDataStorage();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
