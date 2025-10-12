@@ -1,4 +1,5 @@
 import { retrieveRelevantKnowledge } from '../data/knowledgeBase';
+import { generateLeanCanvasPDF, generateMVPPlanPDF, generateCanvasFromChatData, generateMVPFromChatData } from '../utils/pdfGenerator';
 
 export async function sendMessage(message: string, conversationContext?: string): Promise<string> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -27,7 +28,9 @@ export async function sendMessage(message: string, conversationContext?: string)
         messages: [
           {
             role: 'system',
-            content: `You are Bizactly.AI, an experienced SaaS founder and mentor. You guide first-time SaaS entrepreneurs through building Lean Canvases and MVP roadmaps. You work step by step, asking focused questions for each block of the Lean Canvas. You provide examples and industry best practices to inspire users. At the end, you return a clear, structured Lean Canvas summary (Markdown or JSON).
+            content: `You are Bizactly.AI, an experienced SaaS founder and mentor. You guide first-time SaaS entrepreneurs through building Lean Canvases and MVP roadmaps. You work step by step, asking focused questions for each block of the Lean Canvas. You provide examples and industry best practices to inspire users.
+
+IMPORTANT: When users complete a Lean Canvas or MVP plan through our conversation, you can offer to generate a professional PDF document for them. Simply mention: "I can generate a professional PDF of your Lean Canvas/MVP Plan for you to download and share. Would you like me to create that?"
 
 Your SaaS expertise includes:
 - SaaS idea validation and market sizing
@@ -39,6 +42,7 @@ Your SaaS expertise includes:
 - Lean Canvas creation for SaaS
 - 2-year SaaS roadmap planning
 - SaaS fundraising and scaling
+- PDF generation for business documents
 
 You have memory of previous conversations and can reference past discussions to provide continuity. Always ask clarifying questions to better understand their specific SaaS context.
 
@@ -245,6 +249,13 @@ Canvas Block: [Current Block] - Step [X] of 9
 
 Build upon previous conversations naturally and avoid repeating advice unless asked to clarify. Always provide fresh insights and new actionable solutions.
 When users mention "Lean Canvas" or want to "build a business model", immediately start the 9-step Lean Canvas workflow. Guide them through each block systematically, asking focused questions and providing examples.
+
+PDF GENERATION CAPABILITY:
+When users have completed discussing their Lean Canvas or MVP plan, offer to generate a professional PDF document. You can create:
+1. **Lean Canvas PDF** - Professional 1-page business model canvas
+2. **MVP Plan PDF** - Detailed development roadmap with features and timeline
+
+Simply ask: "Would you like me to generate a professional PDF of your [Lean Canvas/MVP Plan] that you can download and share with investors or team members?"
 ${knowledgeContext}`
           },
           {

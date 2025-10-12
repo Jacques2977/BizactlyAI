@@ -5,6 +5,7 @@ import { useConversations } from '../hooks/useConversations';
 import { ConversationSidebar } from './ConversationSidebar';
 import { MessageBubble } from './MessageBubble';
 import { ChatMessage } from '../types/conversation';
+import { generateLeanCanvasPDF, generateMVPPlanPDF, generateCanvasFromChatData, generateMVPFromChatData } from '../utils/pdfGenerator';
 
 interface ChatInterfaceProps {
   onClose: () => void;
@@ -27,6 +28,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [showPDFOptions, setShowPDFOptions] = useState(false);
 
   // Initialize with a new conversation if none exists
   useEffect(() => {
@@ -69,6 +71,61 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     sections.progress = progressMatch ? progressMatch[1].trim() : '';
 
     return sections;
+  };
+
+  const handleGeneratePDF = async (type: 'canvas' | 'mvp') => {
+    if (!currentConversation) return;
+    
+    try {
+      const chatHistory = currentConversation.messages
+        .map(msg => `${msg.sender}: ${msg.content}`)
+        .join('\n\n');
+      
+      const productName = extractProductName(chatHistory);
+      
+      if (type === 'canvas') {
+        const canvasData = generateCanvasFromChatData(chatHistory, productName);
+        await generateLeanCanvasPDF(canvasData);
+        
+        // Add confirmation message
+        const confirmMessage: ChatMessage = {
+          id: Date.now().toString(),
+          content: "✅ **Lean Canvas PDF Generated Successfully!**\n\nYour professional Lean Canvas has been downloaded. You can now:\n- Share it with potential investors\n- Use it for team alignment\n- Reference it during development\n- Update it as your startup evolves\n\nWould you like to work on any specific section further or move on to MVP planning?",
+          sender: 'bot',
+          timestamp: new Date(),
+        };
+        addMessageToConversation(currentConversation.id, confirmMessage);
+      } else {
+        const mvpData = generateMVPFromChatData(chatHistory, productName);
+        await generateMVPPlanPDF(mvpData);
+        
+        // Add confirmation message
+        const confirmMessage: ChatMessage = {
+          id: Date.now().toString(),
+          content: "✅ **MVP Plan PDF Generated Successfully!**\n\nYour comprehensive MVP development plan has been downloaded. It includes:\n- Feature breakdown by priority\n- Development timeline\n- Strategic recommendations\n- Resource requirements\n\nReady to start building? Let's discuss your next steps or dive deeper into any specific area!",
+          sender: 'bot',
+          timestamp: new Date(),
+        };
+        addMessageToConversation(currentConversation.id, confirmMessage);
+      }
+      
+      setShowPDFOptions(false);
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      const errorMessage: ChatMessage = {
+        id: Date.now().toString(),
+        content: "❌ Sorry, there was an error generating the PDF. Please try again or let me know if you need help with any specific section of your business plan.",
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+      addMessageToConversation(currentConversation.id, errorMessage);
+    }
+  };
+
+  const extractProductName = (chatHistory: string): string => {
+    const nameRegex = /(?:product|startup|business|company|app|platform|service)[:\s]*([^\\n]{1,50})/i;
+    const match = chatHistory.match(nameRegex);
+    return match ? match[1].trim() : 'My Startup';
   };
 
   const handleSendMessage = async () => {
@@ -124,6 +181,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       // Stop streaming after message is fully displayed
       setTimeout(() => {
         setStreamingMessageId(null);
+        
+        // Check if AI mentioned PDF generation
+        if (response.toLowerCase().includes('generate a professional pdf') || 
+            response.toLowerCase().includes('create a pdf') ||
+            response.toLowerCase().includes('download') && (response.toLowerCase().includes('canvas') || response.toLowerCase().includes('mvp'))) {
+          setShowPDFOptions(true);
+        }
       }, response.length * 20 + 500); // Match streaming speed + buffer
     } catch (error) {
       console.error('Chat error:', error);
@@ -318,6 +382,40 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
 
         {/* Input */}
         <div className="p-4 border-t border-gray-700 bg-gray-800">
+          {/* PDF Generation Options */}
+          {showPDFOptions && (
+            <div className="mb-4 p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-white font-semibold flex items-center">
+                  📄 Generate Professional PDF
+                </h4>
+                <button
+                  onClick={() => setShowPDFOptions(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-blue-200 text-sm mb-3">
+                I can create a professional PDF document from our conversation:
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => handleGeneratePDF('canvas')}
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
+                >
+                  📋 Lean Canvas PDF
+                </button>
+                <button
+                  onClick={() => handleGeneratePDF('mvp')}
+                  className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm"
+                >
+                  🚀 MVP Plan PDF
+                </button>
+              </div>
+            </div>
+          )}
+          
           <div className="flex space-x-2">
             <textarea
               value={inputMessage}
