@@ -18,7 +18,6 @@ interface CanvasBlock {
 
 export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>([
   const { saveDocument, getDocumentsByType, updateDocument } = useDataStorage();
   const [currentDocumentId, setCurrentDocumentId] = useState<string | null>(null);
 
@@ -139,7 +138,7 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
         "Consider network effects, data advantages, team expertise",
         "Focus on sustainable competitive moats"
       ]
-    },
+    }
   ]);
 
   const updateBlock = (id: string, content: string) => {
