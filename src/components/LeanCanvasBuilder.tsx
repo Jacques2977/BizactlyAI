@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Target, CheckCircle, ArrowRight, Copy, Download } from 'lucide-react';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface LeanCanvasBuilderProps {
   onClose: () => void;
@@ -17,6 +18,10 @@ interface CanvasBlock {
 
 export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>([
+  const { saveDocument, getDocumentsByType, updateDocument } = useDataStorage();
+  const [currentDocumentId, setCurrentDocumentId] = useState<string | null>(null);
+
   const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>([
     { 
       id: 'problem', 
@@ -143,6 +148,33 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
         ? { ...block, content, completed: content.trim().length > 0 }
         : block
     ));
+    
+    // Auto-save canvas progress
+    if (currentDocumentId) {
+      const updatedBlocks = canvasBlocks.map(block => 
+        block.id === id 
+          ? { ...block, content, completed: content.trim().length > 0 }
+          : block
+      );
+      
+      updateDocument(currentDocumentId, {
+        data: {
+          canvasBlocks: updatedBlocks,
+          lastUpdated: new Date().toISOString()
+        }
+      });
+    } else {
+      // Create new document on first edit
+      const documentId = saveDocument(
+        'lean-canvas',
+        `Lean Canvas - ${new Date().toLocaleDateString()}`,
+        {
+          canvasBlocks,
+          createdAt: new Date().toISOString()
+        }
+      );
+      setCurrentDocumentId(documentId);
+    }
   };
 
   const nextStep = () => {
@@ -200,6 +232,16 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
     };
     
     await generateLeanCanvasPDF(canvasData);
+    
+    // Update document with PDF export timestamp
+    if (currentDocumentId) {
+      updateDocument(currentDocumentId, {
+        data: {
+          canvasBlocks,
+          lastPDFExport: new Date().toISOString()
+        }
+      });
+    }
   };
 
   const exportToJSON = () => {
@@ -496,6 +538,28 @@ export const LeanCanvasBuilder: React.FC<LeanCanvasBuilderProps> = ({ onClose })
                   </div>
                 </div>
               )}
+              
+              {/* Saved Canvases */}
+              <div className="mt-6 bg-gray-800 border border-gray-700 rounded-lg p-4">
+                <h4 className="text-lg font-bold text-white mb-3">Previous Canvases</h4>
+                {getDocumentsByType('lean-canvas').slice(-3).map((doc) => (
+                  <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                    <div>
+                      <p className="text-white font-medium">{doc.title}</p>
+                      <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setCanvasBlocks(doc.data.canvasBlocks);
+                        setCurrentDocumentId(doc.id);
+                      }}
+                      className="text-blue-400 hover:text-blue-300 text-sm"
+                    >
+                      Load
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

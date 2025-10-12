@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Rocket, Calendar, CheckCircle, Clock, AlertTriangle, Target } from 'lucide-react';
 import { generateLaunchPlan, LaunchPlan, LaunchTask } from '../api/launchPlanAssistant';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface LaunchPlanAssistantProps {
   onClose: () => void;
@@ -17,6 +18,8 @@ export const LaunchPlanAssistant: React.FC<LaunchPlanAssistantProps> = ({ onClos
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
+  const { saveDocument, getDocumentsByType, updateDocument } = useDataStorage();
+  const [currentDocumentId, setCurrentDocumentId] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -38,6 +41,19 @@ export const LaunchPlanAssistant: React.FC<LaunchPlanAssistantProps> = ({ onClos
         formData.budget
       );
       setLaunchPlan(plan);
+      
+      // Auto-save the launch plan
+      const documentId = saveDocument(
+        'launch-plan',
+        `${plan.productName} - Launch Plan`,
+        {
+          formData,
+          plan,
+          completedTasks: Array.from(completedTasks),
+          createdAt: new Date().toISOString()
+        }
+      );
+      setCurrentDocumentId(documentId);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate launch plan');
     } finally {
@@ -53,6 +69,16 @@ export const LaunchPlanAssistant: React.FC<LaunchPlanAssistantProps> = ({ onClos
       newCompleted.add(taskId);
     }
     setCompletedTasks(newCompleted);
+    
+    // Update document with task completion
+    if (currentDocumentId) {
+      updateDocument(currentDocumentId, {
+        data: {
+          completedTasks: Array.from(newCompleted),
+          lastUpdated: new Date().toISOString()
+        }
+      });
+    }
   };
 
   const getCategoryColor = (category: string) => {
@@ -368,6 +394,30 @@ export const LaunchPlanAssistant: React.FC<LaunchPlanAssistantProps> = ({ onClos
               >
                 Export Plan
               </button>
+            </div>
+            
+            {/* Saved Launch Plans */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous Launch Plans</h4>
+              {getDocumentsByType('launch-plan').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setLaunchPlan(doc.data.plan);
+                      setCompletedTasks(new Set(doc.data.completedTasks || []));
+                      setCurrentDocumentId(doc.id);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

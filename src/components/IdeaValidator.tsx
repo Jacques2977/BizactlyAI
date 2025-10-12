@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, TrendingUp, Users, DollarSign, AlertCircle, CheckCircle, Lightbulb } from 'lucide-react';
 import { validateIdea, IdeaValidationResult } from '../api/ideaValidator';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface IdeaValidatorProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ export const IdeaValidator: React.FC<IdeaValidatorProps> = ({ onClose }) => {
   const [validationResult, setValidationResult] = useState<IdeaValidationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { saveDocument, getDocumentsByType } = useDataStorage();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -35,6 +37,17 @@ export const IdeaValidator: React.FC<IdeaValidatorProps> = ({ onClose }) => {
         formData.businessModel
       );
       setValidationResult(result);
+      
+      // Auto-save the validation result
+      saveDocument(
+        'idea-validation',
+        `Idea Validation - ${new Date().toLocaleDateString()}`,
+        {
+          formData,
+          result,
+          createdAt: new Date().toISOString()
+        }
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to validate idea');
     } finally {
@@ -310,6 +323,28 @@ export const IdeaValidator: React.FC<IdeaValidatorProps> = ({ onClose }) => {
               >
                 Copy Results
               </button>
+            </div>
+            
+            {/* Saved Validations */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous Validations</h4>
+              {getDocumentsByType('idea-validation').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setValidationResult(doc.data.result);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

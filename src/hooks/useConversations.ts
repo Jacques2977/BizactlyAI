@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Conversation, ConversationSummary, ChatMessage } from '../types/conversation';
 import { useAuth } from '../contexts/AuthContext';
+import { useDataStorage } from './useDataStorage';
 
 export const useConversations = () => {
   const { user } = useAuth();
+  const { saveDocument, getDocumentsByType, updateDocument } = useDataStorage();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -77,6 +79,13 @@ export const useConversations = () => {
     setConversations(updatedConversations);
     setCurrentConversation(newConversation);
     saveConversations(updatedConversations);
+    
+    // Also save to document storage
+    saveDocument(
+      'conversation',
+      newConversation.title,
+      newConversation
+    );
 
     return newConversation;
   };
@@ -115,6 +124,18 @@ export const useConversations = () => {
       // Save to localStorage
       console.log('Saving conversations to localStorage:', updatedConversations);
       saveConversations(updatedConversations);
+      
+      // Update document storage
+      const conversationDoc = getDocumentsByType('conversation').find(doc => doc.data.id === conversationId);
+      if (conversationDoc) {
+        const updatedConversation = updatedConversations.find(c => c.id === conversationId);
+        if (updatedConversation) {
+          updateDocument(conversationDoc.id, {
+            data: updatedConversation,
+            title: updatedConversation.title
+          });
+        }
+      }
       
       return updatedConversations;
     });

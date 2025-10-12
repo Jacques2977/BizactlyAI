@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, TrendingUp, DollarSign, Users, Star, ExternalLink, Target, AlertCircle, Lightbulb, Shield } from 'lucide-react';
 import { analyzeCompetitors, CompetitorAnalysisResult, CompetitorInfo } from '../api/competitorAnalysis';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface CompetitorAnalysisProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ export const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({ onClose 
   const [analysisResult, setAnalysisResult] = useState<CompetitorAnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { saveDocument, getDocumentsByType } = useDataStorage();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -35,6 +37,17 @@ export const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({ onClose 
         parseInt(formData.maxCompetitors)
       );
       setAnalysisResult(result);
+      
+      // Auto-save the competitor analysis
+      saveDocument(
+        'competitor-analysis',
+        `Competitor Analysis - ${new Date().toLocaleDateString()}`,
+        {
+          formData,
+          result,
+          createdAt: new Date().toISOString()
+        }
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to analyze competitors');
     } finally {
@@ -370,6 +383,28 @@ export const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({ onClose 
               >
                 Export Analysis
               </button>
+            </div>
+            
+            {/* Saved Analyses */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous Analyses</h4>
+              {getDocumentsByType('competitor-analysis').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setAnalysisResult(doc.data.result);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

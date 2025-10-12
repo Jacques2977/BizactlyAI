@@ -15,6 +15,7 @@ import { MetricsUpdateModal } from './components/MetricsUpdateModal';
 import { BillingDashboard } from './components/BillingDashboard';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { UsageLimitModal } from './components/UsageLimitModal';
+import { DataManager } from './components/DataManager';
 import { useAuth } from './contexts/AuthContext';
 import { useUserMetrics } from './hooks/useUserMetrics';
 import { useSubscription } from './hooks/useSubscription';
@@ -39,10 +40,11 @@ import {
   Play,
   Zap,
   Shield,
-  Globe
+  Globe,
+  Database
 } from 'lucide-react';
 
-type ActiveTool = 'chat' | 'validator' | 'mvp' | 'canvas' | 'personas' | 'pricing' | 'competitors' | 'launch' | 'analytics' | 'billing' | null;
+type ActiveTool = 'chat' | 'validator' | 'mvp' | 'canvas' | 'personas' | 'pricing' | 'competitors' | 'launch' | 'analytics' | 'billing' | 'data-manager' | null;
 
 function AppContent() {
   const { user, logout, isLoading: authLoading } = useAuth();
@@ -158,6 +160,8 @@ function AppContent() {
             <BillingDashboard />
           </div>
         );
+      case 'data-manager':
+        return <DataManager onClose={() => setActiveTool(null)} />;
       default:
         return <Dashboard tools={tools} onToolSelect={handleToolSelect} />;
     }
@@ -216,6 +220,16 @@ function AppContent() {
             >
               <CreditCard className="w-5 h-5" />
               <span>Billing</span>
+            </button>
+
+            <button
+              onClick={() => handleToolSelect('data-manager')}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                activeTool === 'data-manager' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              <Database className="w-5 h-5" />
+              <span>Data Manager</span>
             </button>
           </nav>
 

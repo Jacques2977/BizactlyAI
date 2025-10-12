@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DollarSign, TrendingUp, Users, Star, CheckCircle, AlertCircle } from 'lucide-react';
 import { generatePricingRecommendation, PricingRecommendation, PricingTier } from '../api/pricingAssistant';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface PricingAssistantProps {
   onClose: () => void;
@@ -16,6 +17,7 @@ export const PricingAssistant: React.FC<PricingAssistantProps> = ({ onClose }) =
   const [pricingResult, setPricingResult] = useState<PricingRecommendation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { saveDocument, getDocumentsByType } = useDataStorage();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -37,6 +39,17 @@ export const PricingAssistant: React.FC<PricingAssistantProps> = ({ onClose }) =
         formData.valueProposition
       );
       setPricingResult(result);
+      
+      // Auto-save the pricing strategy
+      saveDocument(
+        'pricing',
+        `Pricing Strategy - ${result.productName}`,
+        {
+          formData,
+          result,
+          createdAt: new Date().toISOString()
+        }
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate pricing recommendation');
     } finally {
@@ -346,6 +359,28 @@ export const PricingAssistant: React.FC<PricingAssistantProps> = ({ onClose }) =
               >
                 Export Strategy
               </button>
+            </div>
+            
+            {/* Saved Pricing Strategies */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous Pricing Strategies</h4>
+              {getDocumentsByType('pricing').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setPricingResult(doc.data.result);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

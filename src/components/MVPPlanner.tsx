@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Rocket, Target, Clock, TrendingUp, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react';
 import { generateMVPPlan, prioritizeFeatures, MVPPlan, MVPFeature } from '../api/mvpPlanner';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface MVPPlannerProps {
   onClose: () => void;
@@ -16,6 +17,8 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
   const [mvpPlan, setMvpPlan] = useState<MVPPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { saveDocument, getDocumentsByType, updateDocument } = useDataStorage();
+  const [currentDocumentId, setCurrentDocumentId] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -37,6 +40,18 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
         formData.timeline
       );
       setMvpPlan(plan);
+      
+      // Auto-save the MVP plan
+      const documentId = saveDocument(
+        'mvp-plan',
+        `${plan.projectName} - MVP Plan`,
+        {
+          formData,
+          plan,
+          createdAt: new Date().toISOString()
+        }
+      );
+      setCurrentDocumentId(documentId);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate MVP plan');
     } finally {
@@ -99,6 +114,16 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
     };
     
     await generateMVPPlanPDF(mvpData);
+    
+    // Update document with PDF export timestamp
+    if (currentDocumentId) {
+      updateDocument(currentDocumentId, {
+        data: {
+          ...mvpPlan,
+          lastPDFExport: new Date().toISOString()
+        }
+      });
+    }
   };
 
   const exportMVPToJSON = () => {
@@ -441,6 +466,29 @@ export const MVPPlanner: React.FC<MVPPlannerProps> = ({ onClose }) => {
                   </button>
                 </div>
               </div>
+            </div>
+            
+            {/* Saved MVP Plans */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous MVP Plans</h4>
+              {getDocumentsByType('mvp-plan').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setMvpPlan(doc.data.plan);
+                      setCurrentDocumentId(doc.id);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

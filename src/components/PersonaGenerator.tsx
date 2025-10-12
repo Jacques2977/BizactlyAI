@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, MapPin, Briefcase, Heart, Target, MessageCircle } from 'lucide-react';
 import { generatePersonas, PersonaGenerationResult, UserPersona } from '../api/personaGenerator';
+import { useDataStorage } from '../hooks/useDataStorage';
 
 interface PersonaGeneratorProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
   const [personaResult, setPersonaResult] = useState<PersonaGenerationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { saveDocument, getDocumentsByType } = useDataStorage();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -35,6 +37,17 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
         formData.businessModel
       );
       setPersonaResult(result);
+      
+      // Auto-save the personas
+      saveDocument(
+        'personas',
+        `User Personas - ${new Date().toLocaleDateString()}`,
+        {
+          formData,
+          result,
+          createdAt: new Date().toISOString()
+        }
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate personas');
     } finally {
@@ -304,6 +317,28 @@ export const PersonaGenerator: React.FC<PersonaGeneratorProps> = ({ onClose }) =
               >
                 Copy Personas
               </button>
+            </div>
+            
+            {/* Saved Personas */}
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-lg font-bold text-white mb-3">Previous Personas</h4>
+              {getDocumentsByType('personas').slice(-3).map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0">
+                  <div>
+                    <p className="text-white font-medium">{doc.title}</p>
+                    <p className="text-gray-400 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormData(doc.data.formData);
+                      setPersonaResult(doc.data.result);
+                    }}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Load
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}
