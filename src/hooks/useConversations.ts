@@ -18,6 +18,8 @@ export const useConversations = () => {
     setIsLoading(true);
     
     const savedConversations = localStorage.getItem(`conversations_${user?.id}`);
+    console.log('Loading conversations from localStorage:', savedConversations);
+    
     if (savedConversations) {
       try {
         const parsedConversations = JSON.parse(savedConversations);
@@ -29,11 +31,14 @@ export const useConversations = () => {
             timestamp: new Date(msg.timestamp)
           }))
         }));
+        console.log('Loaded conversations:', conversationsWithDates);
         setConversations(conversationsWithDates);
       } catch (error) {
         console.error('Failed to load conversations:', error);
         setConversations([]);
       }
+    } else {
+      console.log('No saved conversations found');
     }
     
     setIsLoading(false);
@@ -41,7 +46,13 @@ export const useConversations = () => {
 
   const saveConversations = (updatedConversations: Conversation[]) => {
     if (user) {
+      console.log('Saving to localStorage key:', `conversations_${user.id}`);
+      console.log('Conversations to save:', updatedConversations);
       localStorage.setItem(`conversations_${user.id}`, JSON.stringify(updatedConversations));
+      
+      // Verify save worked
+      const saved = localStorage.getItem(`conversations_${user.id}`);
+      console.log('Verification - saved data:', saved);
     }
   };
 
@@ -78,6 +89,8 @@ export const useConversations = () => {
   };
 
   const addMessageToConversation = (conversationId: string, message: ChatMessage) => {
+    console.log('Adding message to conversation:', conversationId, message);
+    
     setConversations(prevConversations => {
       const updatedConversations = prevConversations.map(conv => {
         if (conv.id === conversationId) {
@@ -90,6 +103,7 @@ export const useConversations = () => {
           
           // Update current conversation if it's the active one
           if (currentConversation?.id === conversationId) {
+            console.log('Updating current conversation with new message');
             setCurrentConversation(updatedConv);
           }
           
@@ -99,6 +113,7 @@ export const useConversations = () => {
       });
 
       // Save to localStorage
+      console.log('Saving conversations to localStorage:', updatedConversations);
       saveConversations(updatedConversations);
       
       return updatedConversations;

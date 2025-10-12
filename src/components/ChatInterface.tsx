@@ -90,6 +90,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       timestamp: new Date(),
     };
 
+    console.log('Sending user message:', userMessage);
     // Add user message to conversation
     addMessageToConversation(currentConversation.id, userMessage);
 
@@ -102,7 +103,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
         ? `Previous conversation context:\n${context}\n\nCurrent message: ${currentInput}`
         : currentInput;
       
+      console.log('Calling AI with context:', messageWithContext);
       const response = await sendMessage(messageWithContext);
+      console.log('AI response received:', response);
       
       const botMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -114,6 +117,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
       // Start streaming effect
       setStreamingMessageId(botMessage.id);
 
+      console.log('Adding bot message:', botMessage);
       // Add bot message to conversation
       addMessageToConversation(currentConversation.id, botMessage);
       
@@ -130,6 +134,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
         timestamp: new Date(),
       };
       
+      console.log('Adding error message:', errorMessage);
       // Add error message to conversation
       addMessageToConversation(currentConversation.id, errorMessage);
     } finally {
