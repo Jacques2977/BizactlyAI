@@ -61,43 +61,18 @@ export const useSubscription = () => {
   };
 
   const canUseFeature = (feature: 'aiChats' | 'tools' | 'projects'): boolean => {
-    if (!subscription) return false;
-    
-    const plan = getCurrentPlan();
-    if (!plan) return false;
-    
-    const limit = plan.limits[feature];
-    if (limit === -1) return true; // Unlimited
-    
-    return subscription.usage[feature] < limit;
+    // Temporarily allow all features for testing
+    return true;
   };
 
   const getRemainingUsage = (feature: 'aiChats' | 'tools' | 'projects'): number => {
-    if (!subscription) return 0;
-    
-    const plan = getCurrentPlan();
-    if (!plan) return 0;
-    
-    const limit = plan.limits[feature];
-    if (limit === -1) return -1; // Unlimited
-    
-    return Math.max(0, limit - subscription.usage[feature]);
+    // Temporarily return unlimited for testing
+    return -1; // -1 means unlimited
   };
 
   const incrementUsage = (feature: 'aiChats' | 'tools' | 'projects') => {
-    if (!subscription) return;
-    
-    const updatedSubscription = {
-      ...subscription,
-      usage: {
-        ...subscription.usage,
-        [feature]: subscription.usage[feature] + 1
-      },
-      updatedAt: new Date().toISOString()
-    };
-    
-    setSubscription(updatedSubscription);
-    saveSubscription(updatedSubscription);
+    // Temporarily disable usage tracking for testing
+    console.log(`Feature ${feature} used - tracking disabled for testing`);
   };
 
   const updateSubscription = (updates: Partial<UserSubscription>) => {

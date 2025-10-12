@@ -65,24 +65,14 @@ function AppContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleFeatureUse = (feature: 'aiChats' | 'tools' | 'projects', featureName: string): boolean => {
-    if (!canUseFeature(feature)) {
-      setUsageLimitModal({
-        isOpen: true,
-        feature,
-        featureName
-      });
-      return false;
-    }
-    incrementUsage(feature);
+    // Temporarily allow all features for testing
+    console.log(`Using feature: ${featureName}`);
     return true;
   };
 
   const handleToolSelect = (tool: ActiveTool) => {
-    if (tool === 'chat') {
-      if (!handleFeatureUse('aiChats', 'AI Chat')) return;
-    } else if (tool && tool !== 'analytics' && tool !== 'billing') {
-      if (!handleFeatureUse('tools', 'Startup Tools')) return;
-    }
+    // Temporarily remove feature restrictions for testing
+    console.log(`Selected tool: ${tool}`);
     
     setActiveTool(tool);
     setIsMobileMenuOpen(false);
@@ -244,27 +234,16 @@ function AppContent() {
             </div>
             
             {/* Usage Stats */}
-            {currentPlan && (
-              <div className="mb-3 p-2 bg-gray-700 rounded text-xs">
-                <div className="flex justify-between text-gray-300">
-                  <span>AI Chats:</span>
-                  <span>{getRemainingUsage('aiChats') === -1 ? '∞' : getRemainingUsage('aiChats')}</span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span>Tools:</span>
-                  <span>{getRemainingUsage('tools') === -1 ? '∞' : getRemainingUsage('tools')}</span>
-                </div>
+            {/* Temporarily hide usage stats for testing */}
+            <div className="mb-3 p-2 bg-gray-700 rounded text-xs">
+              <div className="flex justify-between text-gray-300">
+                <span>Status:</span>
+                <span className="text-green-400">Testing Mode - All Features Unlocked</span>
               </div>
-            )}
+            </div>
 
             <div className="space-y-1">
-              <button
-                onClick={() => setIsSubscriptionModalOpen(true)}
-                className="w-full flex items-center space-x-2 px-2 py-1 text-gray-300 hover:text-white transition-colors text-sm"
-              >
-                <Settings className="w-4 h-4" />
-                <span>Upgrade Plan</span>
-              </button>
+              {/* Temporarily hide upgrade button for testing */}
               <button
                 onClick={logout}
                 className="w-full flex items-center space-x-2 px-2 py-1 text-gray-300 hover:text-white transition-colors text-sm"

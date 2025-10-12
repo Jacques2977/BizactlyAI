@@ -132,10 +132,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ onClose, onFeature
     if (!inputMessage.trim() || isLoading) return;
     if (!currentConversation) return;
     
-    // Check usage limits before sending message
-    if (onFeatureUse && !onFeatureUse()) {
-      return;
-    }
+    // Temporarily remove usage limits for testing
+    console.log('Sending message - usage limits disabled for testing');
 
     const currentInput = inputMessage;
     setInputMessage('');
