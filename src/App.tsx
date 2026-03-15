@@ -73,9 +73,7 @@ function AppContent() {
   };
 
   const handleToolSelect = (tool: ActiveTool) => {
-    // Temporarily remove feature restrictions for testing
-    console.log(`Selected tool: ${tool}`);
-    
+    console.log('handleToolSelect called with:', tool);
     setActiveTool(tool);
     setIsMobileMenuOpen(false);
   };
