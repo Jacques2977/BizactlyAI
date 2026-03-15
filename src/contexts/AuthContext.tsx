@@ -33,27 +33,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check for existing session on app load
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const user: User = {
-          id: session.user.id,
-          name: session.user.user_metadata.name || session.user.user_metadata.full_name || session.user.email?.split('@')[0] || 'User',
-          email: session.user.email || '',
-          createdAt: session.user.created_at,
-        };
-        setAuthState({
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-        });
-      } else {
+    const initAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error('Error getting session:', error);
+          setAuthState({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+          return;
+        }
+
+        if (session?.user) {
+          const user: User = {
+            id: session.user.id,
+            name: session.user.user_metadata.name || session.user.user_metadata.full_name || session.user.email?.split('@')[0] || 'User',
+            email: session.user.email || '',
+            createdAt: session.user.created_at,
+          };
+          setAuthState({
+            user,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } else {
+          setAuthState({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
         setAuthState({
           user: null,
           isAuthenticated: false,
           isLoading: false,
         });
       }
-    });
+    };
+
+    initAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       (() => {
