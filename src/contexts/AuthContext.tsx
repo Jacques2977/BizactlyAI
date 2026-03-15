@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, AuthState, LoginCredentials, SignupCredentials } from '../types/auth';
 import { UserSubscription } from '../types/subscription';
+import { supabase } from '../lib/supabase';
 
 interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   signup: (credentials: SignupCredentials) => Promise<void>;
   logout: () => void;
+  signInWithGitHub: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,58 +33,80 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check for existing session on app load
   useEffect(() => {
-    const savedUser = localStorage.getItem('bizactly_user');
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const user: User = {
+          id: session.user.id,
+          name: session.user.user_metadata.name || session.user.user_metadata.full_name || session.user.email?.split('@')[0] || 'User',
+          email: session.user.email || '',
+          createdAt: session.user.created_at,
+        };
         setAuthState({
           user,
           isAuthenticated: true,
           isLoading: false,
         });
-      } catch (error) {
-        localStorage.removeItem('bizactly_user');
+      } else {
         setAuthState({
           user: null,
           isAuthenticated: false,
           isLoading: false,
         });
       }
-    } else {
-      setAuthState(prev => ({ ...prev, isLoading: false }));
-    }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      (() => {
+        if (session?.user) {
+          const user: User = {
+            id: session.user.id,
+            name: session.user.user_metadata.name || session.user.user_metadata.full_name || session.user.email?.split('@')[0] || 'User',
+            email: session.user.email || '',
+            createdAt: session.user.created_at,
+          };
+          setAuthState({
+            user,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } else {
+          setAuthState({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+        }
+      })();
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (credentials: LoginCredentials): Promise<void> => {
     setAuthState(prev => ({ ...prev, isLoading: true }));
-    
+
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // In a real app, this would be an API call
-      // For demo purposes, we'll check against localStorage or use demo credentials
-      const savedUsers = JSON.parse(localStorage.getItem('bizactly_users') || '[]');
-      const user = savedUsers.find((u: any) => u.email === credentials.email);
-      
-      if (!user) {
-        throw new Error('Invalid email or password');
-      }
-      
-      // In a real app, you'd verify the password hash
-      if (user.password !== credentials.password) {
-        throw new Error('Invalid email or password');
-      }
-      
-      const { password, ...userWithoutPassword } = user;
-      
-      setAuthState({
-        user: userWithoutPassword,
-        isAuthenticated: true,
-        isLoading: false,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: credentials.email,
+        password: credentials.password,
       });
-      
-      localStorage.setItem('bizactly_user', JSON.stringify(userWithoutPassword));
+
+      if (error) throw error;
+
+      if (data.user) {
+        const user: User = {
+          id: data.user.id,
+          name: data.user.user_metadata.name || data.user.email?.split('@')[0] || 'User',
+          email: data.user.email || '',
+          createdAt: data.user.created_at,
+        };
+
+        setAuthState({
+          user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+      }
     } catch (error) {
       setAuthState({
         user: null,
@@ -95,60 +119,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signup = async (credentials: SignupCredentials): Promise<void> => {
     setAuthState(prev => ({ ...prev, isLoading: true }));
-    
+
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check if user already exists
-      const savedUsers = JSON.parse(localStorage.getItem('bizactly_users') || '[]');
-      const existingUser = savedUsers.find((u: any) => u.email === credentials.email);
-      
-      if (existingUser) {
-        throw new Error('User already exists with this email');
-      }
-      
-      // Create new user
-      const newUser = {
-        id: Date.now().toString(),
-        name: credentials.name,
+      const { data, error } = await supabase.auth.signUp({
         email: credentials.email,
-        password: credentials.password, // In real app, this would be hashed
-        createdAt: new Date().toISOString(),
-      };
-      
-      // Create default subscription for new user
-      const defaultSubscription: UserSubscription = {
-        id: Date.now().toString(),
-        userId: newUser.id,
-        planId: 'free',
-        status: 'active',
-        currentPeriodStart: new Date().toISOString(),
-        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year
-        cancelAtPeriodEnd: false,
-        usage: {
-          aiChats: 0,
-          tools: 0,
-          projects: 0
+        password: credentials.password,
+        options: {
+          data: {
+            name: credentials.name,
+          },
         },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      
-      // Save to localStorage (in real app, this would be an API call)
-      const updatedUsers = [...savedUsers, newUser];
-      localStorage.setItem('bizactly_users', JSON.stringify(updatedUsers));
-      localStorage.setItem(`subscription_${newUser.id}`, JSON.stringify(defaultSubscription));
-      
-      const { password, ...userWithoutPassword } = newUser;
-      
-      setAuthState({
-        user: userWithoutPassword,
-        isAuthenticated: true,
-        isLoading: false,
       });
-      
-      localStorage.setItem('bizactly_user', JSON.stringify(userWithoutPassword));
+
+      if (error) throw error;
+
+      if (data.user) {
+        const user: User = {
+          id: data.user.id,
+          name: credentials.name,
+          email: data.user.email || '',
+          createdAt: data.user.created_at,
+        };
+
+        setAuthState({
+          user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+      }
     } catch (error) {
       setAuthState({
         user: null,
@@ -159,8 +157,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('bizactly_user');
+  const logout = async () => {
+    await supabase.auth.signOut();
     setAuthState({
       user: null,
       isAuthenticated: false,
@@ -168,11 +166,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
   };
 
+  const signInWithGitHub = async (): Promise<void> => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const value: AuthContextType = {
     ...authState,
     login,
     signup,
     logout,
+    signInWithGitHub,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

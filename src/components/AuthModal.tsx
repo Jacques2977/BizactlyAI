@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
 interface AuthModalProps {
@@ -17,7 +18,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
     password: '',
   });
   const [error, setError] = useState('');
-  const { login, signup, isLoading } = useAuth();
+  const [isGitHubLoading, setIsGitHubLoading] = useState(false);
+  const { login, signup, isLoading, signInWithGitHub } = useAuth();
 
   if (!isOpen) return null;
 
@@ -49,6 +51,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
     setMode(mode === 'login' ? 'signup' : 'login');
     setError('');
     setFormData({ name: '', email: '', password: '' });
+  };
+
+  const handleGitHubSignIn = async () => {
+    setError('');
+    setIsGitHubLoading(true);
+    try {
+      await signInWithGitHub();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to sign in with GitHub');
+      setIsGitHubLoading(false);
+    }
   };
 
   return (
@@ -140,8 +153,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
 
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading || isGitHubLoading}
+            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center justify-center space-x-2">
@@ -150,6 +163,34 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
               </div>
             ) : (
               mode === 'login' ? 'Sign In' : 'Create Account'
+            )}
+          </button>
+
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGitHubSignIn}
+            disabled={isLoading || isGitHubLoading}
+            className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isGitHubLoading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Connecting to GitHub...</span>
+              </>
+            ) : (
+              <>
+                <FaGithub className="w-5 h-5" />
+                <span>Continue with GitHub</span>
+              </>
             )}
           </button>
         </form>
