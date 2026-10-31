@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase';
 import { AuthenticationError, logError, getUserFriendlyMessage } from '../utils/errorHandler';
-import { AILayer, AIMemory, UnderstandingDraft, StrategyOutput, ExecutionOutput } from '../types/project';
+import { AILayer, AIMemory, UnderstandingDraft, StrategyOutput, ExecutionOutput, InteractionType, DecisionOption, StructuredRecommendation } from '../types/project';
 
 export interface AIRequest {
   message: string;
@@ -18,6 +18,9 @@ export interface AIResponse {
     execution?: ExecutionOutput;
   } | null;
   orchestrator?: string;
+  orchestrator_gaps?: string[];
+  orchestrator_blockers?: string[];
+  requested_layer?: AILayer | null;
   actions?: Array<{
     action: string;
     category: string;
@@ -27,6 +30,14 @@ export interface AIResponse {
   memoryUpdated: boolean;
   hasDraft?: boolean;
   error?: string;
+  // ── Unified Reasoning Architecture fields ──
+  intent?: InteractionType;
+  is_decision?: boolean;
+  decision_options?: DecisionOption[];
+  recommendations?: StructuredRecommendation[];
+  // ── Milestone 2: Decision Provenance ──
+  decision_record_id?: string | null;
+  reasoning_event_ids?: string[];
 }
 
 export class AIOrchestrator {
