@@ -359,6 +359,35 @@ export interface OrchestratorDecision {
   maturityStage?: BusinessMaturityStage;
 }
 
+// ─── Unified Reasoning Architecture ──────────────────────────────────────────
+// The orchestrator classifies every message into one of these interaction types
+// rather than blindly treating every message as a decision.
+
+export type InteractionType =
+  | 'knowledge_question'
+  | 'business_update'
+  | 'decision'
+  | 'strategy_request'
+  | 'planning_request'
+  | 'execution_request'
+  | 'outcome_report'
+  | 'general_conversation';
+
+export interface DecisionOption {
+  option: string;
+  pros: string[];
+  cons: string[];
+  tradeoffs: string;
+}
+
+export interface StructuredRecommendation {
+  recommendation: string;
+  rationale: string;
+  alternatives: string[];
+  tradeoffs: string;
+  confidence: number;
+}
+
 export interface AIMemory {
   founderProfile?: FounderProfile;
   idea?: IdeaMemory;
@@ -477,4 +506,188 @@ export interface ConversationContext {
     detailLevel?: string;
     priorities?: string[];
   };
+}
+
+// ─── Decision Provenance & Reasoning Memory (Milestone 2) ────────────────────
+//
+// Separates useful business reasoning from conversational noise and creates a
+// persistent, traceable history of important recommendations and decisions.
+//
+// information → reasoning event → recommendation → founder decision → outcome
+
+export type ReasoningEventType =
+  | 'founder_constraint'
+  | 'founder_goal'
+  | 'founder_preference'
+  | 'business_fact'
+  | 'market_information'
+  | 'customer_information'
+  | 'financial_information'
+  | 'product_information'
+  | 'competitor_information'
+  | 'assumption'
+  | 'risk'
+  | 'opportunity'
+  | 'evidence'
+  | 'retrieved_memory'
+  | 'prior_decision'
+  | 'recommendation_factor'
+  | 'contradiction'
+  | 'outcome_signal'
+  | 'other';
+
+export type ReasoningEventSource =
+  | 'founder_input'
+  | 'business_memory'
+  | 'retrieved_information'
+  | 'ai_inference';
+
+export type ReasoningEventImportance = 'low' | 'medium' | 'high';
+
+export type ReasoningEventRelevance =
+  | 'candidate'
+  | 'relevant'
+  | 'supporting'
+  | 'influential'
+  | 'decisive'
+  | 'irrelevant'
+  | 'superseded'
+  | 'contradicted'
+  | 'uncertain';
+
+export type InfluenceDirection = 'supports' | 'opposes' | 'neutral';
+export type InfluenceStrength = 'weak' | 'moderate' | 'strong';
+
+export interface ReasoningEvent {
+  id: string;
+  project_id: string;
+  conversation_id?: string;
+  decision_id?: string;
+  event_type: ReasoningEventType;
+  content: string;
+  source: ReasoningEventSource;
+  importance: ReasoningEventImportance;
+  relevance_status: ReasoningEventRelevance;
+  confidence: number;
+  influence_direction?: InfluenceDirection;
+  influence_strength?: InfluenceStrength;
+  metadata?: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export type DecisionType =
+  | 'product'
+  | 'pricing'
+  | 'customer'
+  | 'marketing'
+  | 'positioning'
+  | 'business_model'
+  | 'feature'
+  | 'MVP'
+  | 'launch'
+  | 'growth'
+  | 'resource_allocation'
+  | 'strategy'
+  | 'other';
+
+export type DecisionStatus =
+  | 'proposed'
+  | 'awaiting_founder'
+  | 'founder_decided'
+  | 'implemented'
+  | 'completed'
+  | 'abandoned'
+  | 'outcome_available';
+
+export interface DecisionRecord {
+  id: string;
+  project_id: string;
+  title: string;
+  decision_type: DecisionType;
+  decision_question: string;
+  context_summary?: string;
+  recommendation?: string;
+  recommendation_summary?: string;
+  recommendation_confidence: number;
+  status: DecisionStatus;
+  founder_decision_id?: string;
+  outcome_id?: string;
+  created_at: string;
+  updated_at: string;
+  // Joined fields (populated by service)
+  reasoning_events?: DecisionReasoningEvent[];
+  founder_decision?: FounderDecision;
+  outcome?: Outcome;
+}
+
+export type InfluenceRole =
+  | 'constraint'
+  | 'supporting_evidence'
+  | 'opportunity'
+  | 'risk'
+  | 'assumption'
+  | 'founder_preference'
+  | 'business_fact'
+  | 'prior_learning'
+  | 'contradiction'
+  | 'decisive_factor';
+
+export interface DecisionReasoningEvent {
+  id: string;
+  decision_id: string;
+  reasoning_event_id: string;
+  relevance: ReasoningEventRelevance;
+  influence_strength: InfluenceStrength;
+  influence_role: InfluenceRole;
+  created_at: string;
+  // Joined field
+  reasoning_event?: ReasoningEvent;
+}
+
+export type FounderDecisionStatus =
+  | 'accepted_recommendation'
+  | 'modified_recommendation'
+  | 'rejected_recommendation'
+  | 'chose_alternative'
+  | 'deferred'
+  | 'unknown';
+
+export interface FounderDecision {
+  id: string;
+  decision_id: string;
+  selected_option: string;
+  decision_text: string;
+  rationale?: string;
+  decision_status: FounderDecisionStatus;
+  decided_at: string;
+}
+
+export type OutcomeStatus =
+  | 'pending'
+  | 'positive'
+  | 'negative'
+  | 'mixed'
+  | 'inconclusive'
+  | 'abandoned'
+  | 'unknown';
+
+export interface Outcome {
+  id: string;
+  decision_id: string;
+  founder_decision_id?: string;
+  outcome_status: OutcomeStatus;
+  outcome_summary?: string;
+  measured_result?: string;
+  expected_result?: string;
+  success_rating?: number;
+  founder_assessment?: string;
+  lessons_learned?: string;
+  recorded_at: string;
+}
+
+// What the edge function returns for decision provenance in the AI response
+export interface DecisionProvenanceData {
+  decision_record_id?: string;
+  reasoning_event_ids?: string[];
 }

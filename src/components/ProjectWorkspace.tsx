@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Home, CheckCircle, Target, Rocket, TrendingUp, BarChart3, Settings, ChevronRight, MessageSquare, Lightbulb } from 'lucide-react';
+import { X, Home, CheckCircle, Target, Rocket, TrendingUp, BarChart3, Settings, ChevronRight, MessageSquare, Lightbulb, GitBranch } from 'lucide-react';
 import { Project } from '../types/project';
 import { IdeaValidationSection } from './workspace/IdeaValidationSection';
 import { LeanCanvasSection } from './workspace/LeanCanvasSection';
@@ -11,6 +11,7 @@ import { ProjectSettingsSection } from './workspace/ProjectSettingsSection';
 import { ProjectOverviewSection } from './workspace/ProjectOverviewSection';
 import { AIChatSection } from './workspace/AIChatSection';
 import { FeedbackInsightsSection } from './workspace/FeedbackInsightsSection';
+import { DecisionHistorySection } from './workspace/DecisionHistorySection';
 
 interface ProjectWorkspaceProps {
   project: Project;
@@ -18,7 +19,7 @@ interface ProjectWorkspaceProps {
   onUpdate: (updates: Partial<Project>) => void;
 }
 
-type SectionId = 'overview' | 'ai-chat' | 'feedback-insights' | 'idea-validation' | 'lean-canvas' | 'mvp-plan' | 'launch-strategy' | 'growth-strategy' | 'analytics' | 'settings';
+type SectionId = 'overview' | 'ai-chat' | 'feedback-insights' | 'decision-history' | 'idea-validation' | 'lean-canvas' | 'mvp-plan' | 'launch-strategy' | 'growth-strategy' | 'analytics' | 'settings';
 
 interface NavItem {
   id: SectionId;
@@ -34,6 +35,7 @@ export function ProjectWorkspace({ project, onClose, onUpdate }: ProjectWorkspac
     { id: 'overview', label: 'Overview', icon: Home },
     { id: 'ai-chat', label: 'AI Advisor', icon: MessageSquare },
     { id: 'feedback-insights', label: 'AI Insights', icon: Lightbulb },
+    { id: 'decision-history', label: 'Decisions', icon: GitBranch },
     {
       id: 'idea-validation',
       label: 'Idea Validation',
@@ -76,6 +78,8 @@ export function ProjectWorkspace({ project, onClose, onUpdate }: ProjectWorkspac
         return <AIChatSection project={project} onUpdate={onUpdate} />;
       case 'feedback-insights':
         return <FeedbackInsightsSection projectId={project.id} />;
+      case 'decision-history':
+        return <DecisionHistorySection project={project} />;
       case 'idea-validation':
         return <IdeaValidationSection project={project} onUpdate={onUpdate} />;
       case 'lean-canvas':
